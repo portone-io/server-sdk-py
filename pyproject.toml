@@ -19,7 +19,7 @@ dev-dependencies = ["ruff>=0.5.6", "mypy>=1.11.1"]
 "gen:env" = { call = "scripts.env:gen" }
 "gen:schema" = { call = "scripts.schema:gen" }
 "gen:typed" = { call = "scripts.typed:gen" }
-gen = { chain = ["gen:env", "gen:schema", "gen:typed"] }
+gen = { chain = ["gen:schema", "gen:env", "gen:typed"] }
 check = { chain = ["gen", "mypy"] }
 
 [tool.hatch.metadata]
