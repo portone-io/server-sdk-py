@@ -22,7 +22,7 @@ dev-dependencies = ["ruff>=0.5.6", "mypy>=1.11.1", "pre-commit>=3.8.0"]
 "patch:save" = { call = "scripts.patch:save" }
 "patch:apply" = { call = "scripts.patch:apply" }
 init = { call = "scripts.init:run" }
-gen = { chain = ["gen:env", "update:schema", "patch:apply"] }
+gen = { chain = ["gen:env", "patch:apply"] }
 check = { chain = ["mypy"] }
 
 [tool.hatch.metadata]

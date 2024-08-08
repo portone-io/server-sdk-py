@@ -1,6 +1,5 @@
 import json
 import re
-import subprocess
 from dataclasses import dataclass, field
 from keyword import iskeyword
 from pathlib import Path
@@ -8,10 +7,6 @@ from typing import ClassVar, Optional
 
 project_dir = Path(__file__).resolve().parent.parent
 openapi_dir = project_dir.joinpath("portone_server_sdk/_openapi")
-
-
-def update() -> None:
-    subprocess.run(["git", "reset", "origin/openapi"], cwd=openapi_dir)
 
 
 def gen() -> None:
