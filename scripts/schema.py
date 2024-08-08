@@ -31,12 +31,16 @@ type Record = dict[str, "RecordValue"]
 type RecordValue = str | int | float | bool | list[RecordValue] | Record
 
 
-@dataclass(slots=True, kw_only=True)
-class Spec:
-    name: str
-    as_type: str
+@dataclass(kw_only=True)
+class Documented:
     title: Optional[str]
     description: Optional[str]
+
+
+@dataclass(slots=True, kw_only=True)
+class Spec(Documented):
+    name: str
+    as_type: str
     properties: Optional[list["Spec"]] = None
     refs: set[str]
 
@@ -53,7 +57,7 @@ class Spec:
 
 
 @dataclass(slots=True, kw_only=True)
-class Operation:
+class Operation(Documented):
     name: str
     path: str
     method: str
@@ -369,10 +373,15 @@ class SchemaGenerator:
 
     def generate_files(self) -> None:
         self.generate_files_schemas(openapi_dir)
-        self.generate_files_sync(openapi_dir)
+        self.generate_files_api(openapi_dir)
+        with openapi_dir.joinpath("__init__.py").open("wt") as f:
+            f.write("""from . import _schemas, _sync_api
+
+__all__ = ["_schemas", "_sync_api"]
+""")
 
     @classmethod
-    def make_doc_lines(cls, spec: Spec) -> list[str]:
+    def make_doc_lines_raw(cls, spec: Documented) -> list[str]:
         lines = []
         if spec.title:
             lines.append(spec.title)
@@ -386,6 +395,11 @@ class SchemaGenerator:
                     lines.append("")
                     first = False
                 lines.append(line)
+        return lines
+
+    @classmethod
+    def make_doc_lines(cls, spec: Documented) -> list[str]:
+        lines = cls.make_doc_lines_raw(spec)
         if lines:
             lines[0] = f'"""{lines[0]}'
             if len(lines) > 1:
@@ -457,17 +471,21 @@ __all__ = [
 {"".join(alls)}]
 """)
 
-    def generate_files_sync(self, generated_path: Path) -> None:
+    def generate_files_api(self, generated_path: Path) -> None:
         sync_path = generated_path.joinpath("_sync_api")
+        async_path = generated_path.joinpath("_async_api")
         sync_path.mkdir(parents=True, exist_ok=True)
+        async_path.mkdir(parents=True, exist_ok=True)
         imports = []
         extends = []
         for operation in self.operations:
             class_name = to_pascal_case(operation.name)
             method_name = to_snake_case(operation.name)
-            file = sync_path.joinpath(f"_{method_name}.py")
             imports.append(f"from ._{method_name} import {class_name}\n")
             extends.append(f"    {class_name},\n")
+            docs = self.make_doc_lines_raw(operation)
+            docs.append("")
+            docs.append("Args:")
             args = []
             refs = set()
             param_args = []
@@ -475,6 +493,10 @@ __all__ = [
                 for prop in operation.param.properties:
                     filtered = f"{prop.name}_" if iskeyword(prop.name) else prop.name
                     args.append(f"{filtered}: {prop.as_type},")
+                    docs.append(f"    {filtered} ({prop.as_type}):")
+                    prop_docs = self.make_doc_lines_raw(prop)
+                    docs.extend(f"        {line}" for line in prop_docs)
+                    docs.append("")
                     param_args.append(f"{filtered}={prop.name},")
                     refs.update(prop.refs)
             query_args = []
@@ -482,6 +504,10 @@ __all__ = [
                 for prop in operation.query.properties:
                     filtered = f"{prop.name}_" if iskeyword(prop.name) else prop.name
                     args.append(f"{filtered}: {prop.as_type},")
+                    docs.append(f"    {filtered} ({prop.as_type}):")
+                    prop_docs = self.make_doc_lines_raw(prop)
+                    docs.extend(f"        {line}" for line in prop_docs)
+                    docs.append("")
                     query_args.append(f"{filtered}={filtered},")
                     refs.update(prop.refs)
             body_args = []
@@ -493,6 +519,10 @@ __all__ = [
                             f"{prop.name}_" if iskeyword(prop.name) else prop.name
                         )
                         args.append(f"{filtered}: {prop.as_type},")
+                        docs.append(f"    {filtered} ({prop.as_type}):")
+                        prop_docs = self.make_doc_lines_raw(prop)
+                        docs.extend(f"        {line}" for line in prop_docs)
+                        docs.append("")
                         body_args.append(f"{filtered}={filtered},")
                 refs.update(body_spec.refs)
                 refs.add(operation.body)
@@ -512,6 +542,12 @@ __all__ = [
             else:
                 error_class = "Empty"
                 refs.add("Empty")
+            if docs:
+                docs[0] = f'"""{docs[0]}'
+                if len(docs) > 1:
+                    docs.append('"""')
+                else:
+                    docs[-1] = f'{docs[-1]}"""'
             typing_refs = []
             for typing_ref in self.typing_types:
                 if typing_ref in refs:
@@ -529,10 +565,18 @@ __all__ = [
                 import_refs.append(
                     f"from portone_server_sdk._openapi._schemas._{module_name} import {ref}\n"
                 )
-            body = f"""import dataclasses
+            for is_async in [True, False]:
+                async_def = "async def" if is_async else "def"
+                await_self = "await self" if is_async else "self"
+                api_client = (
+                    "from portone_server_sdk._async import ApiClient"
+                    if is_async
+                    else "from portone_server_sdk._sync import ApiClient"
+                )
+                body = f"""import dataclasses
 {import_typing}
 from portone_server_sdk._api import {", ".join(import_api)}
-from portone_server_sdk._sync import ApiClient
+{api_client}
 {"".join(import_refs)}
 {self.generate_schema(operation.param)}
 {self.generate_schema(operation.query)}
@@ -543,13 +587,13 @@ class {class_name}Request(ApiRequest[{success_class}, {error_class}, {operation.
 
 @dataclasses.dataclass
 class {class_name}(ApiClient):
-    def {method_name}(
+    {async_def} {method_name}(
         self,{"".join(f"\n        {arg}" for arg in args)}
-    ) -> {operation.success}:
+    ) -> {operation.success}:{"".join(f"\n        {line}" for line in docs) if docs else ""}
         param_ = {operation.param.name}{f"({"".join(f"\n            {arg}" for arg in param_args)}\n        )" if param_args else "()"}
         query_ = {operation.query.name}{f"({"".join(f"\n            {arg}" for arg in query_args)}\n        )" if query_args else "()"}
         body_ = {body_class}{f"({"".join(f"\n            {arg}" for arg in body_args)}\n        )" if body_args else "()"}
-        response_ = self.send(
+        response_ = {await_self}.send(
             {class_name}Request(param_, query_, body_),
             {operation.success},
             {operation.error},
@@ -558,16 +602,20 @@ class {class_name}(ApiClient):
             raise RuntimeError()
         return response_.data
 """
-            with open(file, "wt") as f:
-                f.write(body)
-        with open(sync_path.joinpath("__init__.py"), "wt") as f:
-            f.write(f"""from dataclasses import dataclass
+                path = async_path if is_async else sync_path
+                with path.joinpath(f"_{method_name}.py").open("wt") as f:
+                    f.write(body)
+        init = f"""from dataclasses import dataclass
 {"".join(imports)}
 @dataclass(slots=True)
 class PortOneApi(
 {"".join(extends)}):
     pass
-""")
+"""
+        with async_path.joinpath("__init__.py").open("wt") as f:
+            f.write(init)
+        with sync_path.joinpath("__init__.py").open("wt") as f:
+            f.write(init)
 
 
 def to_snake_case(camel_case: str) -> str:

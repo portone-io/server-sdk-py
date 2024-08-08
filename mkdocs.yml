@@ -1,0 +1,14 @@
+site_name: portone-server-sdk
+
+theme:
+  name: material
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: False
+            docstring_section_style: list
+            signature_crossrefs: True
