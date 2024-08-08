@@ -12,4 +12,4 @@ repos:
     rev: v1.11.1
     hooks:
       - id: mypy
-        args: [--strict, --ignore-missing-imports]
+        args: [--strict, --disable-error-code=import-not-found, --disable-error-code=unused-ignore]

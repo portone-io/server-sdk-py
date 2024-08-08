@@ -3,7 +3,19 @@ import re
 from dataclasses import dataclass, field
 from keyword import iskeyword
 from pathlib import Path
-from typing import ClassVar, Optional
+from typing import ClassVar, Optional, cast
+
+from markdownify import markdownify as md  # type: ignore[import-untyped]
+
+
+def rst(markdown: str) -> str:
+    return (
+        cast(str, md(markdown))
+        .replace("\\_", "_")
+        .replace("\\-", "-")
+        .replace("\\>", ">")
+    )
+
 
 project_dir = Path(__file__).resolve().parent.parent
 openapi_dir = project_dir.joinpath("portone_server_sdk/_openapi")
@@ -360,21 +372,50 @@ class SchemaGenerator:
         self.generate_files_sync(openapi_dir)
 
     @classmethod
+    def make_doc_lines(cls, spec: Spec) -> list[str]:
+        lines = []
+        if spec.title:
+            lines.append(spec.title)
+        if spec.description:
+            first = bool(lines)
+            for line in rst(spec.description).strip().splitlines():
+                line = line.strip()
+                if first:
+                    if line == "" or line == lines[-1]:
+                        continue
+                    lines.append("")
+                    first = False
+                lines.append(line)
+        if lines:
+            lines[0] = f'"""{lines[0]}'
+            if len(lines) > 1:
+                lines.append('"""')
+            else:
+                lines[-1] = f'{lines[-1]}"""'
+        return lines
+
+    @classmethod
     def generate_schema(cls, spec: Spec) -> str:
         if spec.properties is None:
-            return f"type {spec.name} = {spec.as_type}\n"
+            docs = cls.make_doc_lines(spec)
+            body = f"type {spec.name} = {spec.as_type}{f"\n{"\n".join(docs)}" if docs else ""}\n"
+            return body
         else:
-            lines = [
-                f'{prop.name}_: {prop.as_type} = dataclasses.field(metadata={{"serde_rename": "{prop.name}"}})'
-                if iskeyword(prop.name)
-                else f"{prop.name}: {prop.as_type}"
-                for prop in spec.properties
-            ]
-
-            return f"""@dataclasses.dataclass(kw_only=True)
-class {spec.name}:
-    {"\n    ".join(lines) if lines else "pass"}
-"""
+            lines = ["@dataclasses.dataclass(kw_only=True)\n", f"class {spec.name}:\n"]
+            docs = cls.make_doc_lines(spec)
+            lines.extend(f"    {line}\n" for line in docs)
+            for prop in spec.properties:
+                if iskeyword(prop.name):
+                    lines.append(
+                        f'    {prop.name}_: {prop.as_type} = dataclasses.field(metadata={{"serde_rename": "{prop.name}"}})\n'
+                    )
+                else:
+                    lines.append(f"    {prop.name}: {prop.as_type}\n")
+                docs = cls.make_doc_lines(prop)
+                lines.extend(f"    {line}\n" for line in docs)
+            if not spec.properties:
+                lines.append("    pass\n")
+            return "".join(lines)
 
     typing_types: ClassVar[set[str]] = set(["Literal", "Optional", "Any"])
 
@@ -385,6 +426,8 @@ class {spec.name}:
         alls = []
         for name, spec in self.schemas.items():
             spec.name = name
+            if spec.as_type == "Any":
+                spec.refs.remove("Any")
             module_name = to_snake_case(name)
             file = schema_dir.joinpath(f"_{module_name}.py")
             imports.append(f"from ._{module_name} import {name}\n")
