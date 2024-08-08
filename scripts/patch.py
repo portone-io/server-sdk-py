@@ -42,7 +42,8 @@ def apply() -> None:
         stderr=subprocess.DEVNULL,
     )
     patches = [str(patch) for patch in patch_dir.glob("*.patch")]
-    subprocess.run(
-        ["git", "am", "--3way", *patches],
-        cwd=openapi_path,
-    )
+    if patches:
+        subprocess.run(
+            ["git", "am", "--3way", *patches],
+            cwd=openapi_path,
+        )

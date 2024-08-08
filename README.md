@@ -1,8 +1,39 @@
 # PortOne Server SDK for Python
 
+## Prerequisite
+
+- rye
+
+## Setup
+
+```
+git submodule update --init
+rye init
+```
+
+## Scripts
+
+- `init`
+  - pre-commit 훅을 설정하고 `portone_server_sdk/_openapi` 서브모듈에서 gpg 서명을 끕니다.
+- `gen`
+  - 자동 생성이 필요한 코드를 생성합니다.
+  - 스키마의 경우 `portone_server_sdk/_openapi`의 origin 스키마를 기반으로 합니다.
+- `gen:env`
+  - User Agent와 같은 빌드 타임 상수를 생성합니다.
+- `gen:schema`
+  - `openapi/v2.openapi.json`을 기반으로 스키마 코드를 생성합니다.
+- `update:schema`
+  - `portone_server_sdk/_openapi`의 origin 스키마를 기반으로 스키마 코드를 생성합니다.
+- `patch:save`
+  - `portone_server_sdk/_openapi` local에 커밋된 내용을 바탕으로 patch 파일을 생성합니다.
+- `patch:apply`
+  - `portone_server_sdk/_openapi`에 patch를 적용합니다.
+- `check`
+  - 타입을 체크합니다.
+
 ---
 
-Packages under *portone-io/server-sdk-py* are primarily distributed under the terms of
+Packages under _portone-io/server-sdk-py_ are primarily distributed under the terms of
 both the [Apache License (Version 2.0)] and the [MIT license]. See [COPYRIGHT]
 for details.
 

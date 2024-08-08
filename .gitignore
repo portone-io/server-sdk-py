@@ -11,3 +11,6 @@ wheels/
 
 # generated files
 /portone_server_sdk/_generated
+
+# schema file
+/openapi/v2.openapi.json

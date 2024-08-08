@@ -18,11 +18,12 @@ dev-dependencies = ["ruff>=0.5.6", "mypy>=1.11.1", "pre-commit>=3.8.0"]
 [tool.rye.scripts]
 "gen:env" = { call = "scripts.env:gen" }
 "gen:schema" = { call = "scripts.schema:gen" }
+"update:schema" = { call = "scripts.schema:update" }
 "patch:save" = { call = "scripts.patch:save" }
 "patch:apply" = { call = "scripts.patch:apply" }
 init = { call = "scripts.init:run" }
-gen = { chain = ["gen:schema", "gen:env", "patch:apply"] }
-check = { chain = ["gen", "mypy"] }
+gen = { chain = ["gen:env", "update:schema", "patch:apply"] }
+check = { chain = ["mypy"] }
 
 [tool.hatch.metadata]
 allow-direct-references = true

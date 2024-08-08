@@ -1,17 +1,23 @@
 import json
 import re
+import subprocess
 from dataclasses import dataclass, field
 from keyword import iskeyword
 from pathlib import Path
 from typing import ClassVar, Optional
 
+project_dir = Path(__file__).resolve().parent.parent
+openapi_dir = project_dir.joinpath("portone_server_sdk/_openapi")
+
+
+def update() -> None:
+    subprocess.run(["git", "reset", "origin/openapi"], cwd=openapi_dir)
+
 
 def gen() -> None:
-    project_dir = Path(__file__).parent.parent
-    schema = json.load(open(project_dir.joinpath("./openapi/v2.openapi.json")))
+    schema = json.load(open(project_dir.joinpath("openapi/v2.openapi.json")))
     generator = SchemaGenerator(schema, ["/payments"])
-    source_dir = project_dir.joinpath("./portone_server_sdk")
-    generator.generate_files(source_dir)
+    generator.generate_files()
 
 
 type Record = dict[str, "RecordValue"]
@@ -354,10 +360,9 @@ class SchemaGenerator:
         if isinstance(schema, dict):
             self.schemas[name] = self.visit_schema(schema, name)
 
-    def generate_files(self, project_path: Path) -> None:
-        generated_path = project_path.joinpath("_openapi")
-        self.generate_files_schemas(generated_path)
-        self.generate_files_sync(generated_path)
+    def generate_files(self) -> None:
+        self.generate_files_schemas(openapi_dir)
+        self.generate_files_sync(openapi_dir)
 
     @classmethod
     def generate_schema(cls, spec: Spec) -> str:
