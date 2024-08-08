@@ -1,5 +1,5 @@
-from ._generated import _schemas as schemas
-from ._generated._sync_api import PortOneApi
+from ._openapi import _schemas as schemas
+from ._openapi._sync_api import PortOneApi
 
 __all__ = ["PortOneApi", "schemas"]
 

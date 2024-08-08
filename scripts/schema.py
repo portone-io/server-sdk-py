@@ -355,7 +355,7 @@ class SchemaGenerator:
             self.schemas[name] = self.visit_schema(schema, name)
 
     def generate_files(self, project_path: Path) -> None:
-        generated_path = project_path.joinpath("_generated")
+        generated_path = project_path.joinpath("_openapi")
         self.generate_files_schemas(generated_path)
         self.generate_files_sync(generated_path)
 
@@ -396,7 +396,7 @@ class {spec.name}:
                     refs.remove(typing_ref)
                     typing_refs.append(typing_ref)
             import_refs = "\n".join(
-                f"from portone_server_sdk._generated._schemas._{to_snake_case(ref)} import {ref}"
+                f"from portone_server_sdk._openapi._schemas._{to_snake_case(ref)} import {ref}"
                 for ref in sorted(refs)
             )
             typing = ", ".join(typing_refs)
@@ -484,7 +484,7 @@ __all__ = [
             for ref in sorted(refs):
                 module_name = to_snake_case(ref)
                 import_refs.append(
-                    f"from portone_server_sdk._generated._schemas._{module_name} import {ref}\n"
+                    f"from portone_server_sdk._openapi._schemas._{module_name} import {ref}\n"
                 )
             body = f"""import dataclasses
 {import_typing}
