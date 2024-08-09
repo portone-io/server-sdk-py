@@ -400,6 +400,164 @@ class CancellableAmountConsistencyBrokenError(PortOneError):
 
 
 @dataclass(slots=True)
+class IdentityVerificationAlreadySentError(PortOneError):
+    """본인인증 건이 이미 API로 요청된 상태인 경우"""
+
+    message: str = field(init=False)
+    error: InitVar[_schemas.IdentityVerificationAlreadySentError]
+
+    def __post_init__(
+        self, error: _schemas.IdentityVerificationAlreadySentError
+    ) -> None:
+        self.message = (
+            "본인인증 건이 이미 API로 요청되었습니다."
+            if error.message is None
+            else error.message
+        )
+
+
+@dataclass(slots=True)
+class IdentityVerificationAlreadyVerifiedError(PortOneError):
+    """본인인증 건이 이미 인증 완료된 상태인 경우"""
+
+    message: str = field(init=False)
+    error: InitVar[_schemas.IdentityVerificationAlreadyVerifiedError]
+
+    def __post_init__(
+        self, error: _schemas.IdentityVerificationAlreadyVerifiedError
+    ) -> None:
+        self.message = (
+            "본인인증 건이 이미 인증 완료되었습니다."
+            if error.message is None
+            else error.message
+        )
+
+
+@dataclass(slots=True)
+class IdentityVerificationNotFoundError(PortOneError):
+    """요청된 본인인증 건이 존재하지 않는 경우"""
+
+    message: str = field(init=False)
+    error: InitVar[_schemas.IdentityVerificationNotFoundError]
+
+    def __post_init__(self, error: _schemas.IdentityVerificationNotFoundError) -> None:
+        self.message = (
+            "요청된 본인인증 건이 존재하지 않습니다."
+            if error.message is None
+            else error.message
+        )
+
+
+@dataclass(slots=True)
+class PaymentScheduleAlreadyProcessedError(PortOneError):
+    """결제 예약건이 이미 처리된 경우"""
+
+    message: str = field(init=False)
+    error: InitVar[_schemas.PaymentScheduleAlreadyProcessedError]
+
+    def __post_init__(
+        self, error: _schemas.PaymentScheduleAlreadyProcessedError
+    ) -> None:
+        self.message = (
+            "결제 예약건이 이미 처리되었습니다."
+            if error.message is None
+            else error.message
+        )
+
+
+@dataclass(slots=True)
+class PaymentScheduleAlreadyRevokedError(PortOneError):
+    """결제 예약건이 이미 취소된 경우"""
+
+    message: str = field(init=False)
+    error: InitVar[_schemas.PaymentScheduleAlreadyRevokedError]
+
+    def __post_init__(self, error: _schemas.PaymentScheduleAlreadyRevokedError) -> None:
+        self.message = (
+            "결제 예약건이 이미 취소되었습니다."
+            if error.message is None
+            else error.message
+        )
+
+
+@dataclass(slots=True)
+class PaymentScheduleNotFoundError(PortOneError):
+    """결제 예약건이 존재하지 않는 경우"""
+
+    message: str = field(init=False)
+    error: InitVar[_schemas.PaymentScheduleNotFoundError]
+
+    def __post_init__(self, error: _schemas.PaymentScheduleNotFoundError) -> None:
+        self.message = (
+            "결제 예약건이 존재하지 않습니다."
+            if error.message is None
+            else error.message
+        )
+
+
+@dataclass(slots=True)
+class IdentityVerificationNotSentError(PortOneError):
+    """본인인증 건이 API로 요청된 상태가 아닌 경우"""
+
+    message: str = field(init=False)
+    error: InitVar[_schemas.IdentityVerificationNotSentError]
+
+    def __post_init__(self, error: _schemas.IdentityVerificationNotSentError) -> None:
+        self.message = (
+            "본인인증 건이 API로 요청되지 않았습니다."
+            if error.message is None
+            else error.message
+        )
+
+
+@dataclass(slots=True)
+class CashReceiptAlreadyIssuedError(PortOneError):
+    """현금영수증이 이미 발급된 경우"""
+
+    message: str = field(init=False)
+    error: InitVar[_schemas.CashReceiptAlreadyIssuedError]
+
+    def __post_init__(self, error: _schemas.CashReceiptAlreadyIssuedError) -> None:
+        self.message = (
+            "현금영수증이 이미 발급되었습니다."
+            if error.message is None
+            else error.message
+        )
+
+
+@dataclass(slots=True)
+class BillingKeyNotIssuedError(PortOneError):
+    """빌링키가 발급되지 않은 경우"""
+
+    message: str = field(init=False)
+    error: InitVar[_schemas.BillingKeyNotIssuedError]
+
+    def __post_init__(self, error: _schemas.BillingKeyNotIssuedError) -> None:
+        self.message = (
+            "빌링키가 발급되지 않았습니다." if error.message is None else error.message
+        )
+
+
+@dataclass(slots=True)
+class ChannelSpecificError(PortOneError):
+    """여러 채널을 지정한 요청에서, 채널 각각에서 오류가 발생한 경우"""
+
+    message: str = field(init=False)
+    error: InitVar[_schemas.ChannelSpecificError]
+    succeeded_channels: list[_schemas.SelectedChannel] = field(init=False)
+    failures: list[_schemas.ChannelSpecificFailure] = field(init=False)
+
+    def __post_init__(self, error: _schemas.ChannelSpecificError) -> None:
+        self.message = (
+            "본인인증 건이 API로 요청되지 않았습니다."
+            if error.message is None
+            else error.message
+        )
+        self.succeeded_channels = error.succeededChannels
+        self.failures = error.failures
+
+
+@dataclass(slots=True)
 class UnknownError(PortOneError):
     """알 수 없는 경우"""
 

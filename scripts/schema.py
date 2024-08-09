@@ -23,7 +23,17 @@ openapi_dir = project_dir.joinpath("portone_server_sdk/_openapi")
 
 def gen() -> None:
     schema = json.load(open(project_dir.joinpath("openapi/v2.openapi.json")))
-    generator = SchemaGenerator(schema, ["/payments"])
+    generator = SchemaGenerator(
+        schema,
+        [
+            "/payments",
+            "/payment-schedules",
+            "/identity-verifications",
+            "/billing-keys",
+            "/cash-receipts",
+            "/kakaopay",
+        ],
+    )
     generator.generate_files()
 
 
@@ -570,7 +580,6 @@ __all__ = [
                 refs.add(variant)
                 raises.append(f"if isinstance(error_, {variant}):")
                 raises.append(f"    raise _errors.{variant}(error_)")
-            raises.append("raise _errors.UnknownError(error_)")
             error_class = operation.error
             if docs:
                 docs[0] = f'"""{docs[0]}'

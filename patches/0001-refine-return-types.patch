@@ -1,0 +1,965 @@
+From adf9189a9318f8fdfa5bb4ca558d563b0e628ac5 Mon Sep 17 00:00:00 2001
+From: kiwiyou <kiwiyou@portone.io>
+Date: Fri, 9 Aug 2024 16:06:28 +0900
+Subject: [PATCH] refine return types
+
+
+diff --git a/_async_api/_cancel_payment.py b/_async_api/_cancel_payment.py
+index c5768f1..043b6c7 100644
+--- a/_async_api/_cancel_payment.py
++++ b/_async_api/_cancel_payment.py
+@@ -22,6 +22,7 @@ from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderEr
+ from portone_server_sdk._openapi._schemas._remained_amount_less_than_promotion_min_payment_amount_error import RemainedAmountLessThanPromotionMinPaymentAmountError
+ from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_cancel_amount_error import SumOfPartsExceedsCancelAmountError
+ from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
++from portone_server_sdk._openapi._schemas._payment_cancellation import PaymentCancellation
+ 
+ @dataclasses.dataclass(kw_only=True)
+ class CancelPaymentParam:
+@@ -50,7 +51,7 @@ class CancelPayment(ApiClient):
+         requester: Optional[CancelRequester],
+         currentCancellableAmount: Optional[int],
+         refundAccount: Optional[CancelPaymentBodyRefundAccount],
+-    ) -> CancelPaymentResponse:
++    ) -> PaymentCancellation:
+         """결제 취소
+         
+         결제 취소를 요청합니다.
+@@ -74,7 +75,7 @@ class CancelPayment(ApiClient):
+                 계좌 환불일 경우 입력합니다. 계좌 환불이 필요한 경우는 가상계좌 환불, 휴대폰 익월 환불 등이 있습니다.
+         
+         Returns:
+-            CancelPaymentResponse: 성공 응답
++            PaymentCancellation: 결제 취소 내역
+         
+         Raises:
+             _errors.CancelAmountExceedsCancellableAmountError: 결제 취소 금액이 취소 가능 금액을 초과한 경우
+@@ -139,4 +140,4 @@ class CancelPayment(ApiClient):
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+ 
+-        return response_.data
++        return response_.data.cancellation
+diff --git a/_async_api/_create_payment_schedule.py b/_async_api/_create_payment_schedule.py
+index 299bd05..f91412a 100644
+--- a/_async_api/_create_payment_schedule.py
++++ b/_async_api/_create_payment_schedule.py
+@@ -15,6 +15,7 @@ from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidR
+ from portone_server_sdk._openapi._schemas._payment_schedule_already_exists_error import PaymentScheduleAlreadyExistsError
+ from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_total_amount_error import SumOfPartsExceedsTotalAmountError
+ from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
++from portone_server_sdk._openapi._schemas._payment_schedule_summary import PaymentScheduleSummary
+ 
+ @dataclasses.dataclass(kw_only=True)
+ class CreatePaymentScheduleParam:
+@@ -37,7 +38,7 @@ class CreatePaymentSchedule(ApiClient):
+         paymentId: str,
+         payment: BillingKeyPaymentInput,
+         timeToPay: str,
+-    ) -> CreatePaymentScheduleResponse:
++    ) -> PaymentScheduleSummary:
+         """결제 예약
+         
+         결제를 예약합니다.
+@@ -48,7 +49,7 @@ class CreatePaymentSchedule(ApiClient):
+             timeToPay (str): 결제 예정 시점.
+         
+         Returns:
+-            CreatePaymentScheduleResponse: 성공 응답
++            PaymentScheduleSummary: 결제 예약 건
+         
+         Raises:
+             _errors.AlreadyPaidOrWaitingError: 결제가 이미 완료되었거나 대기중인 경우
+@@ -92,4 +93,4 @@ class CreatePaymentSchedule(ApiClient):
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+ 
+-        return response_.data
++        return response_.data.schedule
+diff --git a/_async_api/_get_billing_key_info.py b/_async_api/_get_billing_key_info.py
+index f015b5c..898f78a 100644
+--- a/_async_api/_get_billing_key_info.py
++++ b/_async_api/_get_billing_key_info.py
+@@ -36,7 +36,7 @@ class GetBillingKeyInfo(ApiClient):
+         self,
+         billingKey: str,
+         storeId: Optional[str],
+-    ) -> BillingKeyInfo:
++    ) -> Optional[BillingKeyInfo]:
+         """빌링키 단건 조회
+         
+         주어진 빌링키에 대응되는 빌링키 정보를 조회합니다.
+@@ -47,10 +47,9 @@ class GetBillingKeyInfo(ApiClient):
+                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
+         
+         Returns:
+-            BillingKeyInfo: 성공 응답으로 빌링키 정보를 반환합니다.
++            Optional[BillingKeyInfo]: 성공 응답으로 빌링키 정보 또는 `None`을 반환합니다.
+         
+         Raises:
+-            _errors.BillingKeyNotFoundError: 빌링키가 존재하지 않는 경우
+             _errors.ForbiddenError: 요청이 거절된 경우
+             _errors.InvalidRequestError: 요청된 입력 정보가 유효하지 않은 경우
+             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
+@@ -70,7 +69,7 @@ class GetBillingKeyInfo(ApiClient):
+         if isinstance(response_, ApiErrorResponse):
+             error_ = response_.data
+             if isinstance(error_, BillingKeyNotFoundError):
+-                raise _errors.BillingKeyNotFoundError(error_)
++                return None
+             if isinstance(error_, ForbiddenError):
+                 raise _errors.ForbiddenError(error_)
+             if isinstance(error_, InvalidRequestError):
+diff --git a/_async_api/_get_cash_receipt_by_payment_id.py b/_async_api/_get_cash_receipt_by_payment_id.py
+index 7b5d0ab..8d57e85 100644
+--- a/_async_api/_get_cash_receipt_by_payment_id.py
++++ b/_async_api/_get_cash_receipt_by_payment_id.py
+@@ -36,7 +36,7 @@ class GetCashReceiptByPaymentId(ApiClient):
+         self,
+         paymentId: str,
+         storeId: Optional[str],
+-    ) -> CashReceipt:
++    ) -> Optional[CashReceipt]:
+         """현금 영수증 단건 조회
+         
+         주어진 결제 아이디에 대응되는 현금 영수증 내역을 조회합니다.
+@@ -47,10 +47,9 @@ class GetCashReceiptByPaymentId(ApiClient):
+                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
+         
+         Returns:
+-            CashReceipt: 성공 응답으로 현금 영수증 객체를 반환합니다.
++            Optional[CashReceipt]: 성공 응답으로 현금 영수증 객체 또는 `None`을 반환합니다.
+         
+         Raises:
+-            _errors.CashReceiptNotFoundError: 현금영수증이 존재하지 않는 경우
+             _errors.ForbiddenError: 요청이 거절된 경우
+             _errors.InvalidRequestError: 요청된 입력 정보가 유효하지 않은 경우
+             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
+@@ -70,7 +69,7 @@ class GetCashReceiptByPaymentId(ApiClient):
+         if isinstance(response_, ApiErrorResponse):
+             error_ = response_.data
+             if isinstance(error_, CashReceiptNotFoundError):
+-                raise _errors.CashReceiptNotFoundError(error_)
++                return None
+             if isinstance(error_, ForbiddenError):
+                 raise _errors.ForbiddenError(error_)
+             if isinstance(error_, InvalidRequestError):
+diff --git a/_async_api/_get_identity_verification.py b/_async_api/_get_identity_verification.py
+index f0e5bbb..fc6fd88 100644
+--- a/_async_api/_get_identity_verification.py
++++ b/_async_api/_get_identity_verification.py
+@@ -36,7 +36,7 @@ class GetIdentityVerification(ApiClient):
+         self,
+         identityVerificationId: str,
+         storeId: Optional[str],
+-    ) -> IdentityVerification:
++    ) -> Optional[IdentityVerification]:
+         """본인인증 단건 조회
+         
+         주어진 아이디에 대응되는 본인인증 내역을 조회합니다.
+@@ -47,11 +47,10 @@ class GetIdentityVerification(ApiClient):
+                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
+         
+         Returns:
+-            IdentityVerification: 성공 응답으로 본인 인증 객체를 반환합니다.
++            Optional[IdentityVerification]: 성공 응답으로 본인 인증 객체 또는 `None`을 반환합니다.
+         
+         Raises:
+             _errors.ForbiddenError: 요청이 거절된 경우
+-            _errors.IdentityVerificationNotFoundError: 요청된 본인인증 건이 존재하지 않는 경우
+             _errors.InvalidRequestError: 요청된 입력 정보가 유효하지 않은 경우
+             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
+         """
+@@ -72,7 +71,7 @@ class GetIdentityVerification(ApiClient):
+             if isinstance(error_, ForbiddenError):
+                 raise _errors.ForbiddenError(error_)
+             if isinstance(error_, IdentityVerificationNotFoundError):
+-                raise _errors.IdentityVerificationNotFoundError(error_)
++                return None
+             if isinstance(error_, InvalidRequestError):
+                 raise _errors.InvalidRequestError(error_)
+             if isinstance(error_, UnauthorizedError):
+diff --git a/_async_api/_get_payment.py b/_async_api/_get_payment.py
+index 4aa588e..ae21d4c 100644
+--- a/_async_api/_get_payment.py
++++ b/_async_api/_get_payment.py
+@@ -32,7 +32,7 @@ class GetPayment(ApiClient):
+         self,
+         paymentId: str,
+         storeId: Optional[str],
+-    ) -> Payment:
++    ) -> Optional[Payment]:
+         """결제 단건 조회
+         
+         주어진 아이디에 대응되는 결제 건을 조회합니다.
+@@ -42,12 +42,11 @@ class GetPayment(ApiClient):
+             storeId (Optional[str]): 상점 아이디.
+         
+         Returns:
+-            Payment: 성공 응답으로 결제 건 객체를 반환합니다.
++            Optional[Payment]: 성공 응답으로 결제 건 객체 또는 `None`을 반환합니다.
+         
+         Raises:
+             _errors.ForbiddenError: 요청이 거절된 경우
+             _errors.InvalidRequestError: 요청된 입력 정보가 유효하지 않은 경우
+-            _errors.PaymentNotFoundError: 결제 건이 존재하지 않는 경우
+             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
+         """
+         param_ = GetPaymentParam(
+@@ -69,7 +68,7 @@ class GetPayment(ApiClient):
+             if isinstance(error_, InvalidRequestError):
+                 raise _errors.InvalidRequestError(error_)
+             if isinstance(error_, PaymentNotFoundError):
+-                raise _errors.PaymentNotFoundError(error_)
++                return None
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+ 
+diff --git a/_async_api/_get_payment_schedule.py b/_async_api/_get_payment_schedule.py
+index fa3d75b..a798f75 100644
+--- a/_async_api/_get_payment_schedule.py
++++ b/_async_api/_get_payment_schedule.py
+@@ -36,7 +36,7 @@ class GetPaymentSchedule(ApiClient):
+         self,
+         paymentScheduleId: str,
+         storeId: Optional[str],
+-    ) -> PaymentSchedule:
++    ) -> Optional[PaymentSchedule]:
+         """결제 예약 단건 조회
+         
+         주어진 아이디에 대응되는 결제 예약 건을 조회합니다.
+@@ -47,12 +47,11 @@ class GetPaymentSchedule(ApiClient):
+                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
+         
+         Returns:
+-            PaymentSchedule: 성공 응답으로 결제 예약 건 객체를 반환합니다.
++            Optional[PaymentSchedule]: 성공 응답으로 결제 예약 건 객체 또는 `None`을 반환합니다.
+         
+         Raises:
+             _errors.ForbiddenError: 요청이 거절된 경우
+             _errors.InvalidRequestError: 요청된 입력 정보가 유효하지 않은 경우
+-            _errors.PaymentScheduleNotFoundError: 결제 예약건이 존재하지 않는 경우
+             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
+         """
+         param_ = GetPaymentScheduleParam(
+@@ -74,7 +73,7 @@ class GetPaymentSchedule(ApiClient):
+             if isinstance(error_, InvalidRequestError):
+                 raise _errors.InvalidRequestError(error_)
+             if isinstance(error_, PaymentScheduleNotFoundError):
+-                raise _errors.PaymentScheduleNotFoundError(error_)
++                return None
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+ 
+diff --git a/_async_api/_issue_cash_receipt.py b/_async_api/_issue_cash_receipt.py
+index d004f16..0b83b6a 100644
+--- a/_async_api/_issue_cash_receipt.py
++++ b/_async_api/_issue_cash_receipt.py
+@@ -18,6 +18,7 @@ from portone_server_sdk._openapi._schemas._payment_amount_input import PaymentAm
+ from portone_server_sdk._openapi._schemas._payment_product_type import PaymentProductType
+ from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
+ from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
++from portone_server_sdk._openapi._schemas._cash_receipt_summary import CashReceiptSummary
+ 
+ @dataclasses.dataclass(kw_only=True)
+ class IssueCashReceiptParam:
+@@ -46,7 +47,7 @@ class IssueCashReceipt(ApiClient):
+         productType: Optional[PaymentProductType],
+         customer: IssueCashReceiptCustomerInput,
+         paidAt: Optional[str],
+-    ) -> IssueCashReceiptResponse:
++    ) -> CashReceiptSummary:
+         """현금 영수증 수동 발급
+         
+         현금 영수증 발급을 요청합니다.
+@@ -66,7 +67,7 @@ class IssueCashReceipt(ApiClient):
+             paidAt (Optional[str]): 결제 일자.
+         
+         Returns:
+-            IssueCashReceiptResponse: 성공 응답
++            CashReceiptSummary: 현금 영수증 정보
+         
+         Raises:
+             _errors.CashReceiptAlreadyIssuedError: 현금영수증이 이미 발급된 경우
+@@ -110,4 +111,4 @@ class IssueCashReceipt(ApiClient):
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+ 
+-        return response_.data
++        return response_.data.cashReceipt
+diff --git a/_async_api/_pay_instantly.py b/_async_api/_pay_instantly.py
+index b6ba683..108d136 100644
+--- a/_async_api/_pay_instantly.py
++++ b/_async_api/_pay_instantly.py
+@@ -24,6 +24,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
+ from portone_server_sdk._openapi._schemas._separated_address_input import SeparatedAddressInput
+ from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_total_amount_error import SumOfPartsExceedsTotalAmountError
+ from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
++from portone_server_sdk._openapi._schemas._instant_payment_summary import InstantPaymentSummary
+ 
+ @dataclasses.dataclass(kw_only=True)
+ class PayInstantlyParam:
+@@ -62,7 +63,7 @@ class PayInstantly(ApiClient):
+         productType: Optional[PaymentProductType],
+         shippingAddress: Optional[SeparatedAddressInput],
+         promotionId: Optional[str],
+-    ) -> PayInstantlyResponse:
++    ) -> InstantPaymentSummary:
+         """수기 결제
+         
+         수기 결제를 진행합니다.
+@@ -98,7 +99,7 @@ class PayInstantly(ApiClient):
+             promotionId (Optional[str]): 해당 결제에 적용할 프로모션 아이디.
+         
+         Returns:
+-            PayInstantlyResponse: 성공 응답
++            InstantPaymentSummary: 결제 건 요약 정보
+         
+         Raises:
+             _errors.AlreadyPaidError: 결제가 이미 완료된 경우
+@@ -161,4 +162,4 @@ class PayInstantly(ApiClient):
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+ 
+-        return response_.data
++        return response_.data.payment
+diff --git a/_async_api/_pay_with_billing_key.py b/_async_api/_pay_with_billing_key.py
+index 024ebd8..0ce029d 100644
+--- a/_async_api/_pay_with_billing_key.py
++++ b/_async_api/_pay_with_billing_key.py
+@@ -26,6 +26,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
+ from portone_server_sdk._openapi._schemas._separated_address_input import SeparatedAddressInput
+ from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_total_amount_error import SumOfPartsExceedsTotalAmountError
+ from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
++from portone_server_sdk._openapi._schemas._billing_key_payment_summary import BillingKeyPaymentSummary
+ 
+ @dataclasses.dataclass(kw_only=True)
+ class PayWithBillingKeyParam:
+@@ -66,7 +67,7 @@ class PayWithBillingKey(ApiClient):
+         shippingAddress: Optional[SeparatedAddressInput],
+         promotionId: Optional[str],
+         bypass: Optional[Any],
+-    ) -> PayWithBillingKeyResponse:
++    ) -> BillingKeyPaymentSummary:
+         """빌링키 결제
+         
+         빌링키로 결제를 진행합니다.
+@@ -101,7 +102,7 @@ class PayWithBillingKey(ApiClient):
+             bypass (Optional[Any]): PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고).
+         
+         Returns:
+-            PayWithBillingKeyResponse: 성공 응답
++            BillingKeyPaymentSummary: 결제 건 요약 정보
+         
+         Raises:
+             _errors.AlreadyPaidError: 결제가 이미 완료된 경우
+@@ -172,4 +173,4 @@ class PayWithBillingKey(ApiClient):
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+ 
+-        return response_.data
++        return response_.data.payment
+diff --git a/_async_api/_pre_register_payment.py b/_async_api/_pre_register_payment.py
+index 985fe6b..b64a19e 100644
+--- a/_async_api/_pre_register_payment.py
++++ b/_async_api/_pre_register_payment.py
+@@ -36,7 +36,7 @@ class PreRegisterPayment(ApiClient):
+         totalAmount: Optional[int],
+         taxFreeAmount: Optional[int],
+         currency: Optional[Currency],
+-    ) -> PreRegisterPaymentResponse:
++    ) -> None:
+         """결제 정보 사전 등록
+         
+         결제 정보를 사전 등록합니다.
+@@ -49,9 +49,6 @@ class PreRegisterPayment(ApiClient):
+             taxFreeAmount (Optional[int]): 결제 면세 금액.
+             currency (Optional[Currency]): 통화 단위.
+         
+-        Returns:
+-            PreRegisterPaymentResponse: 성공 응답
+-        
+         Raises:
+             _errors.AlreadyPaidError: 결제가 이미 완료된 경우
+             _errors.ForbiddenError: 요청이 거절된 경우
+@@ -83,5 +80,3 @@ class PreRegisterPayment(ApiClient):
+                 raise _errors.InvalidRequestError(error_)
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+-
+-        return response_.data
+diff --git a/_async_api/_resend_identity_verification.py b/_async_api/_resend_identity_verification.py
+index 00218d1..ca273dc 100644
+--- a/_async_api/_resend_identity_verification.py
++++ b/_async_api/_resend_identity_verification.py
+@@ -39,7 +39,7 @@ class ResendIdentityVerification(ApiClient):
+         self,
+         identityVerificationId: str,
+         storeId: Optional[str],
+-    ) -> ResendIdentityVerificationResponse:
++    ) -> None:
+         """SMS 본인인증 요청 재전송
+         
+         SMS 본인인증 요청을 재전송합니다.
+@@ -49,9 +49,6 @@ class ResendIdentityVerification(ApiClient):
+             storeId (Optional[str]): 상점 아이디.
+                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
+         
+-        Returns:
+-            ResendIdentityVerificationResponse: 성공 응답
+-        
+         Raises:
+             _errors.ForbiddenError: 요청이 거절된 경우
+             _errors.IdentityVerificationAlreadyVerifiedError: 본인인증 건이 이미 인증 완료된 상태인 경우
+@@ -89,5 +86,3 @@ class ResendIdentityVerification(ApiClient):
+                 raise _errors.PgProviderError(error_)
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+-
+-        return response_.data
+diff --git a/_async_api/_resend_webhook.py b/_async_api/_resend_webhook.py
+index 7578e1b..ff024bb 100644
+--- a/_async_api/_resend_webhook.py
++++ b/_async_api/_resend_webhook.py
+@@ -12,6 +12,7 @@ from portone_server_sdk._openapi._schemas._resend_webhook_error import ResendWeb
+ from portone_server_sdk._openapi._schemas._resend_webhook_response import ResendWebhookResponse
+ from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
+ from portone_server_sdk._openapi._schemas._webhook_not_found_error import WebhookNotFoundError
++from portone_server_sdk._openapi._schemas._payment_webhook import PaymentWebhook
+ 
+ @dataclasses.dataclass(kw_only=True)
+ class ResendWebhookParam:
+@@ -34,7 +35,7 @@ class ResendWebhook(ApiClient):
+         paymentId: str,
+         storeId: Optional[str],
+         webhookId: Optional[str],
+-    ) -> ResendWebhookResponse:
++    ) -> PaymentWebhook:
+         """웹훅 재발송
+         
+         웹훅을 재발송합니다.
+@@ -47,7 +48,7 @@ class ResendWebhook(ApiClient):
+                 입력하지 않으면 결제 건의 가장 최근 웹훅 아이디가 기본 적용됩니다
+         
+         Returns:
+-            ResendWebhookResponse: 성공 응답
++            PaymentWebhook: 재발송 웹훅 정보
+         
+         Raises:
+             _errors.ForbiddenError: 요청이 거절된 경우
+@@ -82,4 +83,4 @@ class ResendWebhook(ApiClient):
+             if isinstance(error_, WebhookNotFoundError):
+                 raise _errors.WebhookNotFoundError(error_)
+ 
+-        return response_.data
++        return response_.data.webhook
+diff --git a/_async_api/_send_identity_verification.py b/_async_api/_send_identity_verification.py
+index df8a693..e48dedc 100644
+--- a/_async_api/_send_identity_verification.py
++++ b/_async_api/_send_identity_verification.py
+@@ -45,7 +45,7 @@ class SendIdentityVerification(ApiClient):
+         bypass: Optional[Any],
+         operator: IdentityVerificationOperator,
+         method: IdentityVerificationMethod,
+-    ) -> SendIdentityVerificationResponse:
++    ) -> None:
+         """본인인증 요청 전송
+         
+         SMS 또는 APP 방식을 이용하여 본인인증 요청을 전송합니다.
+@@ -61,9 +61,6 @@ class SendIdentityVerification(ApiClient):
+             operator (IdentityVerificationOperator): 통신사.
+             method (IdentityVerificationMethod): 본인인증 방식.
+         
+-        Returns:
+-            SendIdentityVerificationResponse: 성공 응답
+-        
+         Raises:
+             _errors.ChannelNotFoundError: 요청된 채널이 존재하지 않는 경우
+             _errors.ForbiddenError: 요청이 거절된 경우
+@@ -110,5 +107,3 @@ class SendIdentityVerification(ApiClient):
+                 raise _errors.PgProviderError(error_)
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+-
+-        return response_.data
+diff --git a/_sync_api/_cancel_payment.py b/_sync_api/_cancel_payment.py
+index 366fe67..950a17a 100644
+--- a/_sync_api/_cancel_payment.py
++++ b/_sync_api/_cancel_payment.py
+@@ -22,6 +22,7 @@ from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderEr
+ from portone_server_sdk._openapi._schemas._remained_amount_less_than_promotion_min_payment_amount_error import RemainedAmountLessThanPromotionMinPaymentAmountError
+ from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_cancel_amount_error import SumOfPartsExceedsCancelAmountError
+ from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
++from portone_server_sdk._openapi._schemas._payment_cancellation import PaymentCancellation
+ 
+ @dataclasses.dataclass(kw_only=True)
+ class CancelPaymentParam:
+@@ -50,7 +51,7 @@ class CancelPayment(ApiClient):
+         requester: Optional[CancelRequester],
+         currentCancellableAmount: Optional[int],
+         refundAccount: Optional[CancelPaymentBodyRefundAccount],
+-    ) -> CancelPaymentResponse:
++    ) -> PaymentCancellation:
+         """결제 취소
+         
+         결제 취소를 요청합니다.
+@@ -74,7 +75,7 @@ class CancelPayment(ApiClient):
+                 계좌 환불일 경우 입력합니다. 계좌 환불이 필요한 경우는 가상계좌 환불, 휴대폰 익월 환불 등이 있습니다.
+         
+         Returns:
+-            CancelPaymentResponse: 성공 응답
++            PaymentCancellation: 결제 취소 내역
+         
+         Raises:
+             _errors.CancelAmountExceedsCancellableAmountError: 결제 취소 금액이 취소 가능 금액을 초과한 경우
+@@ -139,4 +140,4 @@ class CancelPayment(ApiClient):
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+ 
+-        return response_.data
++        return response_.data.cancellation
+diff --git a/_sync_api/_create_payment_schedule.py b/_sync_api/_create_payment_schedule.py
+index e4976ec..531a727 100644
+--- a/_sync_api/_create_payment_schedule.py
++++ b/_sync_api/_create_payment_schedule.py
+@@ -15,6 +15,7 @@ from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidR
+ from portone_server_sdk._openapi._schemas._payment_schedule_already_exists_error import PaymentScheduleAlreadyExistsError
+ from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_total_amount_error import SumOfPartsExceedsTotalAmountError
+ from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
++from portone_server_sdk._openapi._schemas._payment_schedule_summary import PaymentScheduleSummary
+ 
+ @dataclasses.dataclass(kw_only=True)
+ class CreatePaymentScheduleParam:
+@@ -37,7 +38,7 @@ class CreatePaymentSchedule(ApiClient):
+         paymentId: str,
+         payment: BillingKeyPaymentInput,
+         timeToPay: str,
+-    ) -> CreatePaymentScheduleResponse:
++    ) -> PaymentScheduleSummary:
+         """결제 예약
+         
+         결제를 예약합니다.
+@@ -48,7 +49,7 @@ class CreatePaymentSchedule(ApiClient):
+             timeToPay (str): 결제 예정 시점.
+         
+         Returns:
+-            CreatePaymentScheduleResponse: 성공 응답
++            PaymentScheduleSummary: 성공 응답
+         
+         Raises:
+             _errors.AlreadyPaidOrWaitingError: 결제가 이미 완료되었거나 대기중인 경우
+@@ -92,4 +93,4 @@ class CreatePaymentSchedule(ApiClient):
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+ 
+-        return response_.data
++        return response_.data.schedule
+diff --git a/_sync_api/_get_billing_key_info.py b/_sync_api/_get_billing_key_info.py
+index bfa78a0..b6b0be4 100644
+--- a/_sync_api/_get_billing_key_info.py
++++ b/_sync_api/_get_billing_key_info.py
+@@ -36,7 +36,7 @@ class GetBillingKeyInfo(ApiClient):
+         self,
+         billingKey: str,
+         storeId: Optional[str],
+-    ) -> BillingKeyInfo:
++    ) -> Optional[BillingKeyInfo]:
+         """빌링키 단건 조회
+         
+         주어진 빌링키에 대응되는 빌링키 정보를 조회합니다.
+@@ -47,10 +47,9 @@ class GetBillingKeyInfo(ApiClient):
+                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
+         
+         Returns:
+-            BillingKeyInfo: 성공 응답으로 빌링키 정보를 반환합니다.
++            Optional[BillingKeyInfo]: 성공 응답으로 빌링키 정보 또는 `None`을 반환합니다.
+         
+         Raises:
+-            _errors.BillingKeyNotFoundError: 빌링키가 존재하지 않는 경우
+             _errors.ForbiddenError: 요청이 거절된 경우
+             _errors.InvalidRequestError: 요청된 입력 정보가 유효하지 않은 경우
+             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
+@@ -70,7 +69,7 @@ class GetBillingKeyInfo(ApiClient):
+         if isinstance(response_, ApiErrorResponse):
+             error_ = response_.data
+             if isinstance(error_, BillingKeyNotFoundError):
+-                raise _errors.BillingKeyNotFoundError(error_)
++                return None
+             if isinstance(error_, ForbiddenError):
+                 raise _errors.ForbiddenError(error_)
+             if isinstance(error_, InvalidRequestError):
+diff --git a/_sync_api/_get_cash_receipt_by_payment_id.py b/_sync_api/_get_cash_receipt_by_payment_id.py
+index 1702902..f1cc4eb 100644
+--- a/_sync_api/_get_cash_receipt_by_payment_id.py
++++ b/_sync_api/_get_cash_receipt_by_payment_id.py
+@@ -36,7 +36,7 @@ class GetCashReceiptByPaymentId(ApiClient):
+         self,
+         paymentId: str,
+         storeId: Optional[str],
+-    ) -> CashReceipt:
++    ) -> Optional[CashReceipt]:
+         """현금 영수증 단건 조회
+         
+         주어진 결제 아이디에 대응되는 현금 영수증 내역을 조회합니다.
+@@ -47,10 +47,9 @@ class GetCashReceiptByPaymentId(ApiClient):
+                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
+         
+         Returns:
+-            CashReceipt: 성공 응답으로 현금 영수증 객체를 반환합니다.
++            Optional[CashReceipt]: 성공 응답으로 현금 영수증 객체 또는 `None`을 반환합니다.
+         
+         Raises:
+-            _errors.CashReceiptNotFoundError: 현금영수증이 존재하지 않는 경우
+             _errors.ForbiddenError: 요청이 거절된 경우
+             _errors.InvalidRequestError: 요청된 입력 정보가 유효하지 않은 경우
+             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
+@@ -70,7 +69,7 @@ class GetCashReceiptByPaymentId(ApiClient):
+         if isinstance(response_, ApiErrorResponse):
+             error_ = response_.data
+             if isinstance(error_, CashReceiptNotFoundError):
+-                raise _errors.CashReceiptNotFoundError(error_)
++                return None
+             if isinstance(error_, ForbiddenError):
+                 raise _errors.ForbiddenError(error_)
+             if isinstance(error_, InvalidRequestError):
+diff --git a/_sync_api/_get_identity_verification.py b/_sync_api/_get_identity_verification.py
+index 04cba2f..930a9bd 100644
+--- a/_sync_api/_get_identity_verification.py
++++ b/_sync_api/_get_identity_verification.py
+@@ -36,7 +36,7 @@ class GetIdentityVerification(ApiClient):
+         self,
+         identityVerificationId: str,
+         storeId: Optional[str],
+-    ) -> IdentityVerification:
++    ) -> Optional[IdentityVerification]:
+         """본인인증 단건 조회
+         
+         주어진 아이디에 대응되는 본인인증 내역을 조회합니다.
+@@ -47,11 +47,10 @@ class GetIdentityVerification(ApiClient):
+                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
+         
+         Returns:
+-            IdentityVerification: 성공 응답으로 본인 인증 객체를 반환합니다.
++            Optional[IdentityVerification]: 성공 응답으로 본인 인증 객체 또는 `None`을 반환합니다.
+         
+         Raises:
+             _errors.ForbiddenError: 요청이 거절된 경우
+-            _errors.IdentityVerificationNotFoundError: 요청된 본인인증 건이 존재하지 않는 경우
+             _errors.InvalidRequestError: 요청된 입력 정보가 유효하지 않은 경우
+             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
+         """
+@@ -72,7 +71,7 @@ class GetIdentityVerification(ApiClient):
+             if isinstance(error_, ForbiddenError):
+                 raise _errors.ForbiddenError(error_)
+             if isinstance(error_, IdentityVerificationNotFoundError):
+-                raise _errors.IdentityVerificationNotFoundError(error_)
++                return None
+             if isinstance(error_, InvalidRequestError):
+                 raise _errors.InvalidRequestError(error_)
+             if isinstance(error_, UnauthorizedError):
+diff --git a/_sync_api/_get_payment.py b/_sync_api/_get_payment.py
+index 4a9d17d..d9735e0 100644
+--- a/_sync_api/_get_payment.py
++++ b/_sync_api/_get_payment.py
+@@ -32,7 +32,7 @@ class GetPayment(ApiClient):
+         self,
+         paymentId: str,
+         storeId: Optional[str],
+-    ) -> Payment:
++    ) -> Optional[Payment]:
+         """결제 단건 조회
+         
+         주어진 아이디에 대응되는 결제 건을 조회합니다.
+@@ -42,12 +42,11 @@ class GetPayment(ApiClient):
+             storeId (Optional[str]): 상점 아이디.
+         
+         Returns:
+-            Payment: 성공 응답으로 결제 건 객체를 반환합니다.
++            Optional[Payment]: 성공 응답으로 결제 건 객체 또는 `None`을 반환합니다.
+         
+         Raises:
+             _errors.ForbiddenError: 요청이 거절된 경우
+             _errors.InvalidRequestError: 요청된 입력 정보가 유효하지 않은 경우
+-            _errors.PaymentNotFoundError: 결제 건이 존재하지 않는 경우
+             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
+         """
+         param_ = GetPaymentParam(
+@@ -69,7 +68,7 @@ class GetPayment(ApiClient):
+             if isinstance(error_, InvalidRequestError):
+                 raise _errors.InvalidRequestError(error_)
+             if isinstance(error_, PaymentNotFoundError):
+-                raise _errors.PaymentNotFoundError(error_)
++                return None
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+ 
+diff --git a/_sync_api/_get_payment_schedule.py b/_sync_api/_get_payment_schedule.py
+index c6af0c9..7a715b0 100644
+--- a/_sync_api/_get_payment_schedule.py
++++ b/_sync_api/_get_payment_schedule.py
+@@ -36,7 +36,7 @@ class GetPaymentSchedule(ApiClient):
+         self,
+         paymentScheduleId: str,
+         storeId: Optional[str],
+-    ) -> PaymentSchedule:
++    ) -> Optional[PaymentSchedule]:
+         """결제 예약 단건 조회
+         
+         주어진 아이디에 대응되는 결제 예약 건을 조회합니다.
+@@ -47,12 +47,11 @@ class GetPaymentSchedule(ApiClient):
+                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
+         
+         Returns:
+-            PaymentSchedule: 성공 응답으로 결제 예약 건 객체를 반환합니다.
++            Optional[PaymentSchedule]: 성공 응답으로 결제 예약 건 객체 또는 `None`을 반환합니다.
+         
+         Raises:
+             _errors.ForbiddenError: 요청이 거절된 경우
+             _errors.InvalidRequestError: 요청된 입력 정보가 유효하지 않은 경우
+-            _errors.PaymentScheduleNotFoundError: 결제 예약건이 존재하지 않는 경우
+             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
+         """
+         param_ = GetPaymentScheduleParam(
+@@ -74,7 +73,7 @@ class GetPaymentSchedule(ApiClient):
+             if isinstance(error_, InvalidRequestError):
+                 raise _errors.InvalidRequestError(error_)
+             if isinstance(error_, PaymentScheduleNotFoundError):
+-                raise _errors.PaymentScheduleNotFoundError(error_)
++                return None
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+ 
+diff --git a/_sync_api/_issue_cash_receipt.py b/_sync_api/_issue_cash_receipt.py
+index dea5527..0f04534 100644
+--- a/_sync_api/_issue_cash_receipt.py
++++ b/_sync_api/_issue_cash_receipt.py
+@@ -18,6 +18,7 @@ from portone_server_sdk._openapi._schemas._payment_amount_input import PaymentAm
+ from portone_server_sdk._openapi._schemas._payment_product_type import PaymentProductType
+ from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
+ from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
++from portone_server_sdk._openapi._schemas._cash_receipt_summary import CashReceiptSummary
+ 
+ @dataclasses.dataclass(kw_only=True)
+ class IssueCashReceiptParam:
+@@ -46,7 +47,7 @@ class IssueCashReceipt(ApiClient):
+         productType: Optional[PaymentProductType],
+         customer: IssueCashReceiptCustomerInput,
+         paidAt: Optional[str],
+-    ) -> IssueCashReceiptResponse:
++    ) -> CashReceiptSummary:
+         """현금 영수증 수동 발급
+         
+         현금 영수증 발급을 요청합니다.
+@@ -66,7 +67,7 @@ class IssueCashReceipt(ApiClient):
+             paidAt (Optional[str]): 결제 일자.
+         
+         Returns:
+-            IssueCashReceiptResponse: 성공 응답
++            CashReceiptSummary: 현금 영수증 정보
+         
+         Raises:
+             _errors.CashReceiptAlreadyIssuedError: 현금영수증이 이미 발급된 경우
+@@ -110,4 +111,4 @@ class IssueCashReceipt(ApiClient):
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+ 
+-        return response_.data
++        return response_.data.cashReceipt
+diff --git a/_sync_api/_pay_instantly.py b/_sync_api/_pay_instantly.py
+index f9063a8..9301ad0 100644
+--- a/_sync_api/_pay_instantly.py
++++ b/_sync_api/_pay_instantly.py
+@@ -24,6 +24,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
+ from portone_server_sdk._openapi._schemas._separated_address_input import SeparatedAddressInput
+ from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_total_amount_error import SumOfPartsExceedsTotalAmountError
+ from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
++from portone_server_sdk._openapi._schemas._instant_payment_summary import InstantPaymentSummary
+ 
+ @dataclasses.dataclass(kw_only=True)
+ class PayInstantlyParam:
+@@ -62,7 +63,7 @@ class PayInstantly(ApiClient):
+         productType: Optional[PaymentProductType],
+         shippingAddress: Optional[SeparatedAddressInput],
+         promotionId: Optional[str],
+-    ) -> PayInstantlyResponse:
++    ) -> InstantPaymentSummary:
+         """수기 결제
+         
+         수기 결제를 진행합니다.
+@@ -98,7 +99,7 @@ class PayInstantly(ApiClient):
+             promotionId (Optional[str]): 해당 결제에 적용할 프로모션 아이디.
+         
+         Returns:
+-            PayInstantlyResponse: 성공 응답
++            InstantPaymentSummary: 결제 건 요약 정보
+         
+         Raises:
+             _errors.AlreadyPaidError: 결제가 이미 완료된 경우
+@@ -161,4 +162,4 @@ class PayInstantly(ApiClient):
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+ 
+-        return response_.data
++        return response_.data.payment
+diff --git a/_sync_api/_pay_with_billing_key.py b/_sync_api/_pay_with_billing_key.py
+index e4ec6aa..a65afe4 100644
+--- a/_sync_api/_pay_with_billing_key.py
++++ b/_sync_api/_pay_with_billing_key.py
+@@ -26,6 +26,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
+ from portone_server_sdk._openapi._schemas._separated_address_input import SeparatedAddressInput
+ from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_total_amount_error import SumOfPartsExceedsTotalAmountError
+ from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
++from portone_server_sdk._openapi._schemas._billing_key_payment_summary import BillingKeyPaymentSummary
+ 
+ @dataclasses.dataclass(kw_only=True)
+ class PayWithBillingKeyParam:
+@@ -66,7 +67,7 @@ class PayWithBillingKey(ApiClient):
+         shippingAddress: Optional[SeparatedAddressInput],
+         promotionId: Optional[str],
+         bypass: Optional[Any],
+-    ) -> PayWithBillingKeyResponse:
++    ) -> BillingKeyPaymentSummary:
+         """빌링키 결제
+         
+         빌링키로 결제를 진행합니다.
+@@ -101,7 +102,7 @@ class PayWithBillingKey(ApiClient):
+             bypass (Optional[Any]): PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고).
+         
+         Returns:
+-            PayWithBillingKeyResponse: 성공 응답
++            BillingKeyPaymentSummary: 결제 건 요약 정보
+         
+         Raises:
+             _errors.AlreadyPaidError: 결제가 이미 완료된 경우
+@@ -172,4 +173,4 @@ class PayWithBillingKey(ApiClient):
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+ 
+-        return response_.data
++        return response_.data.payment
+diff --git a/_sync_api/_pre_register_payment.py b/_sync_api/_pre_register_payment.py
+index 0f020ce..732f304 100644
+--- a/_sync_api/_pre_register_payment.py
++++ b/_sync_api/_pre_register_payment.py
+@@ -36,7 +36,7 @@ class PreRegisterPayment(ApiClient):
+         totalAmount: Optional[int],
+         taxFreeAmount: Optional[int],
+         currency: Optional[Currency],
+-    ) -> PreRegisterPaymentResponse:
++    ) -> None:
+         """결제 정보 사전 등록
+         
+         결제 정보를 사전 등록합니다.
+@@ -49,9 +49,6 @@ class PreRegisterPayment(ApiClient):
+             taxFreeAmount (Optional[int]): 결제 면세 금액.
+             currency (Optional[Currency]): 통화 단위.
+         
+-        Returns:
+-            PreRegisterPaymentResponse: 성공 응답
+-        
+         Raises:
+             _errors.AlreadyPaidError: 결제가 이미 완료된 경우
+             _errors.ForbiddenError: 요청이 거절된 경우
+@@ -83,5 +80,3 @@ class PreRegisterPayment(ApiClient):
+                 raise _errors.InvalidRequestError(error_)
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+-
+-        return response_.data
+diff --git a/_sync_api/_resend_identity_verification.py b/_sync_api/_resend_identity_verification.py
+index 5ffd7c1..1203418 100644
+--- a/_sync_api/_resend_identity_verification.py
++++ b/_sync_api/_resend_identity_verification.py
+@@ -39,7 +39,7 @@ class ResendIdentityVerification(ApiClient):
+         self,
+         identityVerificationId: str,
+         storeId: Optional[str],
+-    ) -> ResendIdentityVerificationResponse:
++    ) -> None:
+         """SMS 본인인증 요청 재전송
+         
+         SMS 본인인증 요청을 재전송합니다.
+@@ -49,9 +49,6 @@ class ResendIdentityVerification(ApiClient):
+             storeId (Optional[str]): 상점 아이디.
+                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
+         
+-        Returns:
+-            ResendIdentityVerificationResponse: 성공 응답
+-        
+         Raises:
+             _errors.ForbiddenError: 요청이 거절된 경우
+             _errors.IdentityVerificationAlreadyVerifiedError: 본인인증 건이 이미 인증 완료된 상태인 경우
+@@ -89,5 +86,3 @@ class ResendIdentityVerification(ApiClient):
+                 raise _errors.PgProviderError(error_)
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+-
+-        return response_.data
+diff --git a/_sync_api/_resend_webhook.py b/_sync_api/_resend_webhook.py
+index a6bfa98..fba3c57 100644
+--- a/_sync_api/_resend_webhook.py
++++ b/_sync_api/_resend_webhook.py
+@@ -12,6 +12,7 @@ from portone_server_sdk._openapi._schemas._resend_webhook_error import ResendWeb
+ from portone_server_sdk._openapi._schemas._resend_webhook_response import ResendWebhookResponse
+ from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
+ from portone_server_sdk._openapi._schemas._webhook_not_found_error import WebhookNotFoundError
++from portone_server_sdk._openapi._schemas._payment_webhook import PaymentWebhook
+ 
+ @dataclasses.dataclass(kw_only=True)
+ class ResendWebhookParam:
+@@ -34,7 +35,7 @@ class ResendWebhook(ApiClient):
+         paymentId: str,
+         storeId: Optional[str],
+         webhookId: Optional[str],
+-    ) -> ResendWebhookResponse:
++    ) -> PaymentWebhook:
+         """웹훅 재발송
+         
+         웹훅을 재발송합니다.
+@@ -47,7 +48,7 @@ class ResendWebhook(ApiClient):
+                 입력하지 않으면 결제 건의 가장 최근 웹훅 아이디가 기본 적용됩니다
+         
+         Returns:
+-            ResendWebhookResponse: 성공 응답
++            PaymentWebhook: 재발송 웹훅 정보
+         
+         Raises:
+             _errors.ForbiddenError: 요청이 거절된 경우
+@@ -82,4 +83,4 @@ class ResendWebhook(ApiClient):
+             if isinstance(error_, WebhookNotFoundError):
+                 raise _errors.WebhookNotFoundError(error_)
+ 
+-        return response_.data
++        return response_.data.webhook
+diff --git a/_sync_api/_send_identity_verification.py b/_sync_api/_send_identity_verification.py
+index c9795f2..43f6aa4 100644
+--- a/_sync_api/_send_identity_verification.py
++++ b/_sync_api/_send_identity_verification.py
+@@ -45,7 +45,7 @@ class SendIdentityVerification(ApiClient):
+         bypass: Optional[Any],
+         operator: IdentityVerificationOperator,
+         method: IdentityVerificationMethod,
+-    ) -> SendIdentityVerificationResponse:
++    ) -> None:
+         """본인인증 요청 전송
+         
+         SMS 또는 APP 방식을 이용하여 본인인증 요청을 전송합니다.
+@@ -61,9 +61,6 @@ class SendIdentityVerification(ApiClient):
+             operator (IdentityVerificationOperator): 통신사.
+             method (IdentityVerificationMethod): 본인인증 방식.
+         
+-        Returns:
+-            SendIdentityVerificationResponse: 성공 응답
+-        
+         Raises:
+             _errors.ChannelNotFoundError: 요청된 채널이 존재하지 않는 경우
+             _errors.ForbiddenError: 요청이 거절된 경우
+@@ -110,5 +107,3 @@ class SendIdentityVerification(ApiClient):
+                 raise _errors.PgProviderError(error_)
+             if isinstance(error_, UnauthorizedError):
+                 raise _errors.UnauthorizedError(error_)
+-
+-        return response_.data
+-- 
+2.39.3 (Apple Git-146)
+
