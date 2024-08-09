@@ -65,7 +65,8 @@ class Operation(Documented):
     query: Spec
     body: Optional[str]
     success: Optional[str]
-    error: Optional[str]
+    returns: Optional[str]
+    error: str
     title: Optional[str]
     description: Optional[str]
 
@@ -172,9 +173,13 @@ class SchemaGenerator:
                                 query.append(spec)
                     response = schema.get("responses")
                     success = None
+                    returns = None
                     if isinstance(response, dict):
                         ok = response["200"]
                         if isinstance(ok, dict):
+                            ok_desc = ok.get("description")
+                            if isinstance(ok_desc, str):
+                                returns = ok_desc
                             content = ok.get("content")
                             if isinstance(content, dict):
                                 json = content.get("application/json")
@@ -211,6 +216,7 @@ class SchemaGenerator:
                             error=error,
                             title=title,
                             description=description,
+                            returns=returns,
                         )
                     )
 
@@ -542,14 +548,30 @@ __all__ = [
                 refs.add(operation.success)
                 success_class = operation.success
             else:
-                success_class = "Empty"
-                refs.add("Empty")
-            if operation.error is not None:
-                refs.add(operation.error)
-                error_class = operation.error
-            else:
-                error_class = "Empty"
-                refs.add("Empty")
+                success_class = "None"
+            if operation.returns is not None:
+                docs.append("")
+                docs.append("Returns:")
+                desc_lines = rst(operation.returns).strip().splitlines()
+                if desc_lines:
+                    docs.append(f"    {success_class}: {desc_lines[0]}")
+                    docs.extend(f"        {line}" for line in desc_lines[1:])
+            errors = []
+            raises = []
+            refs.add(operation.error)
+            error_spec = self.schemas[operation.error]
+            errors.extend(error_spec.as_type.split(" | "))
+            errors.sort()
+            docs.append("")
+            docs.append("Raises:")
+            for variant in errors:
+                variant_spec = self.schemas[variant]
+                docs.append(f"    _errors.{variant}: {variant_spec.title}")
+                refs.add(variant)
+                raises.append(f"if isinstance(error_, {variant}):")
+                raises.append(f"    raise _errors.{variant}(error_)")
+            raises.append("raise _errors.UnknownError(error_)")
+            error_class = operation.error
             if docs:
                 docs[0] = f'"""{docs[0]}'
                 if len(docs) > 1:
@@ -584,6 +606,7 @@ __all__ = [
                 body = f"""import dataclasses
 {import_typing}
 from portone_server_sdk._api import {", ".join(import_api)}
+from portone_server_sdk import _errors
 {api_client}
 {"".join(import_refs)}
 {self.generate_schema(operation.param)}
@@ -607,8 +630,8 @@ class {class_name}(ApiClient):
             {operation.error},
         )
         if isinstance(response_, ApiErrorResponse):
-            raise RuntimeError()
-        return response_.data
+            error_ = response_.data
+{"".join(f"            {line}\n" for line in raises)}{"\n        return response_.data" if success_class != "None" else ""}
 """
                 path = async_path if is_async else sync_path
                 with path.joinpath(f"_{method_name}.py").open("wt") as f:
