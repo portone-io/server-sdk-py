@@ -33,6 +33,7 @@ dev-dependencies = [
 init = { call = "scripts.init:run" }
 gen = { chain = ["gen:env", "patch:apply"] }
 check = "mypy"
+docs = "mkdocs build"
 
 [tool.hatch.metadata]
 allow-direct-references = true
@@ -47,4 +48,5 @@ enable_incomplete_feature = ["NewGenericSyntax"]
 explicit_package_bases = false
 
 [tool.ruff]
-include = ["portone_server_sdk/*.py", "scripts/*.py"]
+include = ["pyproject.toml", "portone_server_sdk/**/*.py", "scripts/**/*.py"]
+exclude = ["portone_server_sdk/_openapi/**/*.py"]

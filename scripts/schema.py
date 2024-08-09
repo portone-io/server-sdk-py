@@ -452,17 +452,15 @@ __all__ = ["_schemas", "_sync_api"]
                 if typing_ref in refs:
                     refs.remove(typing_ref)
                     typing_refs.append(typing_ref)
-            import_refs = "\n".join(
-                f"from portone_server_sdk._openapi._schemas._{to_snake_case(ref)} import {ref}"
+            import_refs = "".join(
+                f"from portone_server_sdk._openapi._schemas._{to_snake_case(ref)} import {ref}\n"
                 for ref in sorted(refs)
             )
             typing = ", ".join(typing_refs)
             import_typing = typing and f"from typing import {typing}\n"
             import_dataclass = "" if spec.properties is None else "import dataclasses\n"
             with open(file, "wt") as f:
-                f.write(f"""{import_dataclass}{import_typing}
-{"".join(import_refs)}
-
+                f.write(f"""{import_dataclass}{import_typing}{import_refs}
 {self.generate_schema(spec)}
 """)
         with open(schema_dir.joinpath("__init__.py"), "wt") as f:
@@ -493,10 +491,12 @@ __all__ = [
                 for prop in operation.param.properties:
                     filtered = f"{prop.name}_" if iskeyword(prop.name) else prop.name
                     args.append(f"{filtered}: {prop.as_type},")
-                    docs.append(f"    {filtered} ({prop.as_type}):")
                     prop_docs = self.make_doc_lines_raw(prop)
-                    docs.extend(f"        {line}" for line in prop_docs)
-                    docs.append("")
+                    if prop_docs:
+                        docs.append(f"    {filtered} ({prop.as_type}): {prop_docs[0]}.")
+                        docs.extend(f"        {line}" for line in prop_docs[1:] if line)
+                    else:
+                        docs.append(f"    {filtered} ({prop.as_type})")
                     param_args.append(f"{filtered}={prop.name},")
                     refs.update(prop.refs)
             query_args = []
@@ -504,10 +504,12 @@ __all__ = [
                 for prop in operation.query.properties:
                     filtered = f"{prop.name}_" if iskeyword(prop.name) else prop.name
                     args.append(f"{filtered}: {prop.as_type},")
-                    docs.append(f"    {filtered} ({prop.as_type}):")
                     prop_docs = self.make_doc_lines_raw(prop)
-                    docs.extend(f"        {line}" for line in prop_docs)
-                    docs.append("")
+                    if prop_docs:
+                        docs.append(f"    {filtered} ({prop.as_type}): {prop_docs[0]}.")
+                        docs.extend(f"        {line}" for line in prop_docs[1:] if line)
+                    else:
+                        docs.append(f"    {filtered} ({prop.as_type})")
                     query_args.append(f"{filtered}={filtered},")
                     refs.update(prop.refs)
             body_args = []
@@ -519,10 +521,16 @@ __all__ = [
                             f"{prop.name}_" if iskeyword(prop.name) else prop.name
                         )
                         args.append(f"{filtered}: {prop.as_type},")
-                        docs.append(f"    {filtered} ({prop.as_type}):")
                         prop_docs = self.make_doc_lines_raw(prop)
-                        docs.extend(f"        {line}" for line in prop_docs)
-                        docs.append("")
+                        if prop_docs:
+                            docs.append(
+                                f"    {filtered} ({prop.as_type}): {prop_docs[0]}."
+                            )
+                            docs.extend(
+                                f"        {line}" for line in prop_docs[1:] if line
+                            )
+                        else:
+                            docs.append(f"    {filtered} ({prop.as_type})")
                         body_args.append(f"{filtered}={filtered},")
                 refs.update(body_spec.refs)
                 refs.add(operation.body)

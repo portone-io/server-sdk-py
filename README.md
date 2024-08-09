@@ -27,6 +27,8 @@ rye init
   - `portone_server_sdk/_openapi`에 patch를 적용합니다.
 - `check`
   - 타입을 체크합니다.
+- `docs`
+  - API 문서를 생성합니다.
 
 ---
 
