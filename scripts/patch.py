@@ -28,6 +28,7 @@ def save() -> None:
             TAG_NAME,
         ],
         cwd=openapi_path,
+        check=True,
     )
 
 
@@ -42,8 +43,9 @@ def apply() -> None:
             "false",
         ],
         cwd=openapi_path,
+        check=True,
     )
-    subprocess.run(["git", "tag", TAG_NAME], cwd=project_path)
+    subprocess.run(["git", "tag", TAG_NAME], cwd=project_path, check=True)
     subprocess.run(
         [
             "git",
@@ -55,9 +57,10 @@ def apply() -> None:
             openapi_path,
         ],
         cwd=project_path,
+        check=True,
     )
-    subprocess.run(["git", "tag", "-d", TAG_NAME], cwd=project_path)
-    subprocess.run(["git", "checkout", TAG_NAME], cwd=openapi_path)
+    subprocess.run(["git", "tag", "-d", TAG_NAME], cwd=project_path, check=True)
+    subprocess.run(["git", "checkout", TAG_NAME], cwd=openapi_path, check=True)
     subprocess.run(
         [
             "git",
@@ -70,7 +73,4 @@ def apply() -> None:
     )
     patches = [str(patch) for patch in patch_dir.glob("*.patch")]
     if patches:
-        subprocess.run(
-            ["git", "am", "--3way", *patches],
-            cwd=openapi_path,
-        )
+        subprocess.run(["git", "am", "--3way", *patches], cwd=openapi_path, check=True)

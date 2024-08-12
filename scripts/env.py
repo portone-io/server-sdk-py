@@ -12,7 +12,9 @@ def gen() -> None:
         version: str = pyproject["project"]["version"]
 
     commit_hash = subprocess.check_output(
-        args=["git", "rev-parse", "HEAD"], cwd=project_dir, text=True
+        args=["git", "rev-parse", "HEAD"],
+        cwd=project_dir,
+        text=True,
     ).strip()
 
     with open(generated_dir.joinpath("_env.py"), "wt") as file:
