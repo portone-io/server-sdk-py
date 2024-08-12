@@ -18,7 +18,7 @@ def rst(markdown: str) -> str:
 
 
 project_dir = Path(__file__).resolve().parent.parent
-openapi_dir = project_dir.joinpath("portone_server_sdk/_openapi")
+openapi_dir = project_dir.joinpath("openapi/generated")
 
 
 def gen() -> None:

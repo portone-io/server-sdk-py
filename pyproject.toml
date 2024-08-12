@@ -30,6 +30,7 @@ dev-dependencies = [
 "update:schema" = { call = "scripts.schema:update" }
 "patch:save" = { call = "scripts.patch:save" }
 "patch:apply" = { call = "scripts.patch:apply" }
+"patch:clean" = { call = "scripts.patch:clean" }
 init = { call = "scripts.init:run" }
 gen = { chain = ["gen:env", "patch:apply"] }
 check = "mypy"
@@ -49,4 +50,4 @@ explicit_package_bases = false
 
 [tool.ruff]
 include = ["pyproject.toml", "portone_server_sdk/**/*.py", "scripts/**/*.py"]
-exclude = ["portone_server_sdk/_openapi/**/*.py"]
+exclude = ["openapi", "portone_server_sdk/_openapi/**/*.py"]

@@ -1,4 +1,0 @@
-[submodule "portone_server_sdk/_openapi"]
-	path = portone_server_sdk/_openapi
-	url = git@github.com:portone-io/server-sdk-py.git
-	branch = openapi
