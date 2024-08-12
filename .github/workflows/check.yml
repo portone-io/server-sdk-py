@@ -30,6 +30,7 @@ jobs:
         run: |
           git config --global user.name runner
           git config --global user.email "runner@github.com"
+          git config --global init.defaultBranch main
       - name: Run gen
         run: rye run gen
       - name: Run check
