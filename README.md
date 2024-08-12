@@ -8,7 +8,7 @@
 
 ```
 git submodule update --init
-rye init
+rye run init
 ```
 
 ## Scripts
