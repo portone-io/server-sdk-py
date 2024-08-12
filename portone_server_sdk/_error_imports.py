@@ -1,4 +1,4 @@
-from ._errors import (
+from portone_server_sdk._errors import (
     AlreadyPaidError,
     AlreadyPaidOrWaitingError,
     BillingKeyAlreadyDeletedError,

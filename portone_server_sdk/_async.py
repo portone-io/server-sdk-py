@@ -6,10 +6,9 @@ from typing import TYPE_CHECKING, Any, Optional, TypeAliasType
 import httpx
 import serde
 
+from portone_server_sdk._api import ApiErrorResponse, ApiRequest, ApiSuccessResponse
 from portone_server_sdk._errors import UnknownError
-
-from ._api import ApiErrorResponse, ApiRequest, ApiSuccessResponse
-from ._generated._env import user_agent
+from portone_server_sdk._generated._env import user_agent
 
 if TYPE_CHECKING:
     from _typeshed import DataclassInstance

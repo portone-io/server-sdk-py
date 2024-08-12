@@ -390,11 +390,7 @@ class SchemaGenerator:
     def generate_files(self) -> None:
         self.generate_files_schemas(openapi_dir)
         self.generate_files_api(openapi_dir)
-        with openapi_dir.joinpath("__init__.py").open("wt") as f:
-            f.write("""from . import _schemas, _sync_api
-
-__all__ = ["_schemas", "_sync_api"]
-""")
+        openapi_dir.joinpath("__init__.py").touch()
 
     @classmethod
     def make_doc_lines_raw(cls, spec: Documented) -> list[str]:
@@ -447,7 +443,7 @@ __all__ = ["_schemas", "_sync_api"]
                 lines.append("    pass\n")
             return "".join(lines)
 
-    typing_types: ClassVar[set[str]] = set(["Literal", "Optional", "Any"])
+    typing_types: ClassVar[list[str]] = ["Any", "Literal", "Optional"]
 
     def generate_files_schemas(self, generated_path: Path) -> None:
         schema_dir = generated_path.joinpath("_schemas")

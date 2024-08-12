@@ -6,10 +6,9 @@ from typing import TYPE_CHECKING, Any, Optional, TypeAliasType
 import httpx
 import serde
 
+from portone_server_sdk._api import ApiErrorResponse, ApiRequest, ApiSuccessResponse
 from portone_server_sdk._errors import UnknownError
-
-from ._api import ApiErrorResponse, ApiRequest, ApiSuccessResponse
-from ._generated._env import user_agent
+from portone_server_sdk._generated._env import user_agent
 
 if TYPE_CHECKING:
     from _typeshed import DataclassInstance
@@ -64,8 +63,12 @@ class ApiClient:
         if isinstance(error_cls, TypeAliasType):
             error_cls = error_cls.__value__
         if 200 <= response.status_code <= 299:
-            return ApiSuccessResponse(serde.from_dict(success_cls, response.json()))
+            return ApiSuccessResponse(
+                serde.from_dict(serde.Untagged(success_cls), response.json())
+            )
         try:
-            return ApiErrorResponse(serde.from_dict(error_cls, response.json()))
+            return ApiErrorResponse(
+                serde.from_dict(serde.Untagged(error_cls), response.json())
+            )
         except Exception:
             raise UnknownError(response.text)
