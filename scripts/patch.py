@@ -71,6 +71,6 @@ def apply() -> None:
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
     )
-    patches = [str(patch) for patch in patch_dir.glob("*.patch")]
+    patches = sorted(str(patch) for patch in patch_dir.glob("*.patch"))
     if patches:
         subprocess.run(["git", "am", "--3way", *patches], cwd=openapi_path, check=True)
