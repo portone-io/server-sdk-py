@@ -4,11 +4,9 @@ from portone_server_sdk._openapi._schemas._cash_receipt_type import CashReceiptT
 from portone_server_sdk._openapi._schemas._currency import Currency
 from portone_server_sdk._openapi._schemas._selected_channel import SelectedChannel
 
-
 @dataclasses.dataclass(kw_only=True)
 class IssuedCashReceipt:
     """발급 완료"""
-
     status: Literal["ISSUED"]
     """현금영수증 상태"""
     merchantId: str
@@ -41,3 +39,4 @@ class IssuedCashReceipt:
     """현금영수증 URL"""
     issuedAt: str
     """발급 시점"""
+

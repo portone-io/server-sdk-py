@@ -1,14 +1,12 @@
 import dataclasses
 from typing import Optional
 
-
 @dataclasses.dataclass(kw_only=True)
 class GetAllPaymentsByCursorBody:
     """GetAllPaymentsByCursorBody
-
+    
     결제 건 커서 기반 대용량 다건 조회를 위한 입력 정보
     """
-
     storeId: Optional[str]
     """상점 아이디
     
@@ -34,3 +32,4 @@ class GetAllPaymentsByCursorBody:
     
     미입력 시 기본값은 10 이며 최대 1000까지 허용
     """
+

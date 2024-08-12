@@ -12,3 +12,4 @@ cancelled -> 결제 취소 시점 기준
 failed -> 결제 실패 시점 기준
 값을 입력하지 않으면 STATUS_CHANGED_AT 으로 자동 적용됩니다.
 """
+

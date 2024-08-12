@@ -4,31 +4,19 @@ from typing import Optional
 from portone_server_sdk._api import ApiRequest, ApiErrorResponse, Empty
 from portone_server_sdk import _errors
 from portone_server_sdk._async import ApiClient
-from portone_server_sdk._openapi._schemas._close_virtual_account_error import (
-    CloseVirtualAccountError,
-)
-from portone_server_sdk._openapi._schemas._close_virtual_account_response import (
-    CloseVirtualAccountResponse,
-)
+from portone_server_sdk._openapi._schemas._close_virtual_account_error import CloseVirtualAccountError
+from portone_server_sdk._openapi._schemas._close_virtual_account_response import CloseVirtualAccountResponse
 from portone_server_sdk._openapi._schemas._forbidden_error import ForbiddenError
-from portone_server_sdk._openapi._schemas._invalid_request_error import (
-    InvalidRequestError,
-)
-from portone_server_sdk._openapi._schemas._payment_not_found_error import (
-    PaymentNotFoundError,
-)
-from portone_server_sdk._openapi._schemas._payment_not_waiting_for_deposit_error import (
-    PaymentNotWaitingForDepositError,
-)
+from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
+from portone_server_sdk._openapi._schemas._payment_not_found_error import PaymentNotFoundError
+from portone_server_sdk._openapi._schemas._payment_not_waiting_for_deposit_error import PaymentNotWaitingForDepositError
 from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
-
 
 @dataclasses.dataclass(kw_only=True)
 class CloseVirtualAccountParam:
     paymentId: str
     """결제 건 아이디"""
-
 
 @dataclasses.dataclass(kw_only=True)
 class CloseVirtualAccountQuery:
@@ -39,20 +27,10 @@ class CloseVirtualAccountQuery:
     접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
     """
 
-
 @dataclasses.dataclass
-class CloseVirtualAccountRequest(
-    ApiRequest[
-        CloseVirtualAccountResponse,
-        CloseVirtualAccountError,
-        CloseVirtualAccountParam,
-        CloseVirtualAccountQuery,
-        Empty,
-    ]
-):
+class CloseVirtualAccountRequest(ApiRequest[CloseVirtualAccountResponse, CloseVirtualAccountError, CloseVirtualAccountParam, CloseVirtualAccountQuery, Empty]):
     method = "post"
     path = "/payments/{paymentId}/virtual-account/close"
-
 
 @dataclasses.dataclass
 class CloseVirtualAccount(ApiClient):
@@ -62,17 +40,17 @@ class CloseVirtualAccount(ApiClient):
         storeId: Optional[str],
     ) -> CloseVirtualAccountResponse:
         """가상계좌 말소
-
+        
         발급된 가상계좌를 말소합니다.
-
+        
         Args:
             paymentId (str): 결제 건 아이디.
             storeId (Optional[str]): 상점 아이디.
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
-
+        
         Returns:
             CloseVirtualAccountResponse: 성공 응답
-
+        
         Raises:
             _errors.ForbiddenError: 요청이 거절된 경우
             _errors.InvalidRequestError: 요청된 입력 정보가 유효하지 않은 경우

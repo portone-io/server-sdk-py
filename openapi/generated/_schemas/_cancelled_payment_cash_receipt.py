@@ -3,11 +3,9 @@ from typing import Literal, Optional
 from portone_server_sdk._openapi._schemas._cash_receipt_type import CashReceiptType
 from portone_server_sdk._openapi._schemas._currency import Currency
 
-
 @dataclasses.dataclass(kw_only=True)
 class CancelledPaymentCashReceipt:
     """취소된 현금영수증"""
-
     status: Literal["CANCELLED"]
     """결제 건 내 현금영수증 상태"""
     type: Optional[CashReceiptType]
@@ -28,3 +26,4 @@ class CancelledPaymentCashReceipt:
     """발급 시점"""
     cancelledAt: str
     """취소 시점"""
+

@@ -1,11 +1,9 @@
 import dataclasses
 from typing import Optional
 
-
 @dataclasses.dataclass(kw_only=True)
 class SendIdentityVerificationBodyCustomer:
     """본인인증 요청을 위한 고객 정보"""
-
     id: Optional[str]
     """식별 아이디"""
     name: str
@@ -25,3 +23,4 @@ class SendIdentityVerificationBodyCustomer:
     
     고객의 요청 속도 제한에 사용됩니다.
     """
+

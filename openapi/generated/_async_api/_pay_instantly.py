@@ -5,73 +5,39 @@ from portone_server_sdk._api import ApiRequest, ApiErrorResponse
 from portone_server_sdk import _errors
 from portone_server_sdk._async import ApiClient
 from portone_server_sdk._openapi._schemas._already_paid_error import AlreadyPaidError
-from portone_server_sdk._openapi._schemas._channel_not_found_error import (
-    ChannelNotFoundError,
-)
+from portone_server_sdk._openapi._schemas._channel_not_found_error import ChannelNotFoundError
 from portone_server_sdk._openapi._schemas._country import Country
 from portone_server_sdk._openapi._schemas._currency import Currency
 from portone_server_sdk._openapi._schemas._customer_input import CustomerInput
-from portone_server_sdk._openapi._schemas._discount_amount_exceeds_total_amount_error import (
-    DiscountAmountExceedsTotalAmountError,
-)
+from portone_server_sdk._openapi._schemas._discount_amount_exceeds_total_amount_error import DiscountAmountExceedsTotalAmountError
 from portone_server_sdk._openapi._schemas._forbidden_error import ForbiddenError
-from portone_server_sdk._openapi._schemas._instant_payment_input import (
-    InstantPaymentInput,
-)
-from portone_server_sdk._openapi._schemas._instant_payment_method_input import (
-    InstantPaymentMethodInput,
-)
-from portone_server_sdk._openapi._schemas._invalid_request_error import (
-    InvalidRequestError,
-)
+from portone_server_sdk._openapi._schemas._instant_payment_input import InstantPaymentInput
+from portone_server_sdk._openapi._schemas._instant_payment_method_input import InstantPaymentMethodInput
+from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
 from portone_server_sdk._openapi._schemas._pay_instantly_error import PayInstantlyError
-from portone_server_sdk._openapi._schemas._pay_instantly_response import (
-    PayInstantlyResponse,
-)
-from portone_server_sdk._openapi._schemas._payment_amount_input import (
-    PaymentAmountInput,
-)
+from portone_server_sdk._openapi._schemas._pay_instantly_response import PayInstantlyResponse
+from portone_server_sdk._openapi._schemas._payment_amount_input import PaymentAmountInput
 from portone_server_sdk._openapi._schemas._payment_product import PaymentProduct
-from portone_server_sdk._openapi._schemas._payment_product_type import (
-    PaymentProductType,
-)
+from portone_server_sdk._openapi._schemas._payment_product_type import PaymentProductType
 from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
-from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_error import (
-    PromotionPayMethodDoesNotMatchError,
-)
-from portone_server_sdk._openapi._schemas._separated_address_input import (
-    SeparatedAddressInput,
-)
-from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_total_amount_error import (
-    SumOfPartsExceedsTotalAmountError,
-)
+from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_error import PromotionPayMethodDoesNotMatchError
+from portone_server_sdk._openapi._schemas._separated_address_input import SeparatedAddressInput
+from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_total_amount_error import SumOfPartsExceedsTotalAmountError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
-
 
 @dataclasses.dataclass(kw_only=True)
 class PayInstantlyParam:
     paymentId: str
     """결제 건 아이디"""
 
-
 @dataclasses.dataclass(kw_only=True)
 class PayInstantlyQuery:
     pass
 
-
 @dataclasses.dataclass
-class PayInstantlyRequest(
-    ApiRequest[
-        PayInstantlyResponse,
-        PayInstantlyError,
-        PayInstantlyParam,
-        PayInstantlyQuery,
-        InstantPaymentInput,
-    ]
-):
+class PayInstantlyRequest(ApiRequest[PayInstantlyResponse, PayInstantlyError, PayInstantlyParam, PayInstantlyQuery, InstantPaymentInput]):
     method = "post"
     path = "/payments/{paymentId}/instant"
-
 
 @dataclasses.dataclass
 class PayInstantly(ApiClient):
@@ -98,9 +64,9 @@ class PayInstantly(ApiClient):
         promotionId: Optional[str],
     ) -> PayInstantlyResponse:
         """수기 결제
-
+        
         수기 결제를 진행합니다.
-
+        
         Args:
             paymentId (str): 결제 건 아이디.
             storeId (Optional[str]): 상점 아이디.
@@ -130,10 +96,10 @@ class PayInstantly(ApiClient):
             productType (Optional[PaymentProductType]): 상품 유형.
             shippingAddress (Optional[SeparatedAddressInput]): 배송지 주소.
             promotionId (Optional[str]): 해당 결제에 적용할 프로모션 아이디.
-
+        
         Returns:
             PayInstantlyResponse: 성공 응답
-
+        
         Raises:
             _errors.AlreadyPaidError: 결제가 이미 완료된 경우
             _errors.ChannelNotFoundError: 요청된 채널이 존재하지 않는 경우

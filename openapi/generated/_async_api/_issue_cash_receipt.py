@@ -4,63 +4,33 @@ from typing import Optional
 from portone_server_sdk._api import ApiRequest, ApiErrorResponse
 from portone_server_sdk import _errors
 from portone_server_sdk._async import ApiClient
-from portone_server_sdk._openapi._schemas._cash_receipt_already_issued_error import (
-    CashReceiptAlreadyIssuedError,
-)
+from portone_server_sdk._openapi._schemas._cash_receipt_already_issued_error import CashReceiptAlreadyIssuedError
 from portone_server_sdk._openapi._schemas._cash_receipt_type import CashReceiptType
-from portone_server_sdk._openapi._schemas._channel_not_found_error import (
-    ChannelNotFoundError,
-)
+from portone_server_sdk._openapi._schemas._channel_not_found_error import ChannelNotFoundError
 from portone_server_sdk._openapi._schemas._currency import Currency
 from portone_server_sdk._openapi._schemas._forbidden_error import ForbiddenError
-from portone_server_sdk._openapi._schemas._invalid_request_error import (
-    InvalidRequestError,
-)
-from portone_server_sdk._openapi._schemas._issue_cash_receipt_body import (
-    IssueCashReceiptBody,
-)
-from portone_server_sdk._openapi._schemas._issue_cash_receipt_customer_input import (
-    IssueCashReceiptCustomerInput,
-)
-from portone_server_sdk._openapi._schemas._issue_cash_receipt_error import (
-    IssueCashReceiptError,
-)
-from portone_server_sdk._openapi._schemas._issue_cash_receipt_response import (
-    IssueCashReceiptResponse,
-)
-from portone_server_sdk._openapi._schemas._payment_amount_input import (
-    PaymentAmountInput,
-)
-from portone_server_sdk._openapi._schemas._payment_product_type import (
-    PaymentProductType,
-)
+from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
+from portone_server_sdk._openapi._schemas._issue_cash_receipt_body import IssueCashReceiptBody
+from portone_server_sdk._openapi._schemas._issue_cash_receipt_customer_input import IssueCashReceiptCustomerInput
+from portone_server_sdk._openapi._schemas._issue_cash_receipt_error import IssueCashReceiptError
+from portone_server_sdk._openapi._schemas._issue_cash_receipt_response import IssueCashReceiptResponse
+from portone_server_sdk._openapi._schemas._payment_amount_input import PaymentAmountInput
+from portone_server_sdk._openapi._schemas._payment_product_type import PaymentProductType
 from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
-
 
 @dataclasses.dataclass(kw_only=True)
 class IssueCashReceiptParam:
     pass
 
-
 @dataclasses.dataclass(kw_only=True)
 class IssueCashReceiptQuery:
     pass
 
-
 @dataclasses.dataclass
-class IssueCashReceiptRequest(
-    ApiRequest[
-        IssueCashReceiptResponse,
-        IssueCashReceiptError,
-        IssueCashReceiptParam,
-        IssueCashReceiptQuery,
-        IssueCashReceiptBody,
-    ]
-):
+class IssueCashReceiptRequest(ApiRequest[IssueCashReceiptResponse, IssueCashReceiptError, IssueCashReceiptParam, IssueCashReceiptQuery, IssueCashReceiptBody]):
     method = "post"
     path = "/cash-receipts"
-
 
 @dataclasses.dataclass
 class IssueCashReceipt(ApiClient):
@@ -78,9 +48,9 @@ class IssueCashReceipt(ApiClient):
         paidAt: Optional[str],
     ) -> IssueCashReceiptResponse:
         """현금 영수증 수동 발급
-
+        
         현금 영수증 발급을 요청합니다.
-
+        
         Args:
             storeId (Optional[str]): 상점 아이디.
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
@@ -94,10 +64,10 @@ class IssueCashReceipt(ApiClient):
             productType (Optional[PaymentProductType]): 상품 유형.
             customer (IssueCashReceiptCustomerInput): 고객 정보.
             paidAt (Optional[str]): 결제 일자.
-
+        
         Returns:
             IssueCashReceiptResponse: 성공 응답
-
+        
         Raises:
             _errors.CashReceiptAlreadyIssuedError: 현금영수증이 이미 발급된 경우
             _errors.ChannelNotFoundError: 요청된 채널이 존재하지 않는 경우

@@ -4,11 +4,9 @@ from portone_server_sdk._openapi._schemas._currency import Currency
 from portone_server_sdk._openapi._schemas._customer import Customer
 from portone_server_sdk._openapi._schemas._payment_product import PaymentProduct
 
-
 @dataclasses.dataclass(kw_only=True)
 class SucceededPaymentSchedule:
     """결제 성공 상태"""
-
     status: Literal["SUCCEEDED"]
     """결제 예약 건 상태"""
     id: str
@@ -53,3 +51,4 @@ class SucceededPaymentSchedule:
     """결제 시작 시점"""
     completedAt: str
     """결제 완료 시점"""
+

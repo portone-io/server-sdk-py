@@ -4,68 +4,34 @@ from typing import Any, Optional
 from portone_server_sdk._api import ApiRequest, ApiErrorResponse
 from portone_server_sdk import _errors
 from portone_server_sdk._async import ApiClient
-from portone_server_sdk._openapi._schemas._channel_not_found_error import (
-    ChannelNotFoundError,
-)
+from portone_server_sdk._openapi._schemas._channel_not_found_error import ChannelNotFoundError
 from portone_server_sdk._openapi._schemas._forbidden_error import ForbiddenError
-from portone_server_sdk._openapi._schemas._identity_verification_already_sent_error import (
-    IdentityVerificationAlreadySentError,
-)
-from portone_server_sdk._openapi._schemas._identity_verification_already_verified_error import (
-    IdentityVerificationAlreadyVerifiedError,
-)
-from portone_server_sdk._openapi._schemas._identity_verification_method import (
-    IdentityVerificationMethod,
-)
-from portone_server_sdk._openapi._schemas._identity_verification_not_found_error import (
-    IdentityVerificationNotFoundError,
-)
-from portone_server_sdk._openapi._schemas._identity_verification_operator import (
-    IdentityVerificationOperator,
-)
-from portone_server_sdk._openapi._schemas._invalid_request_error import (
-    InvalidRequestError,
-)
+from portone_server_sdk._openapi._schemas._identity_verification_already_sent_error import IdentityVerificationAlreadySentError
+from portone_server_sdk._openapi._schemas._identity_verification_already_verified_error import IdentityVerificationAlreadyVerifiedError
+from portone_server_sdk._openapi._schemas._identity_verification_method import IdentityVerificationMethod
+from portone_server_sdk._openapi._schemas._identity_verification_not_found_error import IdentityVerificationNotFoundError
+from portone_server_sdk._openapi._schemas._identity_verification_operator import IdentityVerificationOperator
+from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
 from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
-from portone_server_sdk._openapi._schemas._send_identity_verification_body import (
-    SendIdentityVerificationBody,
-)
-from portone_server_sdk._openapi._schemas._send_identity_verification_body_customer import (
-    SendIdentityVerificationBodyCustomer,
-)
-from portone_server_sdk._openapi._schemas._send_identity_verification_error import (
-    SendIdentityVerificationError,
-)
-from portone_server_sdk._openapi._schemas._send_identity_verification_response import (
-    SendIdentityVerificationResponse,
-)
+from portone_server_sdk._openapi._schemas._send_identity_verification_body import SendIdentityVerificationBody
+from portone_server_sdk._openapi._schemas._send_identity_verification_body_customer import SendIdentityVerificationBodyCustomer
+from portone_server_sdk._openapi._schemas._send_identity_verification_error import SendIdentityVerificationError
+from portone_server_sdk._openapi._schemas._send_identity_verification_response import SendIdentityVerificationResponse
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
-
 
 @dataclasses.dataclass(kw_only=True)
 class SendIdentityVerificationParam:
     identityVerificationId: str
     """본인인증 아이디"""
 
-
 @dataclasses.dataclass(kw_only=True)
 class SendIdentityVerificationQuery:
     pass
 
-
 @dataclasses.dataclass
-class SendIdentityVerificationRequest(
-    ApiRequest[
-        SendIdentityVerificationResponse,
-        SendIdentityVerificationError,
-        SendIdentityVerificationParam,
-        SendIdentityVerificationQuery,
-        SendIdentityVerificationBody,
-    ]
-):
+class SendIdentityVerificationRequest(ApiRequest[SendIdentityVerificationResponse, SendIdentityVerificationError, SendIdentityVerificationParam, SendIdentityVerificationQuery, SendIdentityVerificationBody]):
     method = "post"
     path = "/identity-verifications/{identityVerificationId}/send"
-
 
 @dataclasses.dataclass
 class SendIdentityVerification(ApiClient):
@@ -81,9 +47,9 @@ class SendIdentityVerification(ApiClient):
         method: IdentityVerificationMethod,
     ) -> SendIdentityVerificationResponse:
         """본인인증 요청 전송
-
+        
         SMS 또는 APP 방식을 이용하여 본인인증 요청을 전송합니다.
-
+        
         Args:
             identityVerificationId (str): 본인인증 아이디.
             storeId (Optional[str]): 상점 아이디.
@@ -94,10 +60,10 @@ class SendIdentityVerification(ApiClient):
             bypass (Optional[Any]): PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고).
             operator (IdentityVerificationOperator): 통신사.
             method (IdentityVerificationMethod): 본인인증 방식.
-
+        
         Returns:
             SendIdentityVerificationResponse: 성공 응답
-
+        
         Raises:
             _errors.ChannelNotFoundError: 요청된 채널이 존재하지 않는 경우
             _errors.ForbiddenError: 요청이 거절된 경우

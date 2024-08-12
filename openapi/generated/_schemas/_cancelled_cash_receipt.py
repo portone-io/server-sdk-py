@@ -4,11 +4,9 @@ from portone_server_sdk._openapi._schemas._cash_receipt_type import CashReceiptT
 from portone_server_sdk._openapi._schemas._currency import Currency
 from portone_server_sdk._openapi._schemas._selected_channel import SelectedChannel
 
-
 @dataclasses.dataclass(kw_only=True)
 class CancelledCashReceipt:
     """발급 취소"""
-
     status: Literal["CANCELLED"]
     """현금영수증 상태"""
     merchantId: str
@@ -43,3 +41,4 @@ class CancelledCashReceipt:
     """발급 시점"""
     cancelledAt: str
     """취소 시점"""
+

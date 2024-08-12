@@ -3,40 +3,26 @@ from typing import Optional
 from portone_server_sdk._openapi._schemas._card_brand import CardBrand
 from portone_server_sdk._openapi._schemas._card_owner_type import CardOwnerType
 from portone_server_sdk._openapi._schemas._card_type import CardType
-from portone_server_sdk._openapi._schemas._cash_receipt_input_type import (
-    CashReceiptInputType,
-)
+from portone_server_sdk._openapi._schemas._cash_receipt_input_type import CashReceiptInputType
 from portone_server_sdk._openapi._schemas._currency import Currency
 from portone_server_sdk._openapi._schemas._date_time_range import DateTimeRange
-from portone_server_sdk._openapi._schemas._payment_cash_receipt_status import (
-    PaymentCashReceiptStatus,
-)
+from portone_server_sdk._openapi._schemas._payment_cash_receipt_status import PaymentCashReceiptStatus
 from portone_server_sdk._openapi._schemas._payment_client_type import PaymentClientType
-from portone_server_sdk._openapi._schemas._payment_filter_input_escrow_status import (
-    PaymentFilterInputEscrowStatus,
-)
-from portone_server_sdk._openapi._schemas._payment_method_gift_certificate_type import (
-    PaymentMethodGiftCertificateType,
-)
+from portone_server_sdk._openapi._schemas._payment_filter_input_escrow_status import PaymentFilterInputEscrowStatus
+from portone_server_sdk._openapi._schemas._payment_method_gift_certificate_type import PaymentMethodGiftCertificateType
 from portone_server_sdk._openapi._schemas._payment_method_type import PaymentMethodType
 from portone_server_sdk._openapi._schemas._payment_sort_by import PaymentSortBy
 from portone_server_sdk._openapi._schemas._payment_status import PaymentStatus
 from portone_server_sdk._openapi._schemas._payment_text_search import PaymentTextSearch
-from portone_server_sdk._openapi._schemas._payment_timestamp_type import (
-    PaymentTimestampType,
-)
-from portone_server_sdk._openapi._schemas._payment_webhook_status import (
-    PaymentWebhookStatus,
-)
+from portone_server_sdk._openapi._schemas._payment_timestamp_type import PaymentTimestampType
+from portone_server_sdk._openapi._schemas._payment_webhook_status import PaymentWebhookStatus
 from portone_server_sdk._openapi._schemas._pg_provider import PgProvider
 from portone_server_sdk._openapi._schemas._port_one_version import PortOneVersion
 from portone_server_sdk._openapi._schemas._sort_order import SortOrder
 
-
 @dataclasses.dataclass(kw_only=True)
 class PaymentFilterInput:
     """결제 건 다건 조회를 위한 입력 정보"""
-
     merchantId: Optional[str]
     """고객사 아이디"""
     storeId: Optional[str]
@@ -109,3 +95,4 @@ class PaymentFilterInput:
     """현금영수증 취소 시간 범위"""
     textSearch: Optional[list[PaymentTextSearch]]
     """통합 검색 리스트 필터"""
+

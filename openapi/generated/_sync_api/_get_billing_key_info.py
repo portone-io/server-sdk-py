@@ -5,24 +5,16 @@ from portone_server_sdk._api import ApiRequest, ApiErrorResponse, Empty
 from portone_server_sdk import _errors
 from portone_server_sdk._sync import ApiClient
 from portone_server_sdk._openapi._schemas._billing_key_info import BillingKeyInfo
-from portone_server_sdk._openapi._schemas._billing_key_not_found_error import (
-    BillingKeyNotFoundError,
-)
+from portone_server_sdk._openapi._schemas._billing_key_not_found_error import BillingKeyNotFoundError
 from portone_server_sdk._openapi._schemas._forbidden_error import ForbiddenError
-from portone_server_sdk._openapi._schemas._get_billing_key_info_error import (
-    GetBillingKeyInfoError,
-)
-from portone_server_sdk._openapi._schemas._invalid_request_error import (
-    InvalidRequestError,
-)
+from portone_server_sdk._openapi._schemas._get_billing_key_info_error import GetBillingKeyInfoError
+from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
-
 
 @dataclasses.dataclass(kw_only=True)
 class GetBillingKeyInfoParam:
     billingKey: str
     """조회할 빌링키"""
-
 
 @dataclasses.dataclass(kw_only=True)
 class GetBillingKeyInfoQuery:
@@ -33,20 +25,10 @@ class GetBillingKeyInfoQuery:
     접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
     """
 
-
 @dataclasses.dataclass
-class GetBillingKeyInfoRequest(
-    ApiRequest[
-        BillingKeyInfo,
-        GetBillingKeyInfoError,
-        GetBillingKeyInfoParam,
-        GetBillingKeyInfoQuery,
-        Empty,
-    ]
-):
+class GetBillingKeyInfoRequest(ApiRequest[BillingKeyInfo, GetBillingKeyInfoError, GetBillingKeyInfoParam, GetBillingKeyInfoQuery, Empty]):
     method = "get"
     path = "/billing-keys/{billingKey}"
-
 
 @dataclasses.dataclass
 class GetBillingKeyInfo(ApiClient):
@@ -56,17 +38,17 @@ class GetBillingKeyInfo(ApiClient):
         storeId: Optional[str],
     ) -> BillingKeyInfo:
         """빌링키 단건 조회
-
+        
         주어진 빌링키에 대응되는 빌링키 정보를 조회합니다.
-
+        
         Args:
             billingKey (str): 조회할 빌링키.
             storeId (Optional[str]): 상점 아이디.
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
-
+        
         Returns:
             BillingKeyInfo: 성공 응답으로 빌링키 정보를 반환합니다.
-
+        
         Raises:
             _errors.BillingKeyNotFoundError: 빌링키가 존재하지 않는 경우
             _errors.ForbiddenError: 요청이 거절된 경우

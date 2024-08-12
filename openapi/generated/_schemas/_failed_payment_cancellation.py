@@ -1,11 +1,9 @@
 import dataclasses
 from typing import Literal, Optional
 
-
 @dataclasses.dataclass(kw_only=True)
 class FailedPaymentCancellation:
     """취소 실패 상태"""
-
     status: Literal["FAILED"]
     """결제 취소 내역 상태"""
     id: str
@@ -26,3 +24,4 @@ class FailedPaymentCancellation:
     """취소 시점"""
     requestedAt: str
     """취소 요청 시점"""
+

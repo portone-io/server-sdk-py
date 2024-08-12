@@ -5,33 +5,19 @@ from portone_server_sdk._api import ApiRequest, ApiErrorResponse, Empty
 from portone_server_sdk import _errors
 from portone_server_sdk._async import ApiClient
 from portone_server_sdk._openapi._schemas._forbidden_error import ForbiddenError
-from portone_server_sdk._openapi._schemas._identity_verification_already_verified_error import (
-    IdentityVerificationAlreadyVerifiedError,
-)
-from portone_server_sdk._openapi._schemas._identity_verification_not_found_error import (
-    IdentityVerificationNotFoundError,
-)
-from portone_server_sdk._openapi._schemas._identity_verification_not_sent_error import (
-    IdentityVerificationNotSentError,
-)
-from portone_server_sdk._openapi._schemas._invalid_request_error import (
-    InvalidRequestError,
-)
+from portone_server_sdk._openapi._schemas._identity_verification_already_verified_error import IdentityVerificationAlreadyVerifiedError
+from portone_server_sdk._openapi._schemas._identity_verification_not_found_error import IdentityVerificationNotFoundError
+from portone_server_sdk._openapi._schemas._identity_verification_not_sent_error import IdentityVerificationNotSentError
+from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
 from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
-from portone_server_sdk._openapi._schemas._resend_identity_verification_error import (
-    ResendIdentityVerificationError,
-)
-from portone_server_sdk._openapi._schemas._resend_identity_verification_response import (
-    ResendIdentityVerificationResponse,
-)
+from portone_server_sdk._openapi._schemas._resend_identity_verification_error import ResendIdentityVerificationError
+from portone_server_sdk._openapi._schemas._resend_identity_verification_response import ResendIdentityVerificationResponse
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
-
 
 @dataclasses.dataclass(kw_only=True)
 class ResendIdentityVerificationParam:
     identityVerificationId: str
     """본인인증 아이디"""
-
 
 @dataclasses.dataclass(kw_only=True)
 class ResendIdentityVerificationQuery:
@@ -42,20 +28,10 @@ class ResendIdentityVerificationQuery:
     접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
     """
 
-
 @dataclasses.dataclass
-class ResendIdentityVerificationRequest(
-    ApiRequest[
-        ResendIdentityVerificationResponse,
-        ResendIdentityVerificationError,
-        ResendIdentityVerificationParam,
-        ResendIdentityVerificationQuery,
-        Empty,
-    ]
-):
+class ResendIdentityVerificationRequest(ApiRequest[ResendIdentityVerificationResponse, ResendIdentityVerificationError, ResendIdentityVerificationParam, ResendIdentityVerificationQuery, Empty]):
     method = "post"
     path = "/identity-verifications/{identityVerificationId}/resend"
-
 
 @dataclasses.dataclass
 class ResendIdentityVerification(ApiClient):
@@ -65,17 +41,17 @@ class ResendIdentityVerification(ApiClient):
         storeId: Optional[str],
     ) -> ResendIdentityVerificationResponse:
         """SMS 본인인증 요청 재전송
-
+        
         SMS 본인인증 요청을 재전송합니다.
-
+        
         Args:
             identityVerificationId (str): 본인인증 아이디.
             storeId (Optional[str]): 상점 아이디.
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
-
+        
         Returns:
             ResendIdentityVerificationResponse: 성공 응답
-
+        
         Raises:
             _errors.ForbiddenError: 요청이 거절된 경우
             _errors.IdentityVerificationAlreadyVerifiedError: 본인인증 건이 이미 인증 완료된 상태인 경우

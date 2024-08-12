@@ -1,22 +1,14 @@
 import dataclasses
 from typing import Literal, Optional
-from portone_server_sdk._openapi._schemas._billing_key_payment_method import (
-    BillingKeyPaymentMethod,
-)
-from portone_server_sdk._openapi._schemas._channel_group_summary import (
-    ChannelGroupSummary,
-)
+from portone_server_sdk._openapi._schemas._billing_key_payment_method import BillingKeyPaymentMethod
+from portone_server_sdk._openapi._schemas._channel_group_summary import ChannelGroupSummary
 from portone_server_sdk._openapi._schemas._customer import Customer
-from portone_server_sdk._openapi._schemas._pg_billing_key_issue_response import (
-    PgBillingKeyIssueResponse,
-)
+from portone_server_sdk._openapi._schemas._pg_billing_key_issue_response import PgBillingKeyIssueResponse
 from portone_server_sdk._openapi._schemas._selected_channel import SelectedChannel
-
 
 @dataclasses.dataclass(kw_only=True)
 class DeletedBillingKeyInfo:
     """빌링키 삭제 완료 상태 건"""
-
     status: Literal["DELETED"]
     """빌링키 상태"""
     billingKey: str
@@ -56,3 +48,4 @@ class DeletedBillingKeyInfo:
     """
     deletedAt: str
     """발급 삭제 시점"""
+

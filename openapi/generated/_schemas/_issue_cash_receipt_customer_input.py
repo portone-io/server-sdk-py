@@ -1,11 +1,9 @@
 import dataclasses
 from typing import Optional
 
-
 @dataclasses.dataclass(kw_only=True)
 class IssueCashReceiptCustomerInput:
     """현금영수증 발급 시 고객 관련 입력 정보"""
-
     identityNumber: str
     """고객 식별값"""
     name: Optional[str]
@@ -14,3 +12,4 @@ class IssueCashReceiptCustomerInput:
     """이메일"""
     phoneNumber: Optional[str]
     """전화번호"""
+

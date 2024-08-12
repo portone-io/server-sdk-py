@@ -8,6 +8,7 @@
 
 ```
 git submodule update --init
+rye sync
 rye run init
 ```
 
@@ -25,6 +26,8 @@ rye run init
   - `portone_server_sdk/_openapi` local에 커밋된 내용을 바탕으로 patch 파일을 생성합니다.
 - `patch:apply`
   - `portone_server_sdk/_openapi`에 patch를 적용합니다.
+- `patch:clean`
+  - `portone_server_sdk/_openapi` 디렉토리를 삭제합니다.
 - `check`
   - 타입을 체크합니다.
 - `docs`

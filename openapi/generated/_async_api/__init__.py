@@ -29,7 +29,6 @@ from ._resend_webhook import ResendWebhook
 from ._get_kakaopay_payment_order import GetKakaopayPaymentOrder
 from ._register_store_receipt import RegisterStoreReceipt
 
-
 @dataclass(slots=True)
 class PortOneApi(
     GetIdentityVerification,

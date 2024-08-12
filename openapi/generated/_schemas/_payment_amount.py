@@ -1,11 +1,9 @@
 import dataclasses
 from typing import Optional
 
-
 @dataclasses.dataclass(kw_only=True)
 class PaymentAmount:
     """결제 금액 세부 정보"""
-
     total: int
     """총 결제금액"""
     taxFree: int
@@ -25,3 +23,4 @@ class PaymentAmount:
     """취소금액"""
     cancelledTaxFree: int
     """취소금액 중 면세액"""
+

@@ -1,18 +1,14 @@
 import dataclasses
 from typing import Optional
 from portone_server_sdk._openapi._schemas._page_input import PageInput
-from portone_server_sdk._openapi._schemas._payment_filter_input import (
-    PaymentFilterInput,
-)
-
+from portone_server_sdk._openapi._schemas._payment_filter_input import PaymentFilterInput
 
 @dataclasses.dataclass(kw_only=True)
 class GetPaymentsBody:
     """GetPaymentsBody
-
+    
     결제 건 다건 조회를 위한 입력 정보
     """
-
     page: Optional[PageInput]
     """요청할 페이지 정보
     
@@ -23,3 +19,4 @@ class GetPaymentsBody:
     
     V1 결제 건의 경우 일부 필드에 대해 필터가 적용되지 않을 수 있습니다.
     """
+

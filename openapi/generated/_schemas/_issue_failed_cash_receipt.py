@@ -2,11 +2,9 @@ import dataclasses
 from typing import Literal, Optional
 from portone_server_sdk._openapi._schemas._selected_channel import SelectedChannel
 
-
 @dataclasses.dataclass(kw_only=True)
 class IssueFailedCashReceipt:
     """발급 실패"""
-
     status: Literal["ISSUE_FAILED"]
     """현금영수증 상태"""
     merchantId: str
@@ -21,3 +19,4 @@ class IssueFailedCashReceipt:
     """주문명"""
     isManual: bool
     """수동 발급 여부"""
+

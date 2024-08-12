@@ -1,22 +1,14 @@
 import dataclasses
 from typing import Literal, Optional
-from portone_server_sdk._openapi._schemas._billing_key_payment_method import (
-    BillingKeyPaymentMethod,
-)
-from portone_server_sdk._openapi._schemas._channel_group_summary import (
-    ChannelGroupSummary,
-)
+from portone_server_sdk._openapi._schemas._billing_key_payment_method import BillingKeyPaymentMethod
+from portone_server_sdk._openapi._schemas._channel_group_summary import ChannelGroupSummary
 from portone_server_sdk._openapi._schemas._customer import Customer
-from portone_server_sdk._openapi._schemas._pg_billing_key_issue_response import (
-    PgBillingKeyIssueResponse,
-)
+from portone_server_sdk._openapi._schemas._pg_billing_key_issue_response import PgBillingKeyIssueResponse
 from portone_server_sdk._openapi._schemas._selected_channel import SelectedChannel
-
 
 @dataclasses.dataclass(kw_only=True)
 class IssuedBillingKeyInfo:
     """빌링키 발급 완료 상태 건"""
-
     status: Literal["ISSUED"]
     """빌링키 상태"""
     billingKey: str
@@ -54,3 +46,4 @@ class IssuedBillingKeyInfo:
     
     슈퍼빌링키의 경우, 빌링키 발급이 성공하더라도 일부 채널에 대한 빌링키 발급은 실패할 수 있습니다.
     """
+

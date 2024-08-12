@@ -5,79 +5,41 @@ from portone_server_sdk._api import ApiRequest, ApiErrorResponse
 from portone_server_sdk import _errors
 from portone_server_sdk._sync import ApiClient
 from portone_server_sdk._openapi._schemas._already_paid_error import AlreadyPaidError
-from portone_server_sdk._openapi._schemas._billing_key_already_deleted_error import (
-    BillingKeyAlreadyDeletedError,
-)
-from portone_server_sdk._openapi._schemas._billing_key_not_found_error import (
-    BillingKeyNotFoundError,
-)
-from portone_server_sdk._openapi._schemas._billing_key_payment_input import (
-    BillingKeyPaymentInput,
-)
+from portone_server_sdk._openapi._schemas._billing_key_already_deleted_error import BillingKeyAlreadyDeletedError
+from portone_server_sdk._openapi._schemas._billing_key_not_found_error import BillingKeyNotFoundError
+from portone_server_sdk._openapi._schemas._billing_key_payment_input import BillingKeyPaymentInput
 from portone_server_sdk._openapi._schemas._cash_receipt_input import CashReceiptInput
-from portone_server_sdk._openapi._schemas._channel_not_found_error import (
-    ChannelNotFoundError,
-)
+from portone_server_sdk._openapi._schemas._channel_not_found_error import ChannelNotFoundError
 from portone_server_sdk._openapi._schemas._country import Country
 from portone_server_sdk._openapi._schemas._currency import Currency
 from portone_server_sdk._openapi._schemas._customer_input import CustomerInput
-from portone_server_sdk._openapi._schemas._discount_amount_exceeds_total_amount_error import (
-    DiscountAmountExceedsTotalAmountError,
-)
+from portone_server_sdk._openapi._schemas._discount_amount_exceeds_total_amount_error import DiscountAmountExceedsTotalAmountError
 from portone_server_sdk._openapi._schemas._forbidden_error import ForbiddenError
-from portone_server_sdk._openapi._schemas._invalid_request_error import (
-    InvalidRequestError,
-)
-from portone_server_sdk._openapi._schemas._pay_with_billing_key_error import (
-    PayWithBillingKeyError,
-)
-from portone_server_sdk._openapi._schemas._pay_with_billing_key_response import (
-    PayWithBillingKeyResponse,
-)
-from portone_server_sdk._openapi._schemas._payment_amount_input import (
-    PaymentAmountInput,
-)
+from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
+from portone_server_sdk._openapi._schemas._pay_with_billing_key_error import PayWithBillingKeyError
+from portone_server_sdk._openapi._schemas._pay_with_billing_key_response import PayWithBillingKeyResponse
+from portone_server_sdk._openapi._schemas._payment_amount_input import PaymentAmountInput
 from portone_server_sdk._openapi._schemas._payment_product import PaymentProduct
-from portone_server_sdk._openapi._schemas._payment_product_type import (
-    PaymentProductType,
-)
+from portone_server_sdk._openapi._schemas._payment_product_type import PaymentProductType
 from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
-from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_error import (
-    PromotionPayMethodDoesNotMatchError,
-)
-from portone_server_sdk._openapi._schemas._separated_address_input import (
-    SeparatedAddressInput,
-)
-from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_total_amount_error import (
-    SumOfPartsExceedsTotalAmountError,
-)
+from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_error import PromotionPayMethodDoesNotMatchError
+from portone_server_sdk._openapi._schemas._separated_address_input import SeparatedAddressInput
+from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_total_amount_error import SumOfPartsExceedsTotalAmountError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
-
 
 @dataclasses.dataclass(kw_only=True)
 class PayWithBillingKeyParam:
     paymentId: str
     """결제 건 아이디"""
 
-
 @dataclasses.dataclass(kw_only=True)
 class PayWithBillingKeyQuery:
     pass
 
-
 @dataclasses.dataclass
-class PayWithBillingKeyRequest(
-    ApiRequest[
-        PayWithBillingKeyResponse,
-        PayWithBillingKeyError,
-        PayWithBillingKeyParam,
-        PayWithBillingKeyQuery,
-        BillingKeyPaymentInput,
-    ]
-):
+class PayWithBillingKeyRequest(ApiRequest[PayWithBillingKeyResponse, PayWithBillingKeyError, PayWithBillingKeyParam, PayWithBillingKeyQuery, BillingKeyPaymentInput]):
     method = "post"
     path = "/payments/{paymentId}/billing-key"
-
 
 @dataclasses.dataclass
 class PayWithBillingKey(ApiClient):
@@ -106,9 +68,9 @@ class PayWithBillingKey(ApiClient):
         bypass: Optional[Any],
     ) -> PayWithBillingKeyResponse:
         """빌링키 결제
-
+        
         빌링키로 결제를 진행합니다.
-
+        
         Args:
             paymentId (str): 결제 건 아이디.
             storeId (Optional[str]): 상점 아이디.
@@ -137,10 +99,10 @@ class PayWithBillingKey(ApiClient):
             shippingAddress (Optional[SeparatedAddressInput]): 배송지 주소.
             promotionId (Optional[str]): 해당 결제에 적용할 프로모션 아이디.
             bypass (Optional[Any]): PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고).
-
+        
         Returns:
             PayWithBillingKeyResponse: 성공 응답
-
+        
         Raises:
             _errors.AlreadyPaidError: 결제가 이미 완료된 경우
             _errors.BillingKeyAlreadyDeletedError: 빌링키가 이미 삭제된 경우

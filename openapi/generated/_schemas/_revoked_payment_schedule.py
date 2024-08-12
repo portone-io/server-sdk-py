@@ -4,11 +4,9 @@ from portone_server_sdk._openapi._schemas._currency import Currency
 from portone_server_sdk._openapi._schemas._customer import Customer
 from portone_server_sdk._openapi._schemas._payment_product import PaymentProduct
 
-
 @dataclasses.dataclass(kw_only=True)
 class RevokedPaymentSchedule:
     """결제 예약 취소 상태"""
-
     status: Literal["REVOKED"]
     """결제 예약 건 상태"""
     id: str
@@ -51,3 +49,4 @@ class RevokedPaymentSchedule:
     """결제 예정 시점"""
     revokedAt: str
     """결제 취소 시점"""
+

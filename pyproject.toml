@@ -50,4 +50,4 @@ explicit_package_bases = false
 
 [tool.ruff]
 include = ["pyproject.toml", "portone_server_sdk/**/*.py", "scripts/**/*.py"]
-exclude = ["portone_server_sdk/_openapi/**/*.py"]
+exclude = ["openapi", "portone_server_sdk/_openapi/**/*.py"]

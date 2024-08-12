@@ -4,22 +4,14 @@ from portone_server_sdk._openapi._schemas._cash_receipt_input import CashReceipt
 from portone_server_sdk._openapi._schemas._country import Country
 from portone_server_sdk._openapi._schemas._currency import Currency
 from portone_server_sdk._openapi._schemas._customer_input import CustomerInput
-from portone_server_sdk._openapi._schemas._payment_amount_input import (
-    PaymentAmountInput,
-)
+from portone_server_sdk._openapi._schemas._payment_amount_input import PaymentAmountInput
 from portone_server_sdk._openapi._schemas._payment_product import PaymentProduct
-from portone_server_sdk._openapi._schemas._payment_product_type import (
-    PaymentProductType,
-)
-from portone_server_sdk._openapi._schemas._separated_address_input import (
-    SeparatedAddressInput,
-)
-
+from portone_server_sdk._openapi._schemas._payment_product_type import PaymentProductType
+from portone_server_sdk._openapi._schemas._separated_address_input import SeparatedAddressInput
 
 @dataclasses.dataclass(kw_only=True)
 class BillingKeyPaymentInput:
     """빌링키 결제 요청 입력 정보"""
-
     storeId: Optional[str]
     """상점 아이디
     
@@ -74,3 +66,4 @@ class BillingKeyPaymentInput:
     """해당 결제에 적용할 프로모션 아이디"""
     bypass: Optional[Any]
     """PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고)"""
+

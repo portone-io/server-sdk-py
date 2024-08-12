@@ -1,20 +1,12 @@
 import dataclasses
 from typing import Any, Optional
-from portone_server_sdk._openapi._schemas._identity_verification_method import (
-    IdentityVerificationMethod,
-)
-from portone_server_sdk._openapi._schemas._identity_verification_operator import (
-    IdentityVerificationOperator,
-)
-from portone_server_sdk._openapi._schemas._send_identity_verification_body_customer import (
-    SendIdentityVerificationBodyCustomer,
-)
-
+from portone_server_sdk._openapi._schemas._identity_verification_method import IdentityVerificationMethod
+from portone_server_sdk._openapi._schemas._identity_verification_operator import IdentityVerificationOperator
+from portone_server_sdk._openapi._schemas._send_identity_verification_body_customer import SendIdentityVerificationBodyCustomer
 
 @dataclasses.dataclass(kw_only=True)
 class SendIdentityVerificationBody:
     """본인인증 요청을 위한 입력 정보"""
-
     storeId: Optional[str]
     """상점 아이디
     
@@ -32,3 +24,4 @@ class SendIdentityVerificationBody:
     """통신사"""
     method: IdentityVerificationMethod
     """본인인증 방식"""
+

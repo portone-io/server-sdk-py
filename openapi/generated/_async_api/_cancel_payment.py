@@ -4,76 +4,38 @@ from typing import Optional
 from portone_server_sdk._api import ApiRequest, ApiErrorResponse
 from portone_server_sdk import _errors
 from portone_server_sdk._async import ApiClient
-from portone_server_sdk._openapi._schemas._cancel_amount_exceeds_cancellable_amount_error import (
-    CancelAmountExceedsCancellableAmountError,
-)
+from portone_server_sdk._openapi._schemas._cancel_amount_exceeds_cancellable_amount_error import CancelAmountExceedsCancellableAmountError
 from portone_server_sdk._openapi._schemas._cancel_payment_body import CancelPaymentBody
-from portone_server_sdk._openapi._schemas._cancel_payment_body_refund_account import (
-    CancelPaymentBodyRefundAccount,
-)
-from portone_server_sdk._openapi._schemas._cancel_payment_error import (
-    CancelPaymentError,
-)
-from portone_server_sdk._openapi._schemas._cancel_payment_response import (
-    CancelPaymentResponse,
-)
+from portone_server_sdk._openapi._schemas._cancel_payment_body_refund_account import CancelPaymentBodyRefundAccount
+from portone_server_sdk._openapi._schemas._cancel_payment_error import CancelPaymentError
+from portone_server_sdk._openapi._schemas._cancel_payment_response import CancelPaymentResponse
 from portone_server_sdk._openapi._schemas._cancel_requester import CancelRequester
-from portone_server_sdk._openapi._schemas._cancel_tax_amount_exceeds_cancellable_tax_amount_error import (
-    CancelTaxAmountExceedsCancellableTaxAmountError,
-)
-from portone_server_sdk._openapi._schemas._cancel_tax_free_amount_exceeds_cancellable_tax_free_amount_error import (
-    CancelTaxFreeAmountExceedsCancellableTaxFreeAmountError,
-)
-from portone_server_sdk._openapi._schemas._cancellable_amount_consistency_broken_error import (
-    CancellableAmountConsistencyBrokenError,
-)
+from portone_server_sdk._openapi._schemas._cancel_tax_amount_exceeds_cancellable_tax_amount_error import CancelTaxAmountExceedsCancellableTaxAmountError
+from portone_server_sdk._openapi._schemas._cancel_tax_free_amount_exceeds_cancellable_tax_free_amount_error import CancelTaxFreeAmountExceedsCancellableTaxFreeAmountError
+from portone_server_sdk._openapi._schemas._cancellable_amount_consistency_broken_error import CancellableAmountConsistencyBrokenError
 from portone_server_sdk._openapi._schemas._forbidden_error import ForbiddenError
-from portone_server_sdk._openapi._schemas._invalid_request_error import (
-    InvalidRequestError,
-)
-from portone_server_sdk._openapi._schemas._payment_already_cancelled_error import (
-    PaymentAlreadyCancelledError,
-)
-from portone_server_sdk._openapi._schemas._payment_not_found_error import (
-    PaymentNotFoundError,
-)
-from portone_server_sdk._openapi._schemas._payment_not_paid_error import (
-    PaymentNotPaidError,
-)
+from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
+from portone_server_sdk._openapi._schemas._payment_already_cancelled_error import PaymentAlreadyCancelledError
+from portone_server_sdk._openapi._schemas._payment_not_found_error import PaymentNotFoundError
+from portone_server_sdk._openapi._schemas._payment_not_paid_error import PaymentNotPaidError
 from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
-from portone_server_sdk._openapi._schemas._remained_amount_less_than_promotion_min_payment_amount_error import (
-    RemainedAmountLessThanPromotionMinPaymentAmountError,
-)
-from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_cancel_amount_error import (
-    SumOfPartsExceedsCancelAmountError,
-)
+from portone_server_sdk._openapi._schemas._remained_amount_less_than_promotion_min_payment_amount_error import RemainedAmountLessThanPromotionMinPaymentAmountError
+from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_cancel_amount_error import SumOfPartsExceedsCancelAmountError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
-
 
 @dataclasses.dataclass(kw_only=True)
 class CancelPaymentParam:
     paymentId: str
     """결제 건 아이디"""
 
-
 @dataclasses.dataclass(kw_only=True)
 class CancelPaymentQuery:
     pass
 
-
 @dataclasses.dataclass
-class CancelPaymentRequest(
-    ApiRequest[
-        CancelPaymentResponse,
-        CancelPaymentError,
-        CancelPaymentParam,
-        CancelPaymentQuery,
-        CancelPaymentBody,
-    ]
-):
+class CancelPaymentRequest(ApiRequest[CancelPaymentResponse, CancelPaymentError, CancelPaymentParam, CancelPaymentQuery, CancelPaymentBody]):
     method = "post"
     path = "/payments/{paymentId}/cancel"
-
 
 @dataclasses.dataclass
 class CancelPayment(ApiClient):
@@ -90,9 +52,9 @@ class CancelPayment(ApiClient):
         refundAccount: Optional[CancelPaymentBodyRefundAccount],
     ) -> CancelPaymentResponse:
         """결제 취소
-
+        
         결제 취소를 요청합니다.
-
+        
         Args:
             paymentId (str): 결제 건 아이디.
             storeId (Optional[str]): 상점 아이디.
@@ -110,10 +72,10 @@ class CancelPayment(ApiClient):
                 본 취소 요청 이전의 취소 가능 잔액으로써, 값을 입력하면 잔액이 일치하는 경우에만 취소가 진행됩니다. 값을 입력하지 않으면 별도의 검증 처리를 수행하지 않습니다.
             refundAccount (Optional[CancelPaymentBodyRefundAccount]): 환불 계좌.
                 계좌 환불일 경우 입력합니다. 계좌 환불이 필요한 경우는 가상계좌 환불, 휴대폰 익월 환불 등이 있습니다.
-
+        
         Returns:
             CancelPaymentResponse: 성공 응답
-
+        
         Raises:
             _errors.CancelAmountExceedsCancellableAmountError: 결제 취소 금액이 취소 가능 금액을 초과한 경우
             _errors.CancelTaxAmountExceedsCancellableTaxAmountError: 취소 과세 금액이 취소 가능한 과세 금액을 초과한 경우
@@ -154,12 +116,8 @@ class CancelPayment(ApiClient):
                 raise _errors.CancelAmountExceedsCancellableAmountError(error_)
             if isinstance(error_, CancelTaxAmountExceedsCancellableTaxAmountError):
                 raise _errors.CancelTaxAmountExceedsCancellableTaxAmountError(error_)
-            if isinstance(
-                error_, CancelTaxFreeAmountExceedsCancellableTaxFreeAmountError
-            ):
-                raise _errors.CancelTaxFreeAmountExceedsCancellableTaxFreeAmountError(
-                    error_
-                )
+            if isinstance(error_, CancelTaxFreeAmountExceedsCancellableTaxFreeAmountError):
+                raise _errors.CancelTaxFreeAmountExceedsCancellableTaxFreeAmountError(error_)
             if isinstance(error_, CancellableAmountConsistencyBrokenError):
                 raise _errors.CancellableAmountConsistencyBrokenError(error_)
             if isinstance(error_, ForbiddenError):
@@ -175,9 +133,7 @@ class CancelPayment(ApiClient):
             if isinstance(error_, PgProviderError):
                 raise _errors.PgProviderError(error_)
             if isinstance(error_, RemainedAmountLessThanPromotionMinPaymentAmountError):
-                raise _errors.RemainedAmountLessThanPromotionMinPaymentAmountError(
-                    error_
-                )
+                raise _errors.RemainedAmountLessThanPromotionMinPaymentAmountError(error_)
             if isinstance(error_, SumOfPartsExceedsCancelAmountError):
                 raise _errors.SumOfPartsExceedsCancelAmountError(error_)
             if isinstance(error_, UnauthorizedError):

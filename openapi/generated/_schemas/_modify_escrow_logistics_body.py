@@ -1,19 +1,13 @@
 import dataclasses
 from typing import Optional
-from portone_server_sdk._openapi._schemas._payment_escrow_receiver_input import (
-    PaymentEscrowReceiverInput,
-)
-from portone_server_sdk._openapi._schemas._payment_escrow_sender_input import (
-    PaymentEscrowSenderInput,
-)
+from portone_server_sdk._openapi._schemas._payment_escrow_receiver_input import PaymentEscrowReceiverInput
+from portone_server_sdk._openapi._schemas._payment_escrow_sender_input import PaymentEscrowSenderInput
 from portone_server_sdk._openapi._schemas._payment_logistics import PaymentLogistics
 from portone_server_sdk._openapi._schemas._payment_product import PaymentProduct
-
 
 @dataclasses.dataclass(kw_only=True)
 class ModifyEscrowLogisticsBody:
     """에스크로 배송 정보 수정 입력 정보"""
-
     storeId: Optional[str]
     """상점 아이디
     
@@ -32,3 +26,4 @@ class ModifyEscrowLogisticsBody:
     """
     products: Optional[list[PaymentProduct]]
     """상품 정보"""
+

@@ -1,14 +1,12 @@
 import dataclasses
 from typing import Optional
 
-
 @dataclasses.dataclass(kw_only=True)
 class ResendWebhookBody:
     """ResendWebhookBody
-
+    
     웹훅 재발송을 위한 입력 정보
     """
-
     storeId: Optional[str]
     """상점 아이디
     
@@ -19,3 +17,4 @@ class ResendWebhookBody:
     
     입력하지 않으면 결제 건의 가장 최근 웹훅 아이디가 기본 적용됩니다
     """
+

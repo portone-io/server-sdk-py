@@ -1,14 +1,12 @@
 import dataclasses
 from typing import Optional
 
-
 @dataclasses.dataclass(kw_only=True)
 class InstantPaymentMethodInputVirtualAccountExpiry:
     """입금 만료 기한
-
+    
     validHours와 dueDate 둘 중 하나의 필드만 입력합니다.
     """
-
     validHours: Optional[int]
     """유효 시간
     
@@ -16,3 +14,4 @@ class InstantPaymentMethodInputVirtualAccountExpiry:
     """
     dueDate: Optional[str]
     """만료 시점"""
+

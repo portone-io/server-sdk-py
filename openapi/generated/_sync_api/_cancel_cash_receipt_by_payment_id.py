@@ -4,31 +4,19 @@ from typing import Optional
 from portone_server_sdk._api import ApiRequest, ApiErrorResponse, Empty
 from portone_server_sdk import _errors
 from portone_server_sdk._sync import ApiClient
-from portone_server_sdk._openapi._schemas._cancel_cash_receipt_error import (
-    CancelCashReceiptError,
-)
-from portone_server_sdk._openapi._schemas._cancel_cash_receipt_response import (
-    CancelCashReceiptResponse,
-)
-from portone_server_sdk._openapi._schemas._cash_receipt_not_found_error import (
-    CashReceiptNotFoundError,
-)
-from portone_server_sdk._openapi._schemas._cash_receipt_not_issued_error import (
-    CashReceiptNotIssuedError,
-)
+from portone_server_sdk._openapi._schemas._cancel_cash_receipt_error import CancelCashReceiptError
+from portone_server_sdk._openapi._schemas._cancel_cash_receipt_response import CancelCashReceiptResponse
+from portone_server_sdk._openapi._schemas._cash_receipt_not_found_error import CashReceiptNotFoundError
+from portone_server_sdk._openapi._schemas._cash_receipt_not_issued_error import CashReceiptNotIssuedError
 from portone_server_sdk._openapi._schemas._forbidden_error import ForbiddenError
-from portone_server_sdk._openapi._schemas._invalid_request_error import (
-    InvalidRequestError,
-)
+from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
 from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
-
 
 @dataclasses.dataclass(kw_only=True)
 class CancelCashReceiptByPaymentIdParam:
     paymentId: str
     """결제 건 아이디"""
-
 
 @dataclasses.dataclass(kw_only=True)
 class CancelCashReceiptByPaymentIdQuery:
@@ -39,20 +27,10 @@ class CancelCashReceiptByPaymentIdQuery:
     접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
     """
 
-
 @dataclasses.dataclass
-class CancelCashReceiptByPaymentIdRequest(
-    ApiRequest[
-        CancelCashReceiptResponse,
-        CancelCashReceiptError,
-        CancelCashReceiptByPaymentIdParam,
-        CancelCashReceiptByPaymentIdQuery,
-        Empty,
-    ]
-):
+class CancelCashReceiptByPaymentIdRequest(ApiRequest[CancelCashReceiptResponse, CancelCashReceiptError, CancelCashReceiptByPaymentIdParam, CancelCashReceiptByPaymentIdQuery, Empty]):
     method = "post"
     path = "/payments/{paymentId}/cash-receipt/cancel"
-
 
 @dataclasses.dataclass
 class CancelCashReceiptByPaymentId(ApiClient):
@@ -62,17 +40,17 @@ class CancelCashReceiptByPaymentId(ApiClient):
         storeId: Optional[str],
     ) -> CancelCashReceiptResponse:
         """현금 영수증 취소
-
+        
         현금 영수증 취소를 요청합니다.
-
+        
         Args:
             paymentId (str): 결제 건 아이디.
             storeId (Optional[str]): 상점 아이디.
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
-
+        
         Returns:
             CancelCashReceiptResponse: 성공 응답
-
+        
         Raises:
             _errors.CashReceiptNotFoundError: 현금영수증이 존재하지 않는 경우
             _errors.CashReceiptNotIssuedError: 현금영수증이 발급되지 않은 경우

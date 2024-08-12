@@ -1,18 +1,12 @@
 import dataclasses
 from typing import Literal, Optional
 from portone_server_sdk._openapi._schemas._bank import Bank
-from portone_server_sdk._openapi._schemas._payment_method_virtual_account_refund_status import (
-    PaymentMethodVirtualAccountRefundStatus,
-)
-from portone_server_sdk._openapi._schemas._payment_method_virtual_account_type import (
-    PaymentMethodVirtualAccountType,
-)
-
+from portone_server_sdk._openapi._schemas._payment_method_virtual_account_refund_status import PaymentMethodVirtualAccountRefundStatus
+from portone_server_sdk._openapi._schemas._payment_method_virtual_account_type import PaymentMethodVirtualAccountType
 
 @dataclasses.dataclass(kw_only=True)
 class PaymentMethodVirtualAccount:
     """가상계좌 상세 정보"""
-
     type: Literal["PaymentMethodVirtualAccount"]
     bank: Optional[Bank]
     """표준 은행 코드"""
@@ -30,3 +24,4 @@ class PaymentMethodVirtualAccount:
     """계좌발급시점"""
     refundStatus: Optional[PaymentMethodVirtualAccountRefundStatus]
     """가상계좌 결제가 환불 단계일 때의 환불 상태"""
+

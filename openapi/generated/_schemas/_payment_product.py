@@ -1,11 +1,9 @@
 import dataclasses
 from typing import Optional
 
-
 @dataclasses.dataclass(kw_only=True)
 class PaymentProduct:
     """상품 정보"""
-
     id: str
     """상품 고유 식별자
     
@@ -24,3 +22,4 @@ class PaymentProduct:
     """상품 단위가격"""
     quantity: int
     """주문 수량"""
+

@@ -3,25 +3,15 @@ from typing import Optional
 from portone_server_sdk._openapi._schemas._country import Country
 from portone_server_sdk._openapi._schemas._currency import Currency
 from portone_server_sdk._openapi._schemas._customer_input import CustomerInput
-from portone_server_sdk._openapi._schemas._instant_payment_method_input import (
-    InstantPaymentMethodInput,
-)
-from portone_server_sdk._openapi._schemas._payment_amount_input import (
-    PaymentAmountInput,
-)
+from portone_server_sdk._openapi._schemas._instant_payment_method_input import InstantPaymentMethodInput
+from portone_server_sdk._openapi._schemas._payment_amount_input import PaymentAmountInput
 from portone_server_sdk._openapi._schemas._payment_product import PaymentProduct
-from portone_server_sdk._openapi._schemas._payment_product_type import (
-    PaymentProductType,
-)
-from portone_server_sdk._openapi._schemas._separated_address_input import (
-    SeparatedAddressInput,
-)
-
+from portone_server_sdk._openapi._schemas._payment_product_type import PaymentProductType
+from portone_server_sdk._openapi._schemas._separated_address_input import SeparatedAddressInput
 
 @dataclasses.dataclass(kw_only=True)
 class InstantPaymentInput:
     """수기 결제 요청 정보"""
-
     storeId: Optional[str]
     """상점 아이디
     
@@ -81,3 +71,4 @@ class InstantPaymentInput:
     """배송지 주소"""
     promotionId: Optional[str]
     """해당 결제에 적용할 프로모션 아이디"""
+

@@ -1,11 +1,9 @@
 import dataclasses
 from typing import Optional
 
-
 @dataclasses.dataclass(kw_only=True)
 class ConfirmEscrowBody:
     """에스크로 구매 확정 입력 정보"""
-
     storeId: Optional[str]
     """상점 아이디
     
@@ -17,3 +15,4 @@ class ConfirmEscrowBody:
     구매확정요청 주체가 고객사 관리자인지 구매자인지 구분하기 위한 필드입니다.
     네이버페이 전용 파라미터이며, 구분이 모호한 경우 고객사 관리자(true)로 입력합니다.
     """
+

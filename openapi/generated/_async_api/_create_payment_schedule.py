@@ -3,64 +3,32 @@ import dataclasses
 from portone_server_sdk._api import ApiRequest, ApiErrorResponse
 from portone_server_sdk import _errors
 from portone_server_sdk._async import ApiClient
-from portone_server_sdk._openapi._schemas._already_paid_or_waiting_error import (
-    AlreadyPaidOrWaitingError,
-)
-from portone_server_sdk._openapi._schemas._billing_key_already_deleted_error import (
-    BillingKeyAlreadyDeletedError,
-)
-from portone_server_sdk._openapi._schemas._billing_key_not_found_error import (
-    BillingKeyNotFoundError,
-)
-from portone_server_sdk._openapi._schemas._billing_key_payment_input import (
-    BillingKeyPaymentInput,
-)
-from portone_server_sdk._openapi._schemas._create_payment_schedule_body import (
-    CreatePaymentScheduleBody,
-)
-from portone_server_sdk._openapi._schemas._create_payment_schedule_error import (
-    CreatePaymentScheduleError,
-)
-from portone_server_sdk._openapi._schemas._create_payment_schedule_response import (
-    CreatePaymentScheduleResponse,
-)
+from portone_server_sdk._openapi._schemas._already_paid_or_waiting_error import AlreadyPaidOrWaitingError
+from portone_server_sdk._openapi._schemas._billing_key_already_deleted_error import BillingKeyAlreadyDeletedError
+from portone_server_sdk._openapi._schemas._billing_key_not_found_error import BillingKeyNotFoundError
+from portone_server_sdk._openapi._schemas._billing_key_payment_input import BillingKeyPaymentInput
+from portone_server_sdk._openapi._schemas._create_payment_schedule_body import CreatePaymentScheduleBody
+from portone_server_sdk._openapi._schemas._create_payment_schedule_error import CreatePaymentScheduleError
+from portone_server_sdk._openapi._schemas._create_payment_schedule_response import CreatePaymentScheduleResponse
 from portone_server_sdk._openapi._schemas._forbidden_error import ForbiddenError
-from portone_server_sdk._openapi._schemas._invalid_request_error import (
-    InvalidRequestError,
-)
-from portone_server_sdk._openapi._schemas._payment_schedule_already_exists_error import (
-    PaymentScheduleAlreadyExistsError,
-)
-from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_total_amount_error import (
-    SumOfPartsExceedsTotalAmountError,
-)
+from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
+from portone_server_sdk._openapi._schemas._payment_schedule_already_exists_error import PaymentScheduleAlreadyExistsError
+from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_total_amount_error import SumOfPartsExceedsTotalAmountError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
-
 
 @dataclasses.dataclass(kw_only=True)
 class CreatePaymentScheduleParam:
     paymentId: str
     """결제 건 아이디"""
 
-
 @dataclasses.dataclass(kw_only=True)
 class CreatePaymentScheduleQuery:
     pass
 
-
 @dataclasses.dataclass
-class CreatePaymentScheduleRequest(
-    ApiRequest[
-        CreatePaymentScheduleResponse,
-        CreatePaymentScheduleError,
-        CreatePaymentScheduleParam,
-        CreatePaymentScheduleQuery,
-        CreatePaymentScheduleBody,
-    ]
-):
+class CreatePaymentScheduleRequest(ApiRequest[CreatePaymentScheduleResponse, CreatePaymentScheduleError, CreatePaymentScheduleParam, CreatePaymentScheduleQuery, CreatePaymentScheduleBody]):
     method = "post"
     path = "/payments/{paymentId}/schedule"
-
 
 @dataclasses.dataclass
 class CreatePaymentSchedule(ApiClient):
@@ -71,17 +39,17 @@ class CreatePaymentSchedule(ApiClient):
         timeToPay: str,
     ) -> CreatePaymentScheduleResponse:
         """결제 예약
-
+        
         결제를 예약합니다.
-
+        
         Args:
             paymentId (str): 결제 건 아이디.
             payment (BillingKeyPaymentInput): 빌링키 결제 입력 정보.
             timeToPay (str): 결제 예정 시점.
-
+        
         Returns:
             CreatePaymentScheduleResponse: 성공 응답
-
+        
         Raises:
             _errors.AlreadyPaidOrWaitingError: 결제가 이미 완료되었거나 대기중인 경우
             _errors.BillingKeyAlreadyDeletedError: 빌링키가 이미 삭제된 경우

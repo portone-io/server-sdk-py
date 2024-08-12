@@ -4,11 +4,9 @@ from portone_server_sdk._openapi._schemas._card_brand import CardBrand
 from portone_server_sdk._openapi._schemas._card_owner_type import CardOwnerType
 from portone_server_sdk._openapi._schemas._card_type import CardType
 
-
 @dataclasses.dataclass(kw_only=True)
 class Card:
     """카드 상세 정보"""
-
     publisher: Optional[str]
     """발행사 코드"""
     issuer: Optional[str]
@@ -25,3 +23,4 @@ class Card:
     """카드 상품명"""
     number: Optional[str]
     """마스킹된 카드 번호"""
+

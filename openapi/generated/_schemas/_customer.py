@@ -3,11 +3,9 @@ from typing import Optional
 from portone_server_sdk._openapi._schemas._address import Address
 from portone_server_sdk._openapi._schemas._gender import Gender
 
-
 @dataclasses.dataclass(kw_only=True)
 class Customer:
     """고객 정보"""
-
     id: Optional[str]
     """고객 아이디
     
@@ -27,3 +25,4 @@ class Customer:
     """주소"""
     zipcode: Optional[str]
     """우편번호"""
+

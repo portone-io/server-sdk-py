@@ -1,11 +1,9 @@
 import dataclasses
 from typing import Literal, Optional
 
-
 @dataclasses.dataclass(kw_only=True)
 class SucceededPaymentCancellation:
     """취소 완료 상태"""
-
     status: Literal["SUCCEEDED"]
     """결제 취소 내역 상태"""
     id: str
@@ -28,3 +26,4 @@ class SucceededPaymentCancellation:
     """취소 요청 시점"""
     receiptUrl: Optional[str]
     """취소 영수증 URL"""
+

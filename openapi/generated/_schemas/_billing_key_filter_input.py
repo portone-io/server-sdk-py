@@ -1,25 +1,17 @@
 import dataclasses
 from typing import Optional
-from portone_server_sdk._openapi._schemas._billing_key_payment_method_type import (
-    BillingKeyPaymentMethodType,
-)
+from portone_server_sdk._openapi._schemas._billing_key_payment_method_type import BillingKeyPaymentMethodType
 from portone_server_sdk._openapi._schemas._billing_key_status import BillingKeyStatus
-from portone_server_sdk._openapi._schemas._billing_key_text_search import (
-    BillingKeyTextSearch,
-)
-from portone_server_sdk._openapi._schemas._billing_key_time_range_field import (
-    BillingKeyTimeRangeField,
-)
+from portone_server_sdk._openapi._schemas._billing_key_text_search import BillingKeyTextSearch
+from portone_server_sdk._openapi._schemas._billing_key_time_range_field import BillingKeyTimeRangeField
 from portone_server_sdk._openapi._schemas._payment_client_type import PaymentClientType
 from portone_server_sdk._openapi._schemas._pg_company import PgCompany
 from portone_server_sdk._openapi._schemas._pg_provider import PgProvider
 from portone_server_sdk._openapi._schemas._port_one_version import PortOneVersion
 
-
 @dataclasses.dataclass(kw_only=True)
 class BillingKeyFilterInput:
     """빌링키 다건 조회를 위한 입력 정보"""
-
     storeId: Optional[str]
     """상점 아이디
     
@@ -70,3 +62,4 @@ class BillingKeyFilterInput:
     """
     version: Optional[PortOneVersion]
     """포트원 버전"""
+

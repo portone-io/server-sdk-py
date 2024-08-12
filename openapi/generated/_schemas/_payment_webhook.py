@@ -1,26 +1,14 @@
 import dataclasses
 from typing import Optional
-from portone_server_sdk._openapi._schemas._payment_webhook_payment_status import (
-    PaymentWebhookPaymentStatus,
-)
-from portone_server_sdk._openapi._schemas._payment_webhook_request import (
-    PaymentWebhookRequest,
-)
-from portone_server_sdk._openapi._schemas._payment_webhook_response import (
-    PaymentWebhookResponse,
-)
-from portone_server_sdk._openapi._schemas._payment_webhook_status import (
-    PaymentWebhookStatus,
-)
-from portone_server_sdk._openapi._schemas._payment_webhook_trigger import (
-    PaymentWebhookTrigger,
-)
-
+from portone_server_sdk._openapi._schemas._payment_webhook_payment_status import PaymentWebhookPaymentStatus
+from portone_server_sdk._openapi._schemas._payment_webhook_request import PaymentWebhookRequest
+from portone_server_sdk._openapi._schemas._payment_webhook_response import PaymentWebhookResponse
+from portone_server_sdk._openapi._schemas._payment_webhook_status import PaymentWebhookStatus
+from portone_server_sdk._openapi._schemas._payment_webhook_trigger import PaymentWebhookTrigger
 
 @dataclasses.dataclass(kw_only=True)
 class PaymentWebhook:
     """성공 웹훅 내역"""
-
     paymentStatus: Optional[PaymentWebhookPaymentStatus]
     """웹훅 발송 시 결제 건 상태
     
@@ -52,3 +40,4 @@ class PaymentWebhook:
     """웹훅 응답 정보"""
     triggeredAt: Optional[str]
     """웹훅 처리 시작 시점"""
+

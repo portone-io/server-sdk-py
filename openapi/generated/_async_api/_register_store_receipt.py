@@ -5,55 +5,29 @@ from portone_server_sdk._api import ApiRequest, ApiErrorResponse
 from portone_server_sdk import _errors
 from portone_server_sdk._async import ApiClient
 from portone_server_sdk._openapi._schemas._forbidden_error import ForbiddenError
-from portone_server_sdk._openapi._schemas._invalid_request_error import (
-    InvalidRequestError,
-)
-from portone_server_sdk._openapi._schemas._payment_not_found_error import (
-    PaymentNotFoundError,
-)
-from portone_server_sdk._openapi._schemas._payment_not_paid_error import (
-    PaymentNotPaidError,
-)
+from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
+from portone_server_sdk._openapi._schemas._payment_not_found_error import PaymentNotFoundError
+from portone_server_sdk._openapi._schemas._payment_not_paid_error import PaymentNotPaidError
 from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
-from portone_server_sdk._openapi._schemas._register_store_receipt_body import (
-    RegisterStoreReceiptBody,
-)
-from portone_server_sdk._openapi._schemas._register_store_receipt_body_item import (
-    RegisterStoreReceiptBodyItem,
-)
-from portone_server_sdk._openapi._schemas._register_store_receipt_error import (
-    RegisterStoreReceiptError,
-)
-from portone_server_sdk._openapi._schemas._register_store_receipt_response import (
-    RegisterStoreReceiptResponse,
-)
+from portone_server_sdk._openapi._schemas._register_store_receipt_body import RegisterStoreReceiptBody
+from portone_server_sdk._openapi._schemas._register_store_receipt_body_item import RegisterStoreReceiptBodyItem
+from portone_server_sdk._openapi._schemas._register_store_receipt_error import RegisterStoreReceiptError
+from portone_server_sdk._openapi._schemas._register_store_receipt_response import RegisterStoreReceiptResponse
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
-
 
 @dataclasses.dataclass(kw_only=True)
 class RegisterStoreReceiptParam:
     paymentId: str
     """등록할 하위 상점 결제 건 아이디"""
 
-
 @dataclasses.dataclass(kw_only=True)
 class RegisterStoreReceiptQuery:
     pass
 
-
 @dataclasses.dataclass
-class RegisterStoreReceiptRequest(
-    ApiRequest[
-        RegisterStoreReceiptResponse,
-        RegisterStoreReceiptError,
-        RegisterStoreReceiptParam,
-        RegisterStoreReceiptQuery,
-        RegisterStoreReceiptBody,
-    ]
-):
+class RegisterStoreReceiptRequest(ApiRequest[RegisterStoreReceiptResponse, RegisterStoreReceiptError, RegisterStoreReceiptParam, RegisterStoreReceiptQuery, RegisterStoreReceiptBody]):
     method = "post"
     path = "/payments/{paymentId}/register-store-receipt"
-
 
 @dataclasses.dataclass
 class RegisterStoreReceipt(ApiClient):
@@ -64,19 +38,19 @@ class RegisterStoreReceipt(ApiClient):
         storeId: Optional[str],
     ) -> RegisterStoreReceiptResponse:
         """영수증 내 하위 상점 거래 등록
-
+        
         결제 내역 매출전표에 하위 상점의 거래를 등록합니다.
         지원되는 PG사:
         KG이니시스(이용 전 콘솔 -> 결제연동 탭에서 INIApi Key 등록 필요)
-
+        
         Args:
             paymentId (str): 등록할 하위 상점 결제 건 아이디.
             items (list[RegisterStoreReceiptBodyItem]): 하위 상점 거래 목록.
             storeId (Optional[str]): 상점 아이디.
-
+        
         Returns:
             RegisterStoreReceiptResponse: 성공 응답
-
+        
         Raises:
             _errors.ForbiddenError: 요청이 거절된 경우
             _errors.InvalidRequestError: 요청된 입력 정보가 유효하지 않은 경우

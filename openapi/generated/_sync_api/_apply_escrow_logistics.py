@@ -4,61 +4,33 @@ from typing import Optional
 from portone_server_sdk._api import ApiRequest, ApiErrorResponse
 from portone_server_sdk import _errors
 from portone_server_sdk._sync import ApiClient
-from portone_server_sdk._openapi._schemas._apply_escrow_logistics_error import (
-    ApplyEscrowLogisticsError,
-)
-from portone_server_sdk._openapi._schemas._apply_escrow_logistics_response import (
-    ApplyEscrowLogisticsResponse,
-)
+from portone_server_sdk._openapi._schemas._apply_escrow_logistics_error import ApplyEscrowLogisticsError
+from portone_server_sdk._openapi._schemas._apply_escrow_logistics_response import ApplyEscrowLogisticsResponse
 from portone_server_sdk._openapi._schemas._forbidden_error import ForbiddenError
-from portone_server_sdk._openapi._schemas._invalid_request_error import (
-    InvalidRequestError,
-)
-from portone_server_sdk._openapi._schemas._payment_escrow_receiver_input import (
-    PaymentEscrowReceiverInput,
-)
-from portone_server_sdk._openapi._schemas._payment_escrow_sender_input import (
-    PaymentEscrowSenderInput,
-)
+from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
+from portone_server_sdk._openapi._schemas._payment_escrow_receiver_input import PaymentEscrowReceiverInput
+from portone_server_sdk._openapi._schemas._payment_escrow_sender_input import PaymentEscrowSenderInput
 from portone_server_sdk._openapi._schemas._payment_logistics import PaymentLogistics
-from portone_server_sdk._openapi._schemas._payment_not_found_error import (
-    PaymentNotFoundError,
-)
-from portone_server_sdk._openapi._schemas._payment_not_paid_error import (
-    PaymentNotPaidError,
-)
+from portone_server_sdk._openapi._schemas._payment_not_found_error import PaymentNotFoundError
+from portone_server_sdk._openapi._schemas._payment_not_paid_error import PaymentNotPaidError
 from portone_server_sdk._openapi._schemas._payment_product import PaymentProduct
 from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
-from portone_server_sdk._openapi._schemas._register_escrow_logistics_body import (
-    RegisterEscrowLogisticsBody,
-)
+from portone_server_sdk._openapi._schemas._register_escrow_logistics_body import RegisterEscrowLogisticsBody
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
-
 
 @dataclasses.dataclass(kw_only=True)
 class ApplyEscrowLogisticsParam:
     paymentId: str
     """결제 건 아이디"""
 
-
 @dataclasses.dataclass(kw_only=True)
 class ApplyEscrowLogisticsQuery:
     pass
 
-
 @dataclasses.dataclass
-class ApplyEscrowLogisticsRequest(
-    ApiRequest[
-        ApplyEscrowLogisticsResponse,
-        ApplyEscrowLogisticsError,
-        ApplyEscrowLogisticsParam,
-        ApplyEscrowLogisticsQuery,
-        RegisterEscrowLogisticsBody,
-    ]
-):
+class ApplyEscrowLogisticsRequest(ApiRequest[ApplyEscrowLogisticsResponse, ApplyEscrowLogisticsError, ApplyEscrowLogisticsParam, ApplyEscrowLogisticsQuery, RegisterEscrowLogisticsBody]):
     method = "post"
     path = "/payments/{paymentId}/escrow/logistics"
-
 
 @dataclasses.dataclass
 class ApplyEscrowLogistics(ApiClient):
@@ -73,9 +45,9 @@ class ApplyEscrowLogistics(ApiClient):
         products: Optional[list[PaymentProduct]],
     ) -> ApplyEscrowLogisticsResponse:
         """에스크로 배송 정보 등록
-
+        
         에스크로 배송 정보를 등록합니다.
-
+        
         Args:
             paymentId (str): 결제 건 아이디.
             storeId (Optional[str]): 상점 아이디.
@@ -86,10 +58,10 @@ class ApplyEscrowLogistics(ApiClient):
             sendEmail (Optional[bool]): 이메일 알림 전송 여부.
                 에스크로 구매 확정 시 이메일로 알림을 보낼지 여부입니다.
             products (Optional[list[PaymentProduct]]): 상품 정보.
-
+        
         Returns:
             ApplyEscrowLogisticsResponse: 성공 응답
-
+        
         Raises:
             _errors.ForbiddenError: 요청이 거절된 경우
             _errors.InvalidRequestError: 요청된 입력 정보가 유효하지 않은 경우

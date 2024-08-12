@@ -1,15 +1,11 @@
 import dataclasses
 from typing import Optional
-from portone_server_sdk._openapi._schemas._cancel_payment_body_refund_account import (
-    CancelPaymentBodyRefundAccount,
-)
+from portone_server_sdk._openapi._schemas._cancel_payment_body_refund_account import CancelPaymentBodyRefundAccount
 from portone_server_sdk._openapi._schemas._cancel_requester import CancelRequester
-
 
 @dataclasses.dataclass(kw_only=True)
 class CancelPaymentBody:
     """결제 취소 요청 입력 정보"""
-
     storeId: Optional[str]
     """상점 아이디
     
@@ -47,3 +43,4 @@ class CancelPaymentBody:
     
     계좌 환불일 경우 입력합니다. 계좌 환불이 필요한 경우는 가상계좌 환불, 휴대폰 익월 환불 등이 있습니다.
     """
+

@@ -6,3 +6,4 @@ type Address = OneLineAddress | SeparatedAddress
 
 oneLine(한 줄 형식 주소) 필드는 항상 존재합니다.
 """
+

@@ -1,11 +1,9 @@
 import dataclasses
 from typing import Literal, Optional
 
-
 @dataclasses.dataclass(kw_only=True)
 class CancelledPaymentEscrow:
     """거래 취소"""
-
     status: Literal["CANCELLED"]
     """에스크로 상태"""
     company: str
@@ -16,3 +14,4 @@ class CancelledPaymentEscrow:
     """발송 일시"""
     appliedAt: Optional[str]
     """배송등록 처리 일자"""
+

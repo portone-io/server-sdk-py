@@ -1,15 +1,11 @@
 import dataclasses
 from typing import Any, Optional
 from portone_server_sdk._openapi._schemas._customer_input import CustomerInput
-from portone_server_sdk._openapi._schemas._instant_billing_key_payment_method_input import (
-    InstantBillingKeyPaymentMethodInput,
-)
-
+from portone_server_sdk._openapi._schemas._instant_billing_key_payment_method_input import InstantBillingKeyPaymentMethodInput
 
 @dataclasses.dataclass(kw_only=True)
 class IssueBillingKeyBody:
     """빌링키 발급 요청 양식"""
-
     storeId: Optional[str]
     """상점 아이디
     
@@ -40,3 +36,4 @@ class IssueBillingKeyBody:
     상점에 설정되어 있는 값보다 우선적으로 적용됩니다.
     입력된 값이 없을 경우에는 빈 배열로 해석됩니다.
     """
+

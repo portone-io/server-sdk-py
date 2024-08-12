@@ -33,6 +33,15 @@ def save() -> None:
 def apply() -> None:
     openapi_path.mkdir()
     subprocess.run(["git", "init", openapi_path])
+    subprocess.run(
+        [
+            "git",
+            "config",
+            "commit.gpgSign",
+            "false",
+        ],
+        cwd=openapi_path,
+    )
     subprocess.run(["git", "tag", "-f", TAG_NAME], cwd=project_path)
     subprocess.run(
         [

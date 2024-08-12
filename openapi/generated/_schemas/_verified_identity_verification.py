@@ -1,15 +1,11 @@
 import dataclasses
 from typing import Literal, Optional
-from portone_server_sdk._openapi._schemas._identity_verification_verified_customer import (
-    IdentityVerificationVerifiedCustomer,
-)
+from portone_server_sdk._openapi._schemas._identity_verification_verified_customer import IdentityVerificationVerifiedCustomer
 from portone_server_sdk._openapi._schemas._selected_channel import SelectedChannel
-
 
 @dataclasses.dataclass(kw_only=True)
 class VerifiedIdentityVerification:
     """완료된 본인인증 내역"""
-
     status: Literal["VERIFIED"]
     """본인인증 상태"""
     id: str
@@ -32,3 +28,4 @@ class VerifiedIdentityVerification:
     """본인인증 내역 PG사 아이디"""
     pgRawResponse: str
     """PG사 응답 데이터"""
+

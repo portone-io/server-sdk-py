@@ -2,21 +2,13 @@ import dataclasses
 from typing import Optional
 from portone_server_sdk._openapi._schemas._cash_receipt_type import CashReceiptType
 from portone_server_sdk._openapi._schemas._currency import Currency
-from portone_server_sdk._openapi._schemas._issue_cash_receipt_customer_input import (
-    IssueCashReceiptCustomerInput,
-)
-from portone_server_sdk._openapi._schemas._payment_amount_input import (
-    PaymentAmountInput,
-)
-from portone_server_sdk._openapi._schemas._payment_product_type import (
-    PaymentProductType,
-)
-
+from portone_server_sdk._openapi._schemas._issue_cash_receipt_customer_input import IssueCashReceiptCustomerInput
+from portone_server_sdk._openapi._schemas._payment_amount_input import PaymentAmountInput
+from portone_server_sdk._openapi._schemas._payment_product_type import PaymentProductType
 
 @dataclasses.dataclass(kw_only=True)
 class IssueCashReceiptBody:
     """현금영수증 발급 요청 양식"""
-
     storeId: Optional[str]
     """상점 아이디
     
@@ -43,3 +35,4 @@ class IssueCashReceiptBody:
     """고객 정보"""
     paidAt: Optional[str]
     """결제 일자"""
+

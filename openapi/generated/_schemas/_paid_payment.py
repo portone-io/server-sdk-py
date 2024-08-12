@@ -1,15 +1,11 @@
 import dataclasses
 from typing import Literal, Optional
-from portone_server_sdk._openapi._schemas._channel_group_summary import (
-    ChannelGroupSummary,
-)
+from portone_server_sdk._openapi._schemas._channel_group_summary import ChannelGroupSummary
 from portone_server_sdk._openapi._schemas._country import Country
 from portone_server_sdk._openapi._schemas._currency import Currency
 from portone_server_sdk._openapi._schemas._customer import Customer
 from portone_server_sdk._openapi._schemas._payment_amount import PaymentAmount
-from portone_server_sdk._openapi._schemas._payment_cash_receipt import (
-    PaymentCashReceipt,
-)
+from portone_server_sdk._openapi._schemas._payment_cash_receipt import PaymentCashReceipt
 from portone_server_sdk._openapi._schemas._payment_escrow import PaymentEscrow
 from portone_server_sdk._openapi._schemas._payment_method import PaymentMethod
 from portone_server_sdk._openapi._schemas._payment_product import PaymentProduct
@@ -17,11 +13,9 @@ from portone_server_sdk._openapi._schemas._payment_webhook import PaymentWebhook
 from portone_server_sdk._openapi._schemas._port_one_version import PortOneVersion
 from portone_server_sdk._openapi._schemas._selected_channel import SelectedChannel
 
-
 @dataclasses.dataclass(kw_only=True)
 class PaidPayment:
     """결제 완료 상태 건"""
-
     status: Literal["PAID"]
     """결제 건 상태"""
     id: str
@@ -96,3 +90,4 @@ class PaidPayment:
     """현금영수증"""
     receiptUrl: Optional[str]
     """거래 영수증 URL"""
+

@@ -3,15 +3,11 @@ from typing import Optional
 from portone_server_sdk._openapi._schemas._country import Country
 from portone_server_sdk._openapi._schemas._customer_name_input import CustomerNameInput
 from portone_server_sdk._openapi._schemas._gender import Gender
-from portone_server_sdk._openapi._schemas._separated_address_input import (
-    SeparatedAddressInput,
-)
-
+from portone_server_sdk._openapi._schemas._separated_address_input import SeparatedAddressInput
 
 @dataclasses.dataclass(kw_only=True)
 class CustomerInput:
     """고객 정보 입력 정보"""
-
     id: Optional[str]
     """고객 아이디
     
@@ -39,3 +35,4 @@ class CustomerInput:
     """우편번호"""
     businessRegistrationNumber: Optional[str]
     """사업자 등록 번호"""
+
