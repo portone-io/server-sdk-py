@@ -19,6 +19,7 @@ def save() -> None:
         [
             "git",
             "format-patch",
+            "--zero-commit",
             "--no-stat",
             "--minimal",
             "-N",
@@ -42,7 +43,7 @@ def apply() -> None:
         ],
         cwd=openapi_path,
     )
-    subprocess.run(["git", "tag", "-f", TAG_NAME], cwd=project_path)
+    subprocess.run(["git", "tag", TAG_NAME], cwd=project_path)
     subprocess.run(
         [
             "git",
@@ -55,6 +56,7 @@ def apply() -> None:
         ],
         cwd=project_path,
     )
+    subprocess.run(["git", "tag", "-d", TAG_NAME], cwd=project_path)
     subprocess.run(["git", "checkout", TAG_NAME], cwd=openapi_path)
     subprocess.run(
         [

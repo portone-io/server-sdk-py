@@ -3,6 +3,7 @@
 ## Prerequisite
 
 - rye
+- git-filter-repo
 
 ## Setup
 
@@ -15,7 +16,7 @@ rye run init
 ## Scripts
 
 - `init`
-  - pre-commit 훅을 설정하고 `portone_server_sdk/_openapi` 서브모듈에서 gpg 서명을 끕니다.
+  - pre-commit 훅을 설정합니다.
 - `gen`
   - 자동 생성이 필요한 코드를 생성합니다.
 - `gen:env`

@@ -1,4 +1,4 @@
-From adf9189a9318f8fdfa5bb4ca558d563b0e628ac5 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: kiwiyou <kiwiyou@portone.io>
 Date: Fri, 9 Aug 2024 16:06:28 +0900
 Subject: [PATCH] refine return types
@@ -324,7 +324,7 @@ index b6ba683..108d136 100644
 -        return response_.data
 +        return response_.data.payment
 diff --git a/_async_api/_pay_with_billing_key.py b/_async_api/_pay_with_billing_key.py
-index 024ebd8..0ce029d 100644
+index ef3ba75..834a7f8 100644
 --- a/_async_api/_pay_with_billing_key.py
 +++ b/_async_api/_pay_with_billing_key.py
 @@ -26,6 +26,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
@@ -454,7 +454,7 @@ index 7578e1b..ff024bb 100644
 -        return response_.data
 +        return response_.data.webhook
 diff --git a/_async_api/_send_identity_verification.py b/_async_api/_send_identity_verification.py
-index df8a693..e48dedc 100644
+index 1a025d5..124d0d3 100644
 --- a/_async_api/_send_identity_verification.py
 +++ b/_async_api/_send_identity_verification.py
 @@ -45,7 +45,7 @@ class SendIdentityVerification(ApiClient):
@@ -802,7 +802,7 @@ index f9063a8..9301ad0 100644
 -        return response_.data
 +        return response_.data.payment
 diff --git a/_sync_api/_pay_with_billing_key.py b/_sync_api/_pay_with_billing_key.py
-index e4ec6aa..a65afe4 100644
+index bb1f67e..14734b4 100644
 --- a/_sync_api/_pay_with_billing_key.py
 +++ b/_sync_api/_pay_with_billing_key.py
 @@ -26,6 +26,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
@@ -932,7 +932,7 @@ index a6bfa98..fba3c57 100644
 -        return response_.data
 +        return response_.data.webhook
 diff --git a/_sync_api/_send_identity_verification.py b/_sync_api/_send_identity_verification.py
-index c9795f2..43f6aa4 100644
+index f26689c..4d5881e 100644
 --- a/_sync_api/_send_identity_verification.py
 +++ b/_sync_api/_send_identity_verification.py
 @@ -45,7 +45,7 @@ class SendIdentityVerification(ApiClient):

@@ -15,8 +15,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: "true"
+      - run: |
+          git config --global user.name runner
+          git config --global user.email "runner@github.com"
       - name: Install Rye
         uses: eifinger/setup-rye@v4
         with:
