@@ -30,6 +30,7 @@ dev-dependencies = [
 "update:schema" = { call = "scripts.schema:update" }
 "patch:save" = { call = "scripts.patch:save" }
 "patch:apply" = { call = "scripts.patch:apply" }
+"patch:clean" = { call = "scripts.patch:clean" }
 init = { call = "scripts.init:run" }
 gen = { chain = ["gen:env", "patch:apply"] }
 check = "mypy"
