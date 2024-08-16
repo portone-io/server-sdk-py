@@ -1047,7 +1047,7 @@ index 930a9bd..833a989 100644
          body_ = Empty()
          response_ = self.send(
 diff --git a/_sync_api/_get_payment.py b/_sync_api/_get_payment.py
-index d9735e0..75a3184 100644
+index d9735e0..f73b927 100644
 --- a/_sync_api/_get_payment.py
 +++ b/_sync_api/_get_payment.py
 @@ -31,7 +31,6 @@ class GetPayment(ApiClient):
@@ -1058,7 +1058,15 @@ index d9735e0..75a3184 100644
      ) -> Optional[Payment]:
          """결제 단건 조회
          
-@@ -53,7 +52,7 @@ class GetPayment(ApiClient):
+@@ -39,7 +38,6 @@ class GetPayment(ApiClient):
+         
+         Args:
+             paymentId (str): 조회할 결제 아이디.
+-            storeId (Optional[str]): 상점 아이디.
+         
+         Returns:
+             Optional[Payment]: 성공 응답으로 결제 건 객체 또는 `None`을 반환합니다.
+@@ -53,7 +51,7 @@ class GetPayment(ApiClient):
              paymentId=paymentId,
          )
          query_ = GetPaymentQuery(
@@ -1278,7 +1286,7 @@ index 732f304..47c8a54 100644
              taxFreeAmount=taxFreeAmount,
              currency=currency,
 diff --git a/_sync_api/_register_store_receipt.py b/_sync_api/_register_store_receipt.py
-index 7b934f7..abf135e 100644
+index 7b934f7..ac22588 100644
 --- a/_sync_api/_register_store_receipt.py
 +++ b/_sync_api/_register_store_receipt.py
 @@ -35,7 +35,6 @@ class RegisterStoreReceipt(ApiClient):
@@ -1289,7 +1297,15 @@ index 7b934f7..abf135e 100644
      ) -> RegisterStoreReceiptResponse:
          """영수증 내 하위 상점 거래 등록
          
-@@ -65,7 +64,7 @@ class RegisterStoreReceipt(ApiClient):
+@@ -46,7 +45,6 @@ class RegisterStoreReceipt(ApiClient):
+         Args:
+             paymentId (str): 등록할 하위 상점 결제 건 아이디.
+             items (list[RegisterStoreReceiptBodyItem]): 하위 상점 거래 목록.
+-            storeId (Optional[str]): 상점 아이디.
+         
+         Returns:
+             RegisterStoreReceiptResponse: 성공 응답
+@@ -65,7 +63,7 @@ class RegisterStoreReceipt(ApiClient):
          query_ = RegisterStoreReceiptQuery()
          body_ = RegisterStoreReceiptBody(
              items=items,

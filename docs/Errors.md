@@ -1,3 +1,3 @@
 # Errors
 
-::: portone_server_sdk.sync.errors
+::: portone_server_sdk.errors

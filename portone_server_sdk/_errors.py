@@ -1,4 +1,5 @@
 from dataclasses import InitVar, dataclass, field
+from typing import Literal
 
 from ._openapi import _schemas
 
@@ -563,3 +564,55 @@ class UnknownError(PortOneError):
 
     message: str = field(default="알 수 없는 오류가 발생했습니다.", init=False)
     error: object
+
+
+type WebhookVerificationFailureReason = Literal[
+    "MISSING_REQUIRED_HEADERS",
+    "NO_MATCHING_SIGNATURE",
+    "INVALID_SIGNATURE",
+    "TIMESTAMP_TOO_OLD",
+    "TIMESTAMP_TOO_NEW",
+]
+"""웹훅 검증 실패 사유입니다.
+
+`WebhookVerificationError.getMessage()`에 전달하여 에러 메시지를 얻을 수 있습니다.
+"""
+
+
+@dataclass(slots=True)
+class WebhookVerificationError(PortOneError):
+    """웹훅 검증이 실패했을 경우"""
+
+    message: str = field(init=False)
+    reason: WebhookVerificationFailureReason
+
+    def __post_init__(self) -> None:
+        self.message = self.getMessage(self.reason)
+
+    @classmethod
+    def getMessage(cls, reason: WebhookVerificationFailureReason) -> str:
+        """웹훅 검증 실패 사유로부터 에러 메시지를 생성합니다.
+
+        Args:
+            reason (WebhookVerificationFailureReason): 에러 메시지를 생성할 실패 사유.
+
+        Returns:
+            str: 에러 메시지.
+        """
+
+        match reason:
+            case "MISSING_REQUIRED_HEADERS":
+                return "필수 헤더가 누락되었습니다."
+            case "NO_MATCHING_SIGNATURE":
+                return "올바른 웹훅 시그니처를 찾을 수 없습니다."
+            case "INVALID_SIGNATURE":
+                return "웹훅 시그니처가 유효하지 않습니다."
+            case "TIMESTAMP_TOO_OLD":
+                return "웹훅 시그니처의 타임스탬프가 만료 기한을 초과했습니다."
+            case "TIMESTAMP_TOO_NEW":
+                return "웹훅 시그니처의 타임스탬프가 미래 시간으로 설정되어 있습니다."
+
+
+@dataclass(slots=True)
+class InvalidInputError(PortOneError):
+    """SDK에 전달한 사용자 입력이 잘못되었을 경우"""
