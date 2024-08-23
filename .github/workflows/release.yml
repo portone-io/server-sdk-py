@@ -1,0 +1,47 @@
+name: Publish release
+
+on:
+  push:
+    tags:
+      - "v[0-9]+"
+      - "v[0-9]+.[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+-*"
+
+jobs:
+  release:
+    name: Build distribution
+    runs-on: ubuntu-latest
+    environment: PyPI
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Rye
+        uses: eifinger/setup-rye@v4
+        with:
+          enable-cache: true
+      - name: Install git-filter-repo
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: git-filter-repo
+          version: "1.0"
+      - name: Sync dependencies
+        run: rye sync
+      - name: Set github username
+        run: |
+          git config --global user.name runner
+          git config --global user.email "runner@github.com"
+          git config --global init.defaultBranch main
+      - name: Generate schema
+        run: rye run gen
+      - name: Build distribution
+        run: rye build
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-package-distributions
+          path: dist/
+      - name: Publish to PyPI
+        run: rye publish --token "$PYPI_TOKEN" --yes
+        env:
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}

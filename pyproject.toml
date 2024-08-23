@@ -1,6 +1,6 @@
 [project]
 name = "portone-server-sdk"
-version = "0.1.0"
+version = "0.1.0-alpha.0"
 description = "PortOne Python SDK for server-side usage"
 authors = [{ name = "portone-dx", email = "support@portone.io" }]
 dependencies = ["httpx>=0.27.0", "pyserde>=0.20.0"]
