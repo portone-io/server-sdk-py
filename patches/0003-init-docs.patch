@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: kiwiyou <kiwiyou@portone.io>
+Date: Fri, 23 Aug 2024 17:40:30 +0900
+Subject: [PATCH] init docs
+
+
+diff --git a/_async_api/__init__.py b/_async_api/__init__.py
+index 0b35ce6..c8d0681 100644
+--- a/_async_api/__init__.py
++++ b/_async_api/__init__.py
+@@ -61,4 +61,9 @@ class PortOneApi(
+     GetKakaopayPaymentOrder,
+     RegisterStoreReceipt,
+ ):
+-    pass
++    """포트원 REST API에 접근하기 위한 클라이언트입니다.
++
++    Args:
++        secret (str): 포트원 V2 API key.
++        store_id (Optional[str], optional): 상점 ID.
++    """
+diff --git a/_sync_api/__init__.py b/_sync_api/__init__.py
+index 0b35ce6..c8d0681 100644
+--- a/_sync_api/__init__.py
++++ b/_sync_api/__init__.py
+@@ -61,4 +61,9 @@ class PortOneApi(
+     GetKakaopayPaymentOrder,
+     RegisterStoreReceipt,
+ ):
+-    pass
++    """포트원 REST API에 접근하기 위한 클라이언트입니다.
++
++    Args:
++        secret (str): 포트원 V2 API key.
++        store_id (Optional[str], optional): 상점 ID.
++    """
+-- 
+2.39.3 (Apple Git-146)
+
