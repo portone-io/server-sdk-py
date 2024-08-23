@@ -5,7 +5,7 @@ Subject: [PATCH] refine return types
 
 
 diff --git a/_async_api/_cancel_payment.py b/_async_api/_cancel_payment.py
-index c5768f1..043b6c7 100644
+index b4f048d..ef3ed0e 100644
 --- a/_async_api/_cancel_payment.py
 +++ b/_async_api/_cancel_payment.py
 @@ -22,6 +22,7 @@ from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderEr
@@ -14,7 +14,7 @@ index c5768f1..043b6c7 100644
  from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 +from portone_server_sdk._openapi._schemas._payment_cancellation import PaymentCancellation
  
- @dataclasses.dataclass(kw_only=True)
+ @dataclasses.dataclass
  class CancelPaymentParam:
 @@ -50,7 +51,7 @@ class CancelPayment(ApiClient):
          requester: Optional[CancelRequester],
@@ -41,7 +41,7 @@ index c5768f1..043b6c7 100644
 -        return response_.data
 +        return response_.data.cancellation
 diff --git a/_async_api/_create_payment_schedule.py b/_async_api/_create_payment_schedule.py
-index 299bd05..f91412a 100644
+index 8d38bb5..1c06659 100644
 --- a/_async_api/_create_payment_schedule.py
 +++ b/_async_api/_create_payment_schedule.py
 @@ -15,6 +15,7 @@ from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidR
@@ -50,7 +50,7 @@ index 299bd05..f91412a 100644
  from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 +from portone_server_sdk._openapi._schemas._payment_schedule_summary import PaymentScheduleSummary
  
- @dataclasses.dataclass(kw_only=True)
+ @dataclasses.dataclass
  class CreatePaymentScheduleParam:
 @@ -37,7 +38,7 @@ class CreatePaymentSchedule(ApiClient):
          paymentId: str,
@@ -77,7 +77,7 @@ index 299bd05..f91412a 100644
 -        return response_.data
 +        return response_.data.schedule
 diff --git a/_async_api/_get_billing_key_info.py b/_async_api/_get_billing_key_info.py
-index f015b5c..898f78a 100644
+index a129407..0321e0f 100644
 --- a/_async_api/_get_billing_key_info.py
 +++ b/_async_api/_get_billing_key_info.py
 @@ -36,7 +36,7 @@ class GetBillingKeyInfo(ApiClient):
@@ -111,7 +111,7 @@ index f015b5c..898f78a 100644
                  raise _errors.ForbiddenError(error_)
              if isinstance(error_, InvalidRequestError):
 diff --git a/_async_api/_get_cash_receipt_by_payment_id.py b/_async_api/_get_cash_receipt_by_payment_id.py
-index 7b5d0ab..8d57e85 100644
+index 5f2fdf5..235960d 100644
 --- a/_async_api/_get_cash_receipt_by_payment_id.py
 +++ b/_async_api/_get_cash_receipt_by_payment_id.py
 @@ -36,7 +36,7 @@ class GetCashReceiptByPaymentId(ApiClient):
@@ -145,7 +145,7 @@ index 7b5d0ab..8d57e85 100644
                  raise _errors.ForbiddenError(error_)
              if isinstance(error_, InvalidRequestError):
 diff --git a/_async_api/_get_identity_verification.py b/_async_api/_get_identity_verification.py
-index f0e5bbb..fc6fd88 100644
+index 5cad089..594a78b 100644
 --- a/_async_api/_get_identity_verification.py
 +++ b/_async_api/_get_identity_verification.py
 @@ -36,7 +36,7 @@ class GetIdentityVerification(ApiClient):
@@ -180,7 +180,7 @@ index f0e5bbb..fc6fd88 100644
                  raise _errors.InvalidRequestError(error_)
              if isinstance(error_, UnauthorizedError):
 diff --git a/_async_api/_get_payment.py b/_async_api/_get_payment.py
-index 4aa588e..ae21d4c 100644
+index 29be944..3db28fc 100644
 --- a/_async_api/_get_payment.py
 +++ b/_async_api/_get_payment.py
 @@ -32,7 +32,7 @@ class GetPayment(ApiClient):
@@ -216,7 +216,7 @@ index 4aa588e..ae21d4c 100644
                  raise _errors.UnauthorizedError(error_)
  
 diff --git a/_async_api/_get_payment_schedule.py b/_async_api/_get_payment_schedule.py
-index fa3d75b..a798f75 100644
+index da38746..5be1f9f 100644
 --- a/_async_api/_get_payment_schedule.py
 +++ b/_async_api/_get_payment_schedule.py
 @@ -36,7 +36,7 @@ class GetPaymentSchedule(ApiClient):
@@ -252,7 +252,7 @@ index fa3d75b..a798f75 100644
                  raise _errors.UnauthorizedError(error_)
  
 diff --git a/_async_api/_issue_cash_receipt.py b/_async_api/_issue_cash_receipt.py
-index d004f16..0b83b6a 100644
+index 4d7bd54..f31c5e2 100644
 --- a/_async_api/_issue_cash_receipt.py
 +++ b/_async_api/_issue_cash_receipt.py
 @@ -18,6 +18,7 @@ from portone_server_sdk._openapi._schemas._payment_amount_input import PaymentAm
@@ -261,7 +261,7 @@ index d004f16..0b83b6a 100644
  from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 +from portone_server_sdk._openapi._schemas._cash_receipt_summary import CashReceiptSummary
  
- @dataclasses.dataclass(kw_only=True)
+ @dataclasses.dataclass
  class IssueCashReceiptParam:
 @@ -46,7 +47,7 @@ class IssueCashReceipt(ApiClient):
          productType: Optional[PaymentProductType],
@@ -288,7 +288,7 @@ index d004f16..0b83b6a 100644
 -        return response_.data
 +        return response_.data.cashReceipt
 diff --git a/_async_api/_pay_instantly.py b/_async_api/_pay_instantly.py
-index b6ba683..108d136 100644
+index 093a031..8b72e61 100644
 --- a/_async_api/_pay_instantly.py
 +++ b/_async_api/_pay_instantly.py
 @@ -24,6 +24,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
@@ -297,7 +297,7 @@ index b6ba683..108d136 100644
  from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 +from portone_server_sdk._openapi._schemas._instant_payment_summary import InstantPaymentSummary
  
- @dataclasses.dataclass(kw_only=True)
+ @dataclasses.dataclass
  class PayInstantlyParam:
 @@ -62,7 +63,7 @@ class PayInstantly(ApiClient):
          productType: Optional[PaymentProductType],
@@ -324,7 +324,7 @@ index b6ba683..108d136 100644
 -        return response_.data
 +        return response_.data.payment
 diff --git a/_async_api/_pay_with_billing_key.py b/_async_api/_pay_with_billing_key.py
-index ef3ba75..834a7f8 100644
+index ae454ef..6033c48 100644
 --- a/_async_api/_pay_with_billing_key.py
 +++ b/_async_api/_pay_with_billing_key.py
 @@ -26,6 +26,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
@@ -333,7 +333,7 @@ index ef3ba75..834a7f8 100644
  from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 +from portone_server_sdk._openapi._schemas._billing_key_payment_summary import BillingKeyPaymentSummary
  
- @dataclasses.dataclass(kw_only=True)
+ @dataclasses.dataclass
  class PayWithBillingKeyParam:
 @@ -66,7 +67,7 @@ class PayWithBillingKey(ApiClient):
          shippingAddress: Optional[SeparatedAddressInput],
@@ -360,7 +360,7 @@ index ef3ba75..834a7f8 100644
 -        return response_.data
 +        return response_.data.payment
 diff --git a/_async_api/_pre_register_payment.py b/_async_api/_pre_register_payment.py
-index 985fe6b..b64a19e 100644
+index 0c257e1..9ee6b40 100644
 --- a/_async_api/_pre_register_payment.py
 +++ b/_async_api/_pre_register_payment.py
 @@ -36,7 +36,7 @@ class PreRegisterPayment(ApiClient):
@@ -389,7 +389,7 @@ index 985fe6b..b64a19e 100644
 -
 -        return response_.data
 diff --git a/_async_api/_resend_identity_verification.py b/_async_api/_resend_identity_verification.py
-index 00218d1..ca273dc 100644
+index fedbccf..62810b1 100644
 --- a/_async_api/_resend_identity_verification.py
 +++ b/_async_api/_resend_identity_verification.py
 @@ -39,7 +39,7 @@ class ResendIdentityVerification(ApiClient):
@@ -418,7 +418,7 @@ index 00218d1..ca273dc 100644
 -
 -        return response_.data
 diff --git a/_async_api/_resend_webhook.py b/_async_api/_resend_webhook.py
-index 7578e1b..ff024bb 100644
+index 4ec17b2..6382b5d 100644
 --- a/_async_api/_resend_webhook.py
 +++ b/_async_api/_resend_webhook.py
 @@ -12,6 +12,7 @@ from portone_server_sdk._openapi._schemas._resend_webhook_error import ResendWeb
@@ -427,7 +427,7 @@ index 7578e1b..ff024bb 100644
  from portone_server_sdk._openapi._schemas._webhook_not_found_error import WebhookNotFoundError
 +from portone_server_sdk._openapi._schemas._payment_webhook import PaymentWebhook
  
- @dataclasses.dataclass(kw_only=True)
+ @dataclasses.dataclass
  class ResendWebhookParam:
 @@ -34,7 +35,7 @@ class ResendWebhook(ApiClient):
          paymentId: str,
@@ -454,7 +454,7 @@ index 7578e1b..ff024bb 100644
 -        return response_.data
 +        return response_.data.webhook
 diff --git a/_async_api/_send_identity_verification.py b/_async_api/_send_identity_verification.py
-index 1a025d5..124d0d3 100644
+index f2b01d5..e66fe52 100644
 --- a/_async_api/_send_identity_verification.py
 +++ b/_async_api/_send_identity_verification.py
 @@ -45,7 +45,7 @@ class SendIdentityVerification(ApiClient):
@@ -483,7 +483,7 @@ index 1a025d5..124d0d3 100644
 -
 -        return response_.data
 diff --git a/_sync_api/_cancel_payment.py b/_sync_api/_cancel_payment.py
-index 366fe67..950a17a 100644
+index 095ca27..e3506bf 100644
 --- a/_sync_api/_cancel_payment.py
 +++ b/_sync_api/_cancel_payment.py
 @@ -22,6 +22,7 @@ from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderEr
@@ -492,7 +492,7 @@ index 366fe67..950a17a 100644
  from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 +from portone_server_sdk._openapi._schemas._payment_cancellation import PaymentCancellation
  
- @dataclasses.dataclass(kw_only=True)
+ @dataclasses.dataclass
  class CancelPaymentParam:
 @@ -50,7 +51,7 @@ class CancelPayment(ApiClient):
          requester: Optional[CancelRequester],
@@ -519,7 +519,7 @@ index 366fe67..950a17a 100644
 -        return response_.data
 +        return response_.data.cancellation
 diff --git a/_sync_api/_create_payment_schedule.py b/_sync_api/_create_payment_schedule.py
-index e4976ec..531a727 100644
+index 48dfd03..07bbcc9 100644
 --- a/_sync_api/_create_payment_schedule.py
 +++ b/_sync_api/_create_payment_schedule.py
 @@ -15,6 +15,7 @@ from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidR
@@ -528,7 +528,7 @@ index e4976ec..531a727 100644
  from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 +from portone_server_sdk._openapi._schemas._payment_schedule_summary import PaymentScheduleSummary
  
- @dataclasses.dataclass(kw_only=True)
+ @dataclasses.dataclass
  class CreatePaymentScheduleParam:
 @@ -37,7 +38,7 @@ class CreatePaymentSchedule(ApiClient):
          paymentId: str,
@@ -555,7 +555,7 @@ index e4976ec..531a727 100644
 -        return response_.data
 +        return response_.data.schedule
 diff --git a/_sync_api/_get_billing_key_info.py b/_sync_api/_get_billing_key_info.py
-index bfa78a0..b6b0be4 100644
+index fcc5da9..15a189c 100644
 --- a/_sync_api/_get_billing_key_info.py
 +++ b/_sync_api/_get_billing_key_info.py
 @@ -36,7 +36,7 @@ class GetBillingKeyInfo(ApiClient):
@@ -589,7 +589,7 @@ index bfa78a0..b6b0be4 100644
                  raise _errors.ForbiddenError(error_)
              if isinstance(error_, InvalidRequestError):
 diff --git a/_sync_api/_get_cash_receipt_by_payment_id.py b/_sync_api/_get_cash_receipt_by_payment_id.py
-index 1702902..f1cc4eb 100644
+index d28aab1..44eb5b7 100644
 --- a/_sync_api/_get_cash_receipt_by_payment_id.py
 +++ b/_sync_api/_get_cash_receipt_by_payment_id.py
 @@ -36,7 +36,7 @@ class GetCashReceiptByPaymentId(ApiClient):
@@ -623,7 +623,7 @@ index 1702902..f1cc4eb 100644
                  raise _errors.ForbiddenError(error_)
              if isinstance(error_, InvalidRequestError):
 diff --git a/_sync_api/_get_identity_verification.py b/_sync_api/_get_identity_verification.py
-index 04cba2f..930a9bd 100644
+index 4385ed3..95d4cd4 100644
 --- a/_sync_api/_get_identity_verification.py
 +++ b/_sync_api/_get_identity_verification.py
 @@ -36,7 +36,7 @@ class GetIdentityVerification(ApiClient):
@@ -658,7 +658,7 @@ index 04cba2f..930a9bd 100644
                  raise _errors.InvalidRequestError(error_)
              if isinstance(error_, UnauthorizedError):
 diff --git a/_sync_api/_get_payment.py b/_sync_api/_get_payment.py
-index 4a9d17d..d9735e0 100644
+index def4815..25eed61 100644
 --- a/_sync_api/_get_payment.py
 +++ b/_sync_api/_get_payment.py
 @@ -32,7 +32,7 @@ class GetPayment(ApiClient):
@@ -694,7 +694,7 @@ index 4a9d17d..d9735e0 100644
                  raise _errors.UnauthorizedError(error_)
  
 diff --git a/_sync_api/_get_payment_schedule.py b/_sync_api/_get_payment_schedule.py
-index c6af0c9..7a715b0 100644
+index c6b675c..ac14039 100644
 --- a/_sync_api/_get_payment_schedule.py
 +++ b/_sync_api/_get_payment_schedule.py
 @@ -36,7 +36,7 @@ class GetPaymentSchedule(ApiClient):
@@ -730,7 +730,7 @@ index c6af0c9..7a715b0 100644
                  raise _errors.UnauthorizedError(error_)
  
 diff --git a/_sync_api/_issue_cash_receipt.py b/_sync_api/_issue_cash_receipt.py
-index dea5527..0f04534 100644
+index f3ea5b7..549efbb 100644
 --- a/_sync_api/_issue_cash_receipt.py
 +++ b/_sync_api/_issue_cash_receipt.py
 @@ -18,6 +18,7 @@ from portone_server_sdk._openapi._schemas._payment_amount_input import PaymentAm
@@ -739,7 +739,7 @@ index dea5527..0f04534 100644
  from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 +from portone_server_sdk._openapi._schemas._cash_receipt_summary import CashReceiptSummary
  
- @dataclasses.dataclass(kw_only=True)
+ @dataclasses.dataclass
  class IssueCashReceiptParam:
 @@ -46,7 +47,7 @@ class IssueCashReceipt(ApiClient):
          productType: Optional[PaymentProductType],
@@ -766,7 +766,7 @@ index dea5527..0f04534 100644
 -        return response_.data
 +        return response_.data.cashReceipt
 diff --git a/_sync_api/_pay_instantly.py b/_sync_api/_pay_instantly.py
-index f9063a8..9301ad0 100644
+index 178e4ee..b753f3d 100644
 --- a/_sync_api/_pay_instantly.py
 +++ b/_sync_api/_pay_instantly.py
 @@ -24,6 +24,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
@@ -775,7 +775,7 @@ index f9063a8..9301ad0 100644
  from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 +from portone_server_sdk._openapi._schemas._instant_payment_summary import InstantPaymentSummary
  
- @dataclasses.dataclass(kw_only=True)
+ @dataclasses.dataclass
  class PayInstantlyParam:
 @@ -62,7 +63,7 @@ class PayInstantly(ApiClient):
          productType: Optional[PaymentProductType],
@@ -802,7 +802,7 @@ index f9063a8..9301ad0 100644
 -        return response_.data
 +        return response_.data.payment
 diff --git a/_sync_api/_pay_with_billing_key.py b/_sync_api/_pay_with_billing_key.py
-index bb1f67e..14734b4 100644
+index 6fdfe0a..59c5ecd 100644
 --- a/_sync_api/_pay_with_billing_key.py
 +++ b/_sync_api/_pay_with_billing_key.py
 @@ -26,6 +26,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
@@ -811,7 +811,7 @@ index bb1f67e..14734b4 100644
  from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 +from portone_server_sdk._openapi._schemas._billing_key_payment_summary import BillingKeyPaymentSummary
  
- @dataclasses.dataclass(kw_only=True)
+ @dataclasses.dataclass
  class PayWithBillingKeyParam:
 @@ -66,7 +67,7 @@ class PayWithBillingKey(ApiClient):
          shippingAddress: Optional[SeparatedAddressInput],
@@ -838,7 +838,7 @@ index bb1f67e..14734b4 100644
 -        return response_.data
 +        return response_.data.payment
 diff --git a/_sync_api/_pre_register_payment.py b/_sync_api/_pre_register_payment.py
-index 0f020ce..732f304 100644
+index f3d3397..3b66fd9 100644
 --- a/_sync_api/_pre_register_payment.py
 +++ b/_sync_api/_pre_register_payment.py
 @@ -36,7 +36,7 @@ class PreRegisterPayment(ApiClient):
@@ -867,7 +867,7 @@ index 0f020ce..732f304 100644
 -
 -        return response_.data
 diff --git a/_sync_api/_resend_identity_verification.py b/_sync_api/_resend_identity_verification.py
-index 5ffd7c1..1203418 100644
+index 7eb5418..ba92c3d 100644
 --- a/_sync_api/_resend_identity_verification.py
 +++ b/_sync_api/_resend_identity_verification.py
 @@ -39,7 +39,7 @@ class ResendIdentityVerification(ApiClient):
@@ -896,7 +896,7 @@ index 5ffd7c1..1203418 100644
 -
 -        return response_.data
 diff --git a/_sync_api/_resend_webhook.py b/_sync_api/_resend_webhook.py
-index a6bfa98..fba3c57 100644
+index 31576dd..ad9c8e4 100644
 --- a/_sync_api/_resend_webhook.py
 +++ b/_sync_api/_resend_webhook.py
 @@ -12,6 +12,7 @@ from portone_server_sdk._openapi._schemas._resend_webhook_error import ResendWeb
@@ -905,7 +905,7 @@ index a6bfa98..fba3c57 100644
  from portone_server_sdk._openapi._schemas._webhook_not_found_error import WebhookNotFoundError
 +from portone_server_sdk._openapi._schemas._payment_webhook import PaymentWebhook
  
- @dataclasses.dataclass(kw_only=True)
+ @dataclasses.dataclass
  class ResendWebhookParam:
 @@ -34,7 +35,7 @@ class ResendWebhook(ApiClient):
          paymentId: str,
@@ -932,7 +932,7 @@ index a6bfa98..fba3c57 100644
 -        return response_.data
 +        return response_.data.webhook
 diff --git a/_sync_api/_send_identity_verification.py b/_sync_api/_send_identity_verification.py
-index f26689c..4d5881e 100644
+index ed9af56..818d5ad 100644
 --- a/_sync_api/_send_identity_verification.py
 +++ b/_sync_api/_send_identity_verification.py
 @@ -45,7 +45,7 @@ class SendIdentityVerification(ApiClient):

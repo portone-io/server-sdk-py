@@ -5,7 +5,7 @@ Subject: [PATCH] use internal storeId
 
 
 diff --git a/_async_api/_apply_escrow_logistics.py b/_async_api/_apply_escrow_logistics.py
-index ffc093a..0956625 100644
+index 1c1cba8..514a311 100644
 --- a/_async_api/_apply_escrow_logistics.py
 +++ b/_async_api/_apply_escrow_logistics.py
 @@ -37,7 +37,6 @@ class ApplyEscrowLogistics(ApiClient):
@@ -35,7 +35,7 @@ index ffc093a..0956625 100644
              receiver=receiver,
              logistics=logistics,
 diff --git a/_async_api/_cancel_cash_receipt_by_payment_id.py b/_async_api/_cancel_cash_receipt_by_payment_id.py
-index 82678f7..87ae9bd 100644
+index 4e6421e..851c1dc 100644
 --- a/_async_api/_cancel_cash_receipt_by_payment_id.py
 +++ b/_async_api/_cancel_cash_receipt_by_payment_id.py
 @@ -37,7 +37,6 @@ class CancelCashReceiptByPaymentId(ApiClient):
@@ -65,7 +65,7 @@ index 82678f7..87ae9bd 100644
          body_ = Empty()
          response_ = await self.send(
 diff --git a/_async_api/_cancel_payment.py b/_async_api/_cancel_payment.py
-index 043b6c7..257c185 100644
+index ef3ed0e..33a5971 100644
 --- a/_async_api/_cancel_payment.py
 +++ b/_async_api/_cancel_payment.py
 @@ -43,7 +43,6 @@ class CancelPayment(ApiClient):
@@ -95,7 +95,7 @@ index 043b6c7..257c185 100644
              taxFreeAmount=taxFreeAmount,
              vatAmount=vatAmount,
 diff --git a/_async_api/_close_virtual_account.py b/_async_api/_close_virtual_account.py
-index 7c0acc1..cc743bf 100644
+index dab0dff..4ca7666 100644
 --- a/_async_api/_close_virtual_account.py
 +++ b/_async_api/_close_virtual_account.py
 @@ -37,7 +37,6 @@ class CloseVirtualAccount(ApiClient):
@@ -125,7 +125,7 @@ index 7c0acc1..cc743bf 100644
          body_ = Empty()
          response_ = await self.send(
 diff --git a/_async_api/_confirm_escrow.py b/_async_api/_confirm_escrow.py
-index db83e87..5d66121 100644
+index b322177..94865fe 100644
 --- a/_async_api/_confirm_escrow.py
 +++ b/_async_api/_confirm_escrow.py
 @@ -33,7 +33,6 @@ class ConfirmEscrow(ApiClient):
@@ -155,7 +155,7 @@ index db83e87..5d66121 100644
          )
          response_ = await self.send(
 diff --git a/_async_api/_confirm_identity_verification.py b/_async_api/_confirm_identity_verification.py
-index bf2f4cb..b53691b 100644
+index 693e361..3fbd9b6 100644
 --- a/_async_api/_confirm_identity_verification.py
 +++ b/_async_api/_confirm_identity_verification.py
 @@ -34,7 +34,6 @@ class ConfirmIdentityVerification(ApiClient):
@@ -185,7 +185,7 @@ index bf2f4cb..b53691b 100644
          )
          response_ = await self.send(
 diff --git a/_async_api/_delete_billing_key.py b/_async_api/_delete_billing_key.py
-index 6ff81f5..e924dcd 100644
+index 0fe9ba7..455541d 100644
 --- a/_async_api/_delete_billing_key.py
 +++ b/_async_api/_delete_billing_key.py
 @@ -40,7 +40,6 @@ class DeleteBillingKey(ApiClient):
@@ -215,7 +215,7 @@ index 6ff81f5..e924dcd 100644
          body_ = Empty()
          response_ = await self.send(
 diff --git a/_async_api/_get_all_payments_by_cursor.py b/_async_api/_get_all_payments_by_cursor.py
-index e69530f..59d1dec 100644
+index c3f6144..5679ef1 100644
 --- a/_async_api/_get_all_payments_by_cursor.py
 +++ b/_async_api/_get_all_payments_by_cursor.py
 @@ -28,7 +28,6 @@ class GetAllPaymentsByCursorRequest(ApiRequest[GetAllPaymentsByCursorResponse, G
@@ -245,7 +245,7 @@ index e69530f..59d1dec 100644
              until=until,
              cursor=cursor,
 diff --git a/_async_api/_get_billing_key_info.py b/_async_api/_get_billing_key_info.py
-index 898f78a..35b8348 100644
+index 0321e0f..a76481c 100644
 --- a/_async_api/_get_billing_key_info.py
 +++ b/_async_api/_get_billing_key_info.py
 @@ -35,7 +35,6 @@ class GetBillingKeyInfo(ApiClient):
@@ -275,7 +275,7 @@ index 898f78a..35b8348 100644
          body_ = Empty()
          response_ = await self.send(
 diff --git a/_async_api/_get_cash_receipt_by_payment_id.py b/_async_api/_get_cash_receipt_by_payment_id.py
-index 8d57e85..877025f 100644
+index 235960d..8dfc46a 100644
 --- a/_async_api/_get_cash_receipt_by_payment_id.py
 +++ b/_async_api/_get_cash_receipt_by_payment_id.py
 @@ -35,7 +35,6 @@ class GetCashReceiptByPaymentId(ApiClient):
@@ -305,7 +305,7 @@ index 8d57e85..877025f 100644
          body_ = Empty()
          response_ = await self.send(
 diff --git a/_async_api/_get_identity_verification.py b/_async_api/_get_identity_verification.py
-index fc6fd88..bea2167 100644
+index 594a78b..ccf8c62 100644
 --- a/_async_api/_get_identity_verification.py
 +++ b/_async_api/_get_identity_verification.py
 @@ -35,7 +35,6 @@ class GetIdentityVerification(ApiClient):
@@ -335,7 +335,7 @@ index fc6fd88..bea2167 100644
          body_ = Empty()
          response_ = await self.send(
 diff --git a/_async_api/_get_payment.py b/_async_api/_get_payment.py
-index ae21d4c..fb74779 100644
+index 3db28fc..d5f3038 100644
 --- a/_async_api/_get_payment.py
 +++ b/_async_api/_get_payment.py
 @@ -31,7 +31,6 @@ class GetPayment(ApiClient):
@@ -364,7 +364,7 @@ index ae21d4c..fb74779 100644
          body_ = Empty()
          response_ = await self.send(
 diff --git a/_async_api/_get_payment_schedule.py b/_async_api/_get_payment_schedule.py
-index a798f75..cd88182 100644
+index 5be1f9f..1899b44 100644
 --- a/_async_api/_get_payment_schedule.py
 +++ b/_async_api/_get_payment_schedule.py
 @@ -35,7 +35,6 @@ class GetPaymentSchedule(ApiClient):
@@ -394,7 +394,7 @@ index a798f75..cd88182 100644
          body_ = Empty()
          response_ = await self.send(
 diff --git a/_async_api/_issue_billing_key.py b/_async_api/_issue_billing_key.py
-index b50d3b3..03fe576 100644
+index 271b97b..03fd712 100644
 --- a/_async_api/_issue_billing_key.py
 +++ b/_async_api/_issue_billing_key.py
 @@ -33,7 +33,6 @@ class IssueBillingKeyRequest(ApiRequest[IssueBillingKeyResponse, IssueBillingKey
@@ -424,7 +424,7 @@ index b50d3b3..03fe576 100644
              channelKey=channelKey,
              channelGroupId=channelGroupId,
 diff --git a/_async_api/_issue_cash_receipt.py b/_async_api/_issue_cash_receipt.py
-index 0b83b6a..a1e0a76 100644
+index f31c5e2..4df8952 100644
 --- a/_async_api/_issue_cash_receipt.py
 +++ b/_async_api/_issue_cash_receipt.py
 @@ -37,7 +37,6 @@ class IssueCashReceiptRequest(ApiRequest[IssueCashReceiptResponse, IssueCashRece
@@ -454,7 +454,7 @@ index 0b83b6a..a1e0a76 100644
              channelKey=channelKey,
              type=type,
 diff --git a/_async_api/_modify_escrow_logistics.py b/_async_api/_modify_escrow_logistics.py
-index 57c027a..5beefcd 100644
+index 65b3351..e5ea7fe 100644
 --- a/_async_api/_modify_escrow_logistics.py
 +++ b/_async_api/_modify_escrow_logistics.py
 @@ -37,7 +37,6 @@ class ModifyEscrowLogistics(ApiClient):
@@ -484,7 +484,7 @@ index 57c027a..5beefcd 100644
              receiver=receiver,
              logistics=logistics,
 diff --git a/_async_api/_pay_instantly.py b/_async_api/_pay_instantly.py
-index 108d136..c7eaf0f 100644
+index 8b72e61..1a09af4 100644
 --- a/_async_api/_pay_instantly.py
 +++ b/_async_api/_pay_instantly.py
 @@ -45,7 +45,6 @@ class PayInstantly(ApiClient):
@@ -514,7 +514,7 @@ index 108d136..c7eaf0f 100644
              channelGroupId=channelGroupId,
              method=method,
 diff --git a/_async_api/_pay_with_billing_key.py b/_async_api/_pay_with_billing_key.py
-index 834a7f8..8bebe48 100644
+index 6033c48..2312f36 100644
 --- a/_async_api/_pay_with_billing_key.py
 +++ b/_async_api/_pay_with_billing_key.py
 @@ -47,8 +47,7 @@ class PayWithBillingKey(ApiClient):
@@ -546,7 +546,7 @@ index 834a7f8..8bebe48 100644
              channelKey=channelKey,
              orderName=orderName,
 diff --git a/_async_api/_pre_register_payment.py b/_async_api/_pre_register_payment.py
-index b64a19e..ff8fe85 100644
+index 9ee6b40..cee1b29 100644
 --- a/_async_api/_pre_register_payment.py
 +++ b/_async_api/_pre_register_payment.py
 @@ -32,7 +32,6 @@ class PreRegisterPayment(ApiClient):
@@ -576,7 +576,7 @@ index b64a19e..ff8fe85 100644
              taxFreeAmount=taxFreeAmount,
              currency=currency,
 diff --git a/_async_api/_register_store_receipt.py b/_async_api/_register_store_receipt.py
-index 3d0bac7..3c4a424 100644
+index 4e7eb87..7b60e66 100644
 --- a/_async_api/_register_store_receipt.py
 +++ b/_async_api/_register_store_receipt.py
 @@ -35,7 +35,6 @@ class RegisterStoreReceipt(ApiClient):
@@ -597,7 +597,7 @@ index 3d0bac7..3c4a424 100644
          response_ = await self.send(
              RegisterStoreReceiptRequest(param_, query_, body_),
 diff --git a/_async_api/_resend_identity_verification.py b/_async_api/_resend_identity_verification.py
-index ca273dc..fa5d674 100644
+index 62810b1..2d0e286 100644
 --- a/_async_api/_resend_identity_verification.py
 +++ b/_async_api/_resend_identity_verification.py
 @@ -38,7 +38,6 @@ class ResendIdentityVerification(ApiClient):
@@ -627,7 +627,7 @@ index ca273dc..fa5d674 100644
          body_ = Empty()
          response_ = await self.send(
 diff --git a/_async_api/_resend_webhook.py b/_async_api/_resend_webhook.py
-index ff024bb..0844f4e 100644
+index 6382b5d..7dcc1d9 100644
 --- a/_async_api/_resend_webhook.py
 +++ b/_async_api/_resend_webhook.py
 @@ -33,7 +33,6 @@ class ResendWebhook(ApiClient):
@@ -657,7 +657,7 @@ index ff024bb..0844f4e 100644
          )
          response_ = await self.send(
 diff --git a/_async_api/_revoke_payment_schedules.py b/_async_api/_revoke_payment_schedules.py
-index a36a170..ca0798b 100644
+index 91fa7da..7f0df40 100644
 --- a/_async_api/_revoke_payment_schedules.py
 +++ b/_async_api/_revoke_payment_schedules.py
 @@ -33,7 +33,6 @@ class RevokePaymentSchedulesRequest(ApiRequest[RevokePaymentSchedulesResponse, R
@@ -687,7 +687,7 @@ index a36a170..ca0798b 100644
              scheduleIds=scheduleIds,
          )
 diff --git a/_async_api/_send_identity_verification.py b/_async_api/_send_identity_verification.py
-index 124d0d3..0dabcbb 100644
+index e66fe52..cdc5e83 100644
 --- a/_async_api/_send_identity_verification.py
 +++ b/_async_api/_send_identity_verification.py
 @@ -38,7 +38,6 @@ class SendIdentityVerification(ApiClient):
@@ -717,7 +717,7 @@ index 124d0d3..0dabcbb 100644
              customer=customer,
              customData=customData,
 diff --git a/_sync_api/_apply_escrow_logistics.py b/_sync_api/_apply_escrow_logistics.py
-index b1b3d12..dff0554 100644
+index ed074ea..6b79653 100644
 --- a/_sync_api/_apply_escrow_logistics.py
 +++ b/_sync_api/_apply_escrow_logistics.py
 @@ -37,7 +37,6 @@ class ApplyEscrowLogistics(ApiClient):
@@ -747,7 +747,7 @@ index b1b3d12..dff0554 100644
              receiver=receiver,
              logistics=logistics,
 diff --git a/_sync_api/_cancel_cash_receipt_by_payment_id.py b/_sync_api/_cancel_cash_receipt_by_payment_id.py
-index 5d27520..cd06b6a 100644
+index fc7c4b9..6686ca6 100644
 --- a/_sync_api/_cancel_cash_receipt_by_payment_id.py
 +++ b/_sync_api/_cancel_cash_receipt_by_payment_id.py
 @@ -37,7 +37,6 @@ class CancelCashReceiptByPaymentId(ApiClient):
@@ -777,7 +777,7 @@ index 5d27520..cd06b6a 100644
          body_ = Empty()
          response_ = self.send(
 diff --git a/_sync_api/_cancel_payment.py b/_sync_api/_cancel_payment.py
-index 950a17a..b787809 100644
+index e3506bf..82fa33b 100644
 --- a/_sync_api/_cancel_payment.py
 +++ b/_sync_api/_cancel_payment.py
 @@ -43,7 +43,6 @@ class CancelPayment(ApiClient):
@@ -807,7 +807,7 @@ index 950a17a..b787809 100644
              taxFreeAmount=taxFreeAmount,
              vatAmount=vatAmount,
 diff --git a/_sync_api/_close_virtual_account.py b/_sync_api/_close_virtual_account.py
-index cbe7357..bfda2b6 100644
+index c29d66c..3374f01 100644
 --- a/_sync_api/_close_virtual_account.py
 +++ b/_sync_api/_close_virtual_account.py
 @@ -37,7 +37,6 @@ class CloseVirtualAccount(ApiClient):
@@ -837,7 +837,7 @@ index cbe7357..bfda2b6 100644
          body_ = Empty()
          response_ = self.send(
 diff --git a/_sync_api/_confirm_escrow.py b/_sync_api/_confirm_escrow.py
-index 9dcc24f..0034502 100644
+index fa8d17c..29e5fb4 100644
 --- a/_sync_api/_confirm_escrow.py
 +++ b/_sync_api/_confirm_escrow.py
 @@ -33,7 +33,6 @@ class ConfirmEscrow(ApiClient):
@@ -867,7 +867,7 @@ index 9dcc24f..0034502 100644
          )
          response_ = self.send(
 diff --git a/_sync_api/_confirm_identity_verification.py b/_sync_api/_confirm_identity_verification.py
-index 724cae8..e97145e 100644
+index f24d431..2adab43 100644
 --- a/_sync_api/_confirm_identity_verification.py
 +++ b/_sync_api/_confirm_identity_verification.py
 @@ -34,7 +34,6 @@ class ConfirmIdentityVerification(ApiClient):
@@ -897,7 +897,7 @@ index 724cae8..e97145e 100644
          )
          response_ = self.send(
 diff --git a/_sync_api/_delete_billing_key.py b/_sync_api/_delete_billing_key.py
-index c9969b3..e95fe77 100644
+index f09a870..6edbcbe 100644
 --- a/_sync_api/_delete_billing_key.py
 +++ b/_sync_api/_delete_billing_key.py
 @@ -40,7 +40,6 @@ class DeleteBillingKey(ApiClient):
@@ -927,7 +927,7 @@ index c9969b3..e95fe77 100644
          body_ = Empty()
          response_ = self.send(
 diff --git a/_sync_api/_get_all_payments_by_cursor.py b/_sync_api/_get_all_payments_by_cursor.py
-index 33a96ed..64df49c 100644
+index 2dfbde0..e5d79b2 100644
 --- a/_sync_api/_get_all_payments_by_cursor.py
 +++ b/_sync_api/_get_all_payments_by_cursor.py
 @@ -28,7 +28,6 @@ class GetAllPaymentsByCursorRequest(ApiRequest[GetAllPaymentsByCursorResponse, G
@@ -957,7 +957,7 @@ index 33a96ed..64df49c 100644
              until=until,
              cursor=cursor,
 diff --git a/_sync_api/_get_billing_key_info.py b/_sync_api/_get_billing_key_info.py
-index b6b0be4..440d094 100644
+index 15a189c..3ab2e5a 100644
 --- a/_sync_api/_get_billing_key_info.py
 +++ b/_sync_api/_get_billing_key_info.py
 @@ -35,7 +35,6 @@ class GetBillingKeyInfo(ApiClient):
@@ -987,7 +987,7 @@ index b6b0be4..440d094 100644
          body_ = Empty()
          response_ = self.send(
 diff --git a/_sync_api/_get_cash_receipt_by_payment_id.py b/_sync_api/_get_cash_receipt_by_payment_id.py
-index f1cc4eb..558de06 100644
+index 44eb5b7..f5ac9e6 100644
 --- a/_sync_api/_get_cash_receipt_by_payment_id.py
 +++ b/_sync_api/_get_cash_receipt_by_payment_id.py
 @@ -35,7 +35,6 @@ class GetCashReceiptByPaymentId(ApiClient):
@@ -1017,7 +1017,7 @@ index f1cc4eb..558de06 100644
          body_ = Empty()
          response_ = self.send(
 diff --git a/_sync_api/_get_identity_verification.py b/_sync_api/_get_identity_verification.py
-index 930a9bd..833a989 100644
+index 95d4cd4..72d5aa0 100644
 --- a/_sync_api/_get_identity_verification.py
 +++ b/_sync_api/_get_identity_verification.py
 @@ -35,7 +35,6 @@ class GetIdentityVerification(ApiClient):
@@ -1047,7 +1047,7 @@ index 930a9bd..833a989 100644
          body_ = Empty()
          response_ = self.send(
 diff --git a/_sync_api/_get_payment.py b/_sync_api/_get_payment.py
-index d9735e0..f73b927 100644
+index 25eed61..7db63ce 100644
 --- a/_sync_api/_get_payment.py
 +++ b/_sync_api/_get_payment.py
 @@ -31,7 +31,6 @@ class GetPayment(ApiClient):
@@ -1076,7 +1076,7 @@ index d9735e0..f73b927 100644
          body_ = Empty()
          response_ = self.send(
 diff --git a/_sync_api/_get_payment_schedule.py b/_sync_api/_get_payment_schedule.py
-index 7a715b0..669df23 100644
+index ac14039..f1bd909 100644
 --- a/_sync_api/_get_payment_schedule.py
 +++ b/_sync_api/_get_payment_schedule.py
 @@ -35,7 +35,6 @@ class GetPaymentSchedule(ApiClient):
@@ -1106,7 +1106,7 @@ index 7a715b0..669df23 100644
          body_ = Empty()
          response_ = self.send(
 diff --git a/_sync_api/_issue_billing_key.py b/_sync_api/_issue_billing_key.py
-index 378fabb..5b7a2e5 100644
+index c1206a9..cf81a31 100644
 --- a/_sync_api/_issue_billing_key.py
 +++ b/_sync_api/_issue_billing_key.py
 @@ -33,7 +33,6 @@ class IssueBillingKeyRequest(ApiRequest[IssueBillingKeyResponse, IssueBillingKey
@@ -1136,7 +1136,7 @@ index 378fabb..5b7a2e5 100644
              channelKey=channelKey,
              channelGroupId=channelGroupId,
 diff --git a/_sync_api/_issue_cash_receipt.py b/_sync_api/_issue_cash_receipt.py
-index 0f04534..4fdfc8c 100644
+index 549efbb..85b17e6 100644
 --- a/_sync_api/_issue_cash_receipt.py
 +++ b/_sync_api/_issue_cash_receipt.py
 @@ -37,7 +37,6 @@ class IssueCashReceiptRequest(ApiRequest[IssueCashReceiptResponse, IssueCashRece
@@ -1166,7 +1166,7 @@ index 0f04534..4fdfc8c 100644
              channelKey=channelKey,
              type=type,
 diff --git a/_sync_api/_modify_escrow_logistics.py b/_sync_api/_modify_escrow_logistics.py
-index b1e437d..1b7ea36 100644
+index 5090688..1b61f0a 100644
 --- a/_sync_api/_modify_escrow_logistics.py
 +++ b/_sync_api/_modify_escrow_logistics.py
 @@ -37,7 +37,6 @@ class ModifyEscrowLogistics(ApiClient):
@@ -1196,7 +1196,7 @@ index b1e437d..1b7ea36 100644
              receiver=receiver,
              logistics=logistics,
 diff --git a/_sync_api/_pay_instantly.py b/_sync_api/_pay_instantly.py
-index 9301ad0..764048c 100644
+index b753f3d..31f1c1d 100644
 --- a/_sync_api/_pay_instantly.py
 +++ b/_sync_api/_pay_instantly.py
 @@ -45,7 +45,6 @@ class PayInstantly(ApiClient):
@@ -1226,7 +1226,7 @@ index 9301ad0..764048c 100644
              channelGroupId=channelGroupId,
              method=method,
 diff --git a/_sync_api/_pay_with_billing_key.py b/_sync_api/_pay_with_billing_key.py
-index 14734b4..7b13130 100644
+index 59c5ecd..1a8bd03 100644
 --- a/_sync_api/_pay_with_billing_key.py
 +++ b/_sync_api/_pay_with_billing_key.py
 @@ -47,7 +47,6 @@ class PayWithBillingKey(ApiClient):
@@ -1256,7 +1256,7 @@ index 14734b4..7b13130 100644
              channelKey=channelKey,
              orderName=orderName,
 diff --git a/_sync_api/_pre_register_payment.py b/_sync_api/_pre_register_payment.py
-index 732f304..47c8a54 100644
+index 3b66fd9..be8c73d 100644
 --- a/_sync_api/_pre_register_payment.py
 +++ b/_sync_api/_pre_register_payment.py
 @@ -32,7 +32,6 @@ class PreRegisterPayment(ApiClient):
@@ -1286,7 +1286,7 @@ index 732f304..47c8a54 100644
              taxFreeAmount=taxFreeAmount,
              currency=currency,
 diff --git a/_sync_api/_register_store_receipt.py b/_sync_api/_register_store_receipt.py
-index 7b934f7..ac22588 100644
+index b09c02a..e6ae2e4 100644
 --- a/_sync_api/_register_store_receipt.py
 +++ b/_sync_api/_register_store_receipt.py
 @@ -35,7 +35,6 @@ class RegisterStoreReceipt(ApiClient):
@@ -1315,7 +1315,7 @@ index 7b934f7..ac22588 100644
          response_ = self.send(
              RegisterStoreReceiptRequest(param_, query_, body_),
 diff --git a/_sync_api/_resend_identity_verification.py b/_sync_api/_resend_identity_verification.py
-index 1203418..c841d16 100644
+index ba92c3d..f38cffe 100644
 --- a/_sync_api/_resend_identity_verification.py
 +++ b/_sync_api/_resend_identity_verification.py
 @@ -38,7 +38,6 @@ class ResendIdentityVerification(ApiClient):
@@ -1345,7 +1345,7 @@ index 1203418..c841d16 100644
          body_ = Empty()
          response_ = self.send(
 diff --git a/_sync_api/_resend_webhook.py b/_sync_api/_resend_webhook.py
-index fba3c57..c131f8c 100644
+index ad9c8e4..f540ec3 100644
 --- a/_sync_api/_resend_webhook.py
 +++ b/_sync_api/_resend_webhook.py
 @@ -33,7 +33,6 @@ class ResendWebhook(ApiClient):
@@ -1375,7 +1375,7 @@ index fba3c57..c131f8c 100644
          )
          response_ = self.send(
 diff --git a/_sync_api/_revoke_payment_schedules.py b/_sync_api/_revoke_payment_schedules.py
-index 5bb3822..0f57bc5 100644
+index 2d83713..4ba946e 100644
 --- a/_sync_api/_revoke_payment_schedules.py
 +++ b/_sync_api/_revoke_payment_schedules.py
 @@ -33,7 +33,6 @@ class RevokePaymentSchedulesRequest(ApiRequest[RevokePaymentSchedulesResponse, R
@@ -1405,7 +1405,7 @@ index 5bb3822..0f57bc5 100644
              scheduleIds=scheduleIds,
          )
 diff --git a/_sync_api/_send_identity_verification.py b/_sync_api/_send_identity_verification.py
-index 4d5881e..c0f05d6 100644
+index 818d5ad..f2d21a5 100644
 --- a/_sync_api/_send_identity_verification.py
 +++ b/_sync_api/_send_identity_verification.py
 @@ -38,7 +38,6 @@ class SendIdentityVerification(ApiClient):
