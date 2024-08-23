@@ -9,7 +9,7 @@ from portone_server_sdk._openapi._schemas._pg_company import PgCompany
 from portone_server_sdk._openapi._schemas._pg_provider import PgProvider
 from portone_server_sdk._openapi._schemas._port_one_version import PortOneVersion
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class BillingKeyFilterInput:
     """빌링키 다건 조회를 위한 입력 정보"""
     storeId: Optional[str]

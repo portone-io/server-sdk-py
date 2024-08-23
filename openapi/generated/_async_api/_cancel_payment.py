@@ -23,12 +23,12 @@ from portone_server_sdk._openapi._schemas._remained_amount_less_than_promotion_m
 from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_cancel_amount_error import SumOfPartsExceedsCancelAmountError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class CancelPaymentParam:
     paymentId: str
     """결제 건 아이디"""
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class CancelPaymentQuery:
     pass
 

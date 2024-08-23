@@ -13,12 +13,12 @@ from portone_server_sdk._openapi._schemas._resend_webhook_response import Resend
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 from portone_server_sdk._openapi._schemas._webhook_not_found_error import WebhookNotFoundError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class ResendWebhookParam:
     paymentId: str
     """결제 건 아이디"""
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class ResendWebhookQuery:
     pass
 

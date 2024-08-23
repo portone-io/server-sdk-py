@@ -2,7 +2,7 @@ import dataclasses
 from typing import Optional
 from portone_server_sdk._openapi._schemas._separated_address_input import SeparatedAddressInput
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PaymentEscrowSenderInput:
     """에스크로 발송자 정보"""
     name: Optional[str]

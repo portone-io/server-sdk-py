@@ -1,3 +1,4 @@
+from typing import Union
 from portone_server_sdk._openapi._schemas._forbidden_error import ForbiddenError
 from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
 from portone_server_sdk._openapi._schemas._payment_not_found_error import PaymentNotFoundError
@@ -5,6 +6,6 @@ from portone_server_sdk._openapi._schemas._payment_not_waiting_for_deposit_error
 from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-type CloseVirtualAccountError = ForbiddenError | InvalidRequestError | PaymentNotFoundError | PaymentNotWaitingForDepositError | PgProviderError | UnauthorizedError
+CloseVirtualAccountError = Union[ForbiddenError, InvalidRequestError, PaymentNotFoundError, PaymentNotWaitingForDepositError, PgProviderError, UnauthorizedError]
 """CloseVirtualAccountError"""
 

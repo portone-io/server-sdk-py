@@ -14,12 +14,12 @@ from portone_server_sdk._openapi._schemas._resend_identity_verification_error im
 from portone_server_sdk._openapi._schemas._resend_identity_verification_response import ResendIdentityVerificationResponse
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class ResendIdentityVerificationParam:
     identityVerificationId: str
     """본인인증 아이디"""
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class ResendIdentityVerificationQuery:
     storeId: Optional[str]
     """상점 아이디

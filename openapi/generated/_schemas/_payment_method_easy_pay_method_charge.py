@@ -2,7 +2,7 @@ import dataclasses
 from typing import Literal, Optional
 from portone_server_sdk._openapi._schemas._bank import Bank
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PaymentMethodEasyPayMethodCharge:
     """충전식 포인트 결제 정보"""
     type: Literal["PaymentMethodEasyPayMethodCharge"]

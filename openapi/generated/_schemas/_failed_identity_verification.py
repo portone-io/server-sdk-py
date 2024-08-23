@@ -3,7 +3,7 @@ from typing import Literal, Optional
 from portone_server_sdk._openapi._schemas._identity_verification_requested_customer import IdentityVerificationRequestedCustomer
 from portone_server_sdk._openapi._schemas._selected_channel import SelectedChannel
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class FailedIdentityVerification:
     """실패한 본인인증 내역"""
     status: Literal["FAILED"]

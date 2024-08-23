@@ -3,7 +3,7 @@ from typing import Optional
 from portone_server_sdk._openapi._schemas._cancel_payment_body_refund_account import CancelPaymentBodyRefundAccount
 from portone_server_sdk._openapi._schemas._cancel_requester import CancelRequester
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class CancelPaymentBody:
     """결제 취소 요청 입력 정보"""
     storeId: Optional[str]

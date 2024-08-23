@@ -1,6 +1,6 @@
 import dataclasses
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetKakaopayPaymentOrderResponse:
     """카카오페이 주문 조회 응답"""
     statusCode: int

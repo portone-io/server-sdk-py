@@ -5,7 +5,7 @@ from portone_server_sdk._openapi._schemas._instant_payment_method_input_virtual_
 from portone_server_sdk._openapi._schemas._instant_payment_method_input_virtual_account_expiry import InstantPaymentMethodInputVirtualAccountExpiry
 from portone_server_sdk._openapi._schemas._instant_payment_method_input_virtual_account_option import InstantPaymentMethodInputVirtualAccountOption
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class InstantPaymentMethodInputVirtualAccount:
     """가상계좌 수단 정보 입력 정보"""
     bank: Bank

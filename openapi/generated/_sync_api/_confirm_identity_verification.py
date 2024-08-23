@@ -15,12 +15,12 @@ from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidR
 from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class ConfirmIdentityVerificationParam:
     identityVerificationId: str
     """본인인증 아이디"""
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class ConfirmIdentityVerificationQuery:
     pass
 

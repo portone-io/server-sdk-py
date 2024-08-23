@@ -1,6 +1,6 @@
 import dataclasses
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class CashReceiptSummary:
     """현금영수증 내역"""
     issueNumber: str

@@ -4,7 +4,7 @@ from portone_server_sdk._openapi._schemas._currency import Currency
 from portone_server_sdk._openapi._schemas._customer import Customer
 from portone_server_sdk._openapi._schemas._payment_product import PaymentProduct
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class StartedPaymentSchedule:
     """결제 시작 상태"""
     status: Literal["STARTED"]

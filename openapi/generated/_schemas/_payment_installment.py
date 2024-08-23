@@ -1,6 +1,6 @@
 import dataclasses
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PaymentInstallment:
     """할부 정보"""
     month: int

@@ -11,12 +11,12 @@ from portone_server_sdk._openapi._schemas._payment_schedule import PaymentSchedu
 from portone_server_sdk._openapi._schemas._payment_schedule_not_found_error import PaymentScheduleNotFoundError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetPaymentScheduleParam:
     paymentScheduleId: str
     """조회할 결제 예약 건 아이디"""
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetPaymentScheduleQuery:
     storeId: Optional[str]
     """상점 아이디

@@ -1,6 +1,6 @@
 import dataclasses
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PaymentScheduleSummary:
     """결제 예약 건"""
     id: str

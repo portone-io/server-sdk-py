@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Literal, Optional
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class CancelledPaymentEscrow:
     """거래 취소"""
     status: Literal["CANCELLED"]

@@ -4,7 +4,7 @@ from portone_server_sdk._openapi._schemas._identity_verification_method import I
 from portone_server_sdk._openapi._schemas._identity_verification_operator import IdentityVerificationOperator
 from portone_server_sdk._openapi._schemas._send_identity_verification_body_customer import SendIdentityVerificationBodyCustomer
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class SendIdentityVerificationBody:
     """본인인증 요청을 위한 입력 정보"""
     storeId: Optional[str]

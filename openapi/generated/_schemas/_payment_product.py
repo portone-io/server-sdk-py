@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Optional
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PaymentProduct:
     """상품 정보"""
     id: str

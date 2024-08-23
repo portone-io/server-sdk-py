@@ -4,7 +4,7 @@ from portone_server_sdk._openapi._schemas._bank import Bank
 from portone_server_sdk._openapi._schemas._payment_method_virtual_account_refund_status import PaymentMethodVirtualAccountRefundStatus
 from portone_server_sdk._openapi._schemas._payment_method_virtual_account_type import PaymentMethodVirtualAccountType
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PaymentMethodVirtualAccount:
     """가상계좌 상세 정보"""
     type: Literal["PaymentMethodVirtualAccount"]

@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Optional
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class InstantPaymentMethodInputVirtualAccountOptionFixed:
     """고정식 가상계좌 발급 유형
     

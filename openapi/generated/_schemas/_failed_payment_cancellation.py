@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Literal, Optional
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class FailedPaymentCancellation:
     """취소 실패 상태"""
     status: Literal["FAILED"]

@@ -13,12 +13,12 @@ from portone_server_sdk._openapi._schemas._payment_not_waiting_for_deposit_error
 from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class CloseVirtualAccountParam:
     paymentId: str
     """결제 건 아이디"""
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class CloseVirtualAccountQuery:
     storeId: Optional[str]
     """상점 아이디

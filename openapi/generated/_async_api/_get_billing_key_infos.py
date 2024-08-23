@@ -14,11 +14,11 @@ from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidR
 from portone_server_sdk._openapi._schemas._page_input import PageInput
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetBillingKeyInfosParam:
     pass
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetBillingKeyInfosQuery:
     pass
 

@@ -2,7 +2,7 @@ import dataclasses
 from typing import Optional
 from portone_server_sdk._openapi._schemas._bank import Bank
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class CancelPaymentBodyRefundAccount:
     """고객 정보 입력 형식"""
     bank: Bank

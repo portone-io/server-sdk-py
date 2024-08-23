@@ -11,12 +11,12 @@ from portone_server_sdk._openapi._schemas._get_billing_key_info_error import Get
 from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetBillingKeyInfoParam:
     billingKey: str
     """조회할 빌링키"""
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetBillingKeyInfoQuery:
     storeId: Optional[str]
     """상점 아이디

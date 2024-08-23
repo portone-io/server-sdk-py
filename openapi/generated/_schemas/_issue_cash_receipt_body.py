@@ -6,7 +6,7 @@ from portone_server_sdk._openapi._schemas._issue_cash_receipt_customer_input imp
 from portone_server_sdk._openapi._schemas._payment_amount_input import PaymentAmountInput
 from portone_server_sdk._openapi._schemas._payment_product_type import PaymentProductType
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class IssueCashReceiptBody:
     """현금영수증 발급 요청 양식"""
     storeId: Optional[str]

@@ -1,6 +1,6 @@
 import dataclasses
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class CloseVirtualAccountResponse:
     """가상계좌 말소 성공 응답"""
     closedAt: str

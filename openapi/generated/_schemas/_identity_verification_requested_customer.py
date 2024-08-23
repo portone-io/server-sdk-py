@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Optional
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class IdentityVerificationRequestedCustomer:
     """요청 시 고객 정보"""
     id: Optional[str]

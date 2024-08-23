@@ -2,7 +2,7 @@ import dataclasses
 from typing import Literal, Optional
 from portone_server_sdk._openapi._schemas._country import Country
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class SeparatedAddress:
     """분리 형식 주소
     

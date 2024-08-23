@@ -4,7 +4,7 @@ from portone_server_sdk._openapi._schemas._card_brand import CardBrand
 from portone_server_sdk._openapi._schemas._card_owner_type import CardOwnerType
 from portone_server_sdk._openapi._schemas._card_type import CardType
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class Card:
     """카드 상세 정보"""
     publisher: Optional[str]

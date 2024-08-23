@@ -4,7 +4,7 @@ from portone_server_sdk._openapi._schemas._currency import Currency
 from portone_server_sdk._openapi._schemas._customer import Customer
 from portone_server_sdk._openapi._schemas._payment_product import PaymentProduct
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class ScheduledPaymentSchedule:
     """결제 예약 완료 상태"""
     status: Literal["SCHEDULED"]

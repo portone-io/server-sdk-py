@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Optional
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PaymentWebhookRequest:
     """웹훅 요청 정보"""
     header: Optional[str]

@@ -9,7 +9,7 @@ from portone_server_sdk._openapi._schemas._payment_product import PaymentProduct
 from portone_server_sdk._openapi._schemas._payment_product_type import PaymentProductType
 from portone_server_sdk._openapi._schemas._separated_address_input import SeparatedAddressInput
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class InstantPaymentInput:
     """수기 결제 요청 정보"""
     storeId: Optional[str]

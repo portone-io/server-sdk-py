@@ -1,6 +1,6 @@
 import dataclasses
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class InstantPaymentSummary:
     """수기 결제가 완료된 결제 건 요약 정보"""
     pgTxId: str

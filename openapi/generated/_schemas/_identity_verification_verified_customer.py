@@ -3,7 +3,7 @@ from typing import Optional
 from portone_server_sdk._openapi._schemas._gender import Gender
 from portone_server_sdk._openapi._schemas._identity_verification_operator import IdentityVerificationOperator
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class IdentityVerificationVerifiedCustomer:
     """인증된 고객 정보"""
     id: Optional[str]

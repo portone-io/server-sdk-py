@@ -2,7 +2,7 @@ import dataclasses
 from typing import Optional
 from portone_server_sdk._openapi._schemas._currency import Currency
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class RegisterStoreReceiptBodyItem:
     """하위 상점 거래 정보"""
     storeBusinessRegistrationNumber: str

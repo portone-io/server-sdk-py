@@ -1,8 +1,10 @@
 import dataclasses
+import serde
 from portone_server_sdk._openapi._schemas._page_info import PageInfo
 from portone_server_sdk._openapi._schemas._payment_schedule import PaymentSchedule
 
-@dataclasses.dataclass(kw_only=True)
+@serde.serde(tagging=serde.Untagged)
+@dataclasses.dataclass
 class GetPaymentSchedulesResponse:
     """결제 예약 다건 조회 성공 응답 정보"""
     items: list[PaymentSchedule]

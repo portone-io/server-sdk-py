@@ -11,7 +11,7 @@ class PortOneError(Exception):
     message: str
 
 
-@dataclass(slots=True)
+@dataclass
 class ForbiddenError(PortOneError):
     """요청이 거절된 경우"""
 
@@ -24,7 +24,7 @@ class ForbiddenError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class InvalidRequestError(PortOneError):
     """요청된 입력 정보가 유효하지 않은 경우
 
@@ -42,7 +42,7 @@ class InvalidRequestError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class PaymentNotFoundError(PortOneError):
     """결제 건이 존재하지 않는 경우"""
 
@@ -55,7 +55,7 @@ class PaymentNotFoundError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class PaymentNotPaidError(PortOneError):
     """결제가 완료되지 않은 경우"""
 
@@ -68,7 +68,7 @@ class PaymentNotPaidError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class PgProviderError(PortOneError):
     """PG사에서 오류를 전달한 경우"""
 
@@ -85,7 +85,7 @@ class PgProviderError(PortOneError):
         self.pgMessage = error.pgMessage
 
 
-@dataclass(slots=True)
+@dataclass
 class UnauthorizedError(PortOneError):
     """인증 정보가 올바르지 않은 경우"""
 
@@ -98,7 +98,7 @@ class UnauthorizedError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class WebhookNotFoundError(PortOneError):
     """웹훅 내역이 존재하지 않는 경우"""
 
@@ -111,7 +111,7 @@ class WebhookNotFoundError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class AlreadyPaidError(PortOneError):
     """결제가 이미 완료된 경우"""
 
@@ -124,7 +124,7 @@ class AlreadyPaidError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class BillingKeyAlreadyDeletedError(PortOneError):
     """빌링키가 이미 삭제된 경우"""
 
@@ -137,7 +137,7 @@ class BillingKeyAlreadyDeletedError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class BillingKeyNotFoundError(PortOneError):
     """빌링키가 존재하지 않는 경우"""
 
@@ -150,7 +150,7 @@ class BillingKeyNotFoundError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class ChannelNotFoundError(PortOneError):
     """요청된 채널이 존재하지 않는 경우"""
 
@@ -165,7 +165,7 @@ class ChannelNotFoundError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class DiscountAmountExceedsTotalAmountError(PortOneError):
     """프로모션 할인 금액이 결제 시도 금액 이상인 경우"""
 
@@ -182,7 +182,7 @@ class DiscountAmountExceedsTotalAmountError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class PromotionPayMethodDoesNotMatchError(PortOneError):
     """결제수단이 프로모션에 지정된 것과 일치하지 않는 경우"""
 
@@ -199,7 +199,7 @@ class PromotionPayMethodDoesNotMatchError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class SumOfPartsExceedsTotalAmountError(PortOneError):
     """면세 금액 등 하위 항목들의 합이 전체 결제 금액을 초과한 경우"""
 
@@ -214,7 +214,7 @@ class SumOfPartsExceedsTotalAmountError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class CashReceiptNotFoundError(PortOneError):
     """현금영수증이 존재하지 않는 경우"""
 
@@ -229,7 +229,7 @@ class CashReceiptNotFoundError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class AlreadyPaidOrWaitingError(PortOneError):
     """결제가 이미 완료되었거나 대기중인 경우"""
 
@@ -244,7 +244,7 @@ class AlreadyPaidOrWaitingError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class PaymentScheduleAlreadyExistsError(PortOneError):
     """결제 예약건이 이미 존재하는 경우"""
 
@@ -257,7 +257,7 @@ class PaymentScheduleAlreadyExistsError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class PaymentNotWaitingForDepositError(PortOneError):
     """결제 건이 입금 대기 상태가 아닌 경우"""
 
@@ -272,7 +272,7 @@ class PaymentNotWaitingForDepositError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class CancelAmountExceedsCancellableAmountError(PortOneError):
     """결제 취소 금액이 취소 가능 금액을 초과한 경우"""
 
@@ -289,7 +289,7 @@ class CancelAmountExceedsCancellableAmountError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class CancelTaxAmountExceedsCancellableTaxAmountError(PortOneError):
     """취소 과세 금액이 취소 가능한 과세 금액을 초과한 경우"""
 
@@ -306,7 +306,7 @@ class CancelTaxAmountExceedsCancellableTaxAmountError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class CancelTaxFreeAmountExceedsCancellableTaxFreeAmountError(PortOneError):
     """취소 면세 금액이 취소 가능한 면세 금액을 초과한 경우"""
 
@@ -323,7 +323,7 @@ class CancelTaxFreeAmountExceedsCancellableTaxFreeAmountError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class PaymentAlreadyCancelledError(PortOneError):
     """결제가 이미 취소된 경우"""
 
@@ -336,7 +336,7 @@ class PaymentAlreadyCancelledError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class RemainedAmountLessThanPromotionMinPaymentAmountError(PortOneError):
     """부분 취소 시, 취소하게 될 경우 남은 금액이 프로모션의 최소 결제 금액보다 작아지는 경우"""
 
@@ -353,7 +353,7 @@ class RemainedAmountLessThanPromotionMinPaymentAmountError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class SumOfPartsExceedsCancelAmountError(PortOneError):
     """면세 금액 등 하위 항목들의 합이 전체 취소 금액을 초과한 경우"""
 
@@ -368,7 +368,7 @@ class SumOfPartsExceedsCancelAmountError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class CashReceiptNotIssuedError(PortOneError):
     """현금영수증이 발급되지 않은 경우"""
 
@@ -383,7 +383,7 @@ class CashReceiptNotIssuedError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class CancellableAmountConsistencyBrokenError(PortOneError):
     """취소 가능 잔액 검증에 실패한 경우"""
 
@@ -400,7 +400,7 @@ class CancellableAmountConsistencyBrokenError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class IdentityVerificationAlreadySentError(PortOneError):
     """본인인증 건이 이미 API로 요청된 상태인 경우"""
 
@@ -417,7 +417,7 @@ class IdentityVerificationAlreadySentError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class IdentityVerificationAlreadyVerifiedError(PortOneError):
     """본인인증 건이 이미 인증 완료된 상태인 경우"""
 
@@ -434,7 +434,7 @@ class IdentityVerificationAlreadyVerifiedError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class IdentityVerificationNotFoundError(PortOneError):
     """요청된 본인인증 건이 존재하지 않는 경우"""
 
@@ -449,7 +449,7 @@ class IdentityVerificationNotFoundError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class PaymentScheduleAlreadyProcessedError(PortOneError):
     """결제 예약건이 이미 처리된 경우"""
 
@@ -466,7 +466,7 @@ class PaymentScheduleAlreadyProcessedError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class PaymentScheduleAlreadyRevokedError(PortOneError):
     """결제 예약건이 이미 취소된 경우"""
 
@@ -481,7 +481,7 @@ class PaymentScheduleAlreadyRevokedError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class PaymentScheduleNotFoundError(PortOneError):
     """결제 예약건이 존재하지 않는 경우"""
 
@@ -496,7 +496,7 @@ class PaymentScheduleNotFoundError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class IdentityVerificationNotSentError(PortOneError):
     """본인인증 건이 API로 요청된 상태가 아닌 경우"""
 
@@ -511,7 +511,7 @@ class IdentityVerificationNotSentError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class CashReceiptAlreadyIssuedError(PortOneError):
     """현금영수증이 이미 발급된 경우"""
 
@@ -526,7 +526,7 @@ class CashReceiptAlreadyIssuedError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class BillingKeyNotIssuedError(PortOneError):
     """빌링키가 발급되지 않은 경우"""
 
@@ -539,7 +539,7 @@ class BillingKeyNotIssuedError(PortOneError):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class ChannelSpecificError(PortOneError):
     """여러 채널을 지정한 요청에서, 채널 각각에서 오류가 발생한 경우"""
 
@@ -558,7 +558,7 @@ class ChannelSpecificError(PortOneError):
         self.failures = error.failures
 
 
-@dataclass(slots=True)
+@dataclass
 class UnknownError(PortOneError):
     """알 수 없는 경우"""
 
@@ -566,7 +566,7 @@ class UnknownError(PortOneError):
     error: object
 
 
-type WebhookVerificationFailureReason = Literal[
+WebhookVerificationFailureReason = Literal[
     "MISSING_REQUIRED_HEADERS",
     "NO_MATCHING_SIGNATURE",
     "INVALID_SIGNATURE",
@@ -575,11 +575,11 @@ type WebhookVerificationFailureReason = Literal[
 ]
 """웹훅 검증 실패 사유입니다.
 
-`WebhookVerificationError.getMessage()`에 전달하여 에러 메시지를 얻을 수 있습니다.
+`WebhookVerificationError.getMessage`에 전달하여 에러 메시지를 얻을 수 있습니다.
 """
 
 
-@dataclass(slots=True)
+@dataclass
 class WebhookVerificationError(PortOneError):
     """웹훅 검증이 실패했을 경우"""
 
@@ -599,20 +599,18 @@ class WebhookVerificationError(PortOneError):
         Returns:
             str: 에러 메시지.
         """
-
-        match reason:
-            case "MISSING_REQUIRED_HEADERS":
-                return "필수 헤더가 누락되었습니다."
-            case "NO_MATCHING_SIGNATURE":
-                return "올바른 웹훅 시그니처를 찾을 수 없습니다."
-            case "INVALID_SIGNATURE":
-                return "웹훅 시그니처가 유효하지 않습니다."
-            case "TIMESTAMP_TOO_OLD":
-                return "웹훅 시그니처의 타임스탬프가 만료 기한을 초과했습니다."
-            case "TIMESTAMP_TOO_NEW":
-                return "웹훅 시그니처의 타임스탬프가 미래 시간으로 설정되어 있습니다."
+        if reason == "MISSING_REQUIRED_HEADERS":
+            return "필수 헤더가 누락되었습니다."
+        elif reason == "NO_MATCHING_SIGNATURE":
+            return "올바른 웹훅 시그니처를 찾을 수 없습니다."
+        elif reason == "INVALID_SIGNATURE":
+            return "웹훅 시그니처가 유효하지 않습니다."
+        elif reason == "TIMESTAMP_TOO_OLD":
+            return "웹훅 시그니처의 타임스탬프가 만료 기한을 초과했습니다."
+        elif reason == "TIMESTAMP_TOO_NEW":
+            return "웹훅 시그니처의 타임스탬프가 미래 시간으로 설정되어 있습니다."
 
 
-@dataclass(slots=True)
+@dataclass
 class InvalidInputError(PortOneError):
     """SDK에 전달한 사용자 입력이 잘못되었을 경우"""

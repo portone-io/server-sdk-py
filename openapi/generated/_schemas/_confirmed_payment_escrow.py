@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Literal, Optional
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class ConfirmedPaymentEscrow:
     """구매 확정"""
     status: Literal["CONFIRMED"]

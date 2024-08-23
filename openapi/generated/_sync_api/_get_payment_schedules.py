@@ -14,11 +14,11 @@ from portone_server_sdk._openapi._schemas._payment_schedule_filter_input import 
 from portone_server_sdk._openapi._schemas._payment_schedule_sort_input import PaymentScheduleSortInput
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetPaymentSchedulesParam:
     pass
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetPaymentSchedulesQuery:
     pass
 

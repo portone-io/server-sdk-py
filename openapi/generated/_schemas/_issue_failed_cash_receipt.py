@@ -2,7 +2,7 @@ import dataclasses
 from typing import Literal, Optional
 from portone_server_sdk._openapi._schemas._selected_channel import SelectedChannel
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class IssueFailedCashReceipt:
     """발급 실패"""
     status: Literal["ISSUE_FAILED"]

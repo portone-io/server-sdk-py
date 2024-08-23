@@ -19,12 +19,12 @@ from portone_server_sdk._openapi._schemas._send_identity_verification_error impo
 from portone_server_sdk._openapi._schemas._send_identity_verification_response import SendIdentityVerificationResponse
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class SendIdentityVerificationParam:
     identityVerificationId: str
     """본인인증 아이디"""
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class SendIdentityVerificationQuery:
     pass
 

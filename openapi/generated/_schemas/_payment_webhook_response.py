@@ -1,6 +1,6 @@
 import dataclasses
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PaymentWebhookResponse:
     """웹훅 응답 정보"""
     code: str

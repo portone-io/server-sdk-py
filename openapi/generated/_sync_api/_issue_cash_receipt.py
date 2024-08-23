@@ -19,11 +19,11 @@ from portone_server_sdk._openapi._schemas._payment_product_type import PaymentPr
 from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class IssueCashReceiptParam:
     pass
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class IssueCashReceiptQuery:
     pass
 

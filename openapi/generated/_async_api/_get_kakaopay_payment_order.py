@@ -8,11 +8,11 @@ from portone_server_sdk._openapi._schemas._get_kakaopay_payment_order_response i
 from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetKakaopayPaymentOrderParam:
     pass
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetKakaopayPaymentOrderQuery:
     pgTxId: str
     """카카오페이 주문 번호 (tid)"""
