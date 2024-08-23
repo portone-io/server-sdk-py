@@ -16,11 +16,11 @@ from portone_server_sdk._openapi._schemas._revoke_payment_schedules_error import
 from portone_server_sdk._openapi._schemas._revoke_payment_schedules_response import RevokePaymentSchedulesResponse
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class RevokePaymentSchedulesParam:
     pass
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class RevokePaymentSchedulesQuery:
     pass
 

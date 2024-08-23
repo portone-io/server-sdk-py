@@ -3,7 +3,7 @@ from typing import Optional
 from portone_server_sdk._openapi._schemas._instant_payment_method_input_virtual_account_option_fixed import InstantPaymentMethodInputVirtualAccountOptionFixed
 from portone_server_sdk._openapi._schemas._instant_payment_method_input_virtual_account_option_type import InstantPaymentMethodInputVirtualAccountOptionType
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class InstantPaymentMethodInputVirtualAccountOption:
     """가상계좌 발급 방식"""
     type: InstantPaymentMethodInputVirtualAccountOptionType

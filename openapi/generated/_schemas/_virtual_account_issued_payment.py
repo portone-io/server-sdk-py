@@ -1,4 +1,5 @@
 import dataclasses
+import serde
 from typing import Literal, Optional
 from portone_server_sdk._openapi._schemas._channel_group_summary import ChannelGroupSummary
 from portone_server_sdk._openapi._schemas._country import Country
@@ -12,7 +13,8 @@ from portone_server_sdk._openapi._schemas._payment_webhook import PaymentWebhook
 from portone_server_sdk._openapi._schemas._port_one_version import PortOneVersion
 from portone_server_sdk._openapi._schemas._selected_channel import SelectedChannel
 
-@dataclasses.dataclass(kw_only=True)
+@serde.serde(tagging=serde.Untagged)
+@dataclasses.dataclass
 class VirtualAccountIssuedPayment:
     """가상계좌 발급 완료 상태 건"""
     status: Literal["VIRTUAL_ACCOUNT_ISSUED"]

@@ -3,7 +3,7 @@ from typing import Literal, Optional
 from portone_server_sdk._openapi._schemas._card import Card
 from portone_server_sdk._openapi._schemas._payment_installment import PaymentInstallment
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PaymentMethodCard:
     """결제수단 카드 정보"""
     type: Literal["PaymentMethodCard"]

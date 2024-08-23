@@ -16,11 +16,11 @@ from portone_server_sdk._openapi._schemas._issue_billing_key_response import Iss
 from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class IssueBillingKeyParam:
     pass
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class IssueBillingKeyQuery:
     pass
 

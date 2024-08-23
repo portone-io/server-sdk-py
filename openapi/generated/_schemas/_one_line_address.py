@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Literal
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class OneLineAddress:
     """한 줄 형식 주소
     

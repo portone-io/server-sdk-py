@@ -6,7 +6,7 @@ from portone_server_sdk._openapi._schemas._payment_webhook_response import Payme
 from portone_server_sdk._openapi._schemas._payment_webhook_status import PaymentWebhookStatus
 from portone_server_sdk._openapi._schemas._payment_webhook_trigger import PaymentWebhookTrigger
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PaymentWebhook:
     """성공 웹훅 내역"""
     paymentStatus: Optional[PaymentWebhookPaymentStatus]

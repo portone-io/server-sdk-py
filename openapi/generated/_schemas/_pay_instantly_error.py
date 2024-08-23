@@ -1,3 +1,4 @@
+from typing import Union
 from portone_server_sdk._openapi._schemas._already_paid_error import AlreadyPaidError
 from portone_server_sdk._openapi._schemas._channel_not_found_error import ChannelNotFoundError
 from portone_server_sdk._openapi._schemas._discount_amount_exceeds_total_amount_error import DiscountAmountExceedsTotalAmountError
@@ -8,6 +9,6 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
 from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_total_amount_error import SumOfPartsExceedsTotalAmountError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-type PayInstantlyError = AlreadyPaidError | ChannelNotFoundError | DiscountAmountExceedsTotalAmountError | ForbiddenError | InvalidRequestError | PgProviderError | PromotionPayMethodDoesNotMatchError | SumOfPartsExceedsTotalAmountError | UnauthorizedError
+PayInstantlyError = Union[AlreadyPaidError, ChannelNotFoundError, DiscountAmountExceedsTotalAmountError, ForbiddenError, InvalidRequestError, PgProviderError, PromotionPayMethodDoesNotMatchError, SumOfPartsExceedsTotalAmountError, UnauthorizedError]
 """PayInstantlyError"""
 

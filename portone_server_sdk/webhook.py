@@ -2,6 +2,7 @@ import codecs
 import hmac
 import time
 from collections.abc import Mapping
+from typing import Union
 
 from portone_server_sdk._errors import InvalidInputError, WebhookVerificationError
 
@@ -13,7 +14,7 @@ _required_headers = {
 
 
 def verify(
-    secret: str | bytes | bytearray, payload: str, headers: Mapping[str, str]
+    secret: Union[str, bytes, bytearray], payload: str, headers: Mapping[str, str]
 ) -> None:
     """웹훅 페이로드를 검증합니다.
 
@@ -71,7 +72,7 @@ def verify_timestamp(timestamp_header: str) -> None:
 
 
 def sign(
-    secret: str | bytes | bytearray, msg_id: str, msg_timestamp: str, payload: str
+    secret: Union[str, bytes, bytearray], msg_id: str, msg_timestamp: str, payload: str
 ) -> bytes:
     raw_secret = get_raw_secret(secret)
     to_sign = f"{msg_id}.{msg_timestamp}.{payload}"
@@ -81,7 +82,7 @@ def sign(
 _prefix = "whsec_"
 
 
-def get_raw_secret(secret: str | bytes | bytearray) -> bytes | bytearray:
+def get_raw_secret(secret: Union[str, bytes, bytearray]) -> Union[bytes, bytearray]:
     if isinstance(secret, (bytes, bytearray)):
         raw_secret = secret
     elif isinstance(secret, str):

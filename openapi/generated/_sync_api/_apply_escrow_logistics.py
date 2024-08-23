@@ -18,12 +18,12 @@ from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderEr
 from portone_server_sdk._openapi._schemas._register_escrow_logistics_body import RegisterEscrowLogisticsBody
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class ApplyEscrowLogisticsParam:
     paymentId: str
     """결제 건 아이디"""
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class ApplyEscrowLogisticsQuery:
     pass
 

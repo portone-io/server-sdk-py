@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Optional
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class ConfirmIdentityVerificationBody:
     """본인인증 확인을 위한 입력 정보"""
     storeId: Optional[str]

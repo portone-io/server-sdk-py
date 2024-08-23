@@ -2,7 +2,7 @@ import dataclasses
 from typing import Optional
 from portone_server_sdk._openapi._schemas._card_credential import CardCredential
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class InstantPaymentMethodInputCard:
     """카드 수단 정보 입력 정보"""
     credential: CardCredential

@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Literal, Optional
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class InvalidRequestError:
     """요청된 입력 정보가 유효하지 않은 경우
     

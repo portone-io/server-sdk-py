@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Literal, Optional
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PaymentNotPaidError:
     """결제가 완료되지 않은 경우"""
     type: Literal["PAYMENT_NOT_PAID"]

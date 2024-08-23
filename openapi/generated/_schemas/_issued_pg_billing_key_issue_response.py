@@ -1,9 +1,11 @@
 import dataclasses
+import serde
 from typing import Literal, Optional
 from portone_server_sdk._openapi._schemas._billing_key_payment_method import BillingKeyPaymentMethod
 from portone_server_sdk._openapi._schemas._selected_channel import SelectedChannel
 
-@dataclasses.dataclass(kw_only=True)
+@serde.serde(tagging=serde.Untagged)
+@dataclasses.dataclass
 class IssuedPgBillingKeyIssueResponse:
     """빌링키 발급 성공 채널 응답"""
     type: Literal["ISSUED"]

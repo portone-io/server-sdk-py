@@ -1,9 +1,11 @@
 import dataclasses
+import serde
 from typing import Optional
 from portone_server_sdk._openapi._schemas._address import Address
 from portone_server_sdk._openapi._schemas._gender import Gender
 
-@dataclasses.dataclass(kw_only=True)
+@serde.serde(tagging=serde.Untagged)
+@dataclasses.dataclass
 class Customer:
     """고객 정보"""
     id: Optional[str]

@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Optional
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PageInput:
     """다건 조회 API 에 사용되는 페이지 입력 정보"""
     number: Optional[int]

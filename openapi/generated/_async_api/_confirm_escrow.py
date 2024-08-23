@@ -14,12 +14,12 @@ from portone_server_sdk._openapi._schemas._payment_not_paid_error import Payment
 from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class ConfirmEscrowParam:
     paymentId: str
     """결제 건 아이디"""
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class ConfirmEscrowQuery:
     pass
 

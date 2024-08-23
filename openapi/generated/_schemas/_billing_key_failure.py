@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Optional
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class BillingKeyFailure:
     """발급 실패 상세 정보"""
     message: Optional[str]

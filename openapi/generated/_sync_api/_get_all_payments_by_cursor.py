@@ -11,11 +11,11 @@ from portone_server_sdk._openapi._schemas._get_all_payments_error import GetAllP
 from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetAllPaymentsByCursorParam:
     pass
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetAllPaymentsByCursorQuery:
     pass
 

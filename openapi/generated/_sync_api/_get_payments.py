@@ -13,11 +13,11 @@ from portone_server_sdk._openapi._schemas._page_input import PageInput
 from portone_server_sdk._openapi._schemas._payment_filter_input import PaymentFilterInput
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetPaymentsParam:
     pass
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetPaymentsQuery:
     pass
 

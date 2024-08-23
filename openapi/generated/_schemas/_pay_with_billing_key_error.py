@@ -1,3 +1,4 @@
+from typing import Union
 from portone_server_sdk._openapi._schemas._already_paid_error import AlreadyPaidError
 from portone_server_sdk._openapi._schemas._billing_key_already_deleted_error import BillingKeyAlreadyDeletedError
 from portone_server_sdk._openapi._schemas._billing_key_not_found_error import BillingKeyNotFoundError
@@ -10,6 +11,6 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
 from portone_server_sdk._openapi._schemas._sum_of_parts_exceeds_total_amount_error import SumOfPartsExceedsTotalAmountError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-type PayWithBillingKeyError = AlreadyPaidError | BillingKeyAlreadyDeletedError | BillingKeyNotFoundError | ChannelNotFoundError | DiscountAmountExceedsTotalAmountError | ForbiddenError | InvalidRequestError | PgProviderError | PromotionPayMethodDoesNotMatchError | SumOfPartsExceedsTotalAmountError | UnauthorizedError
+PayWithBillingKeyError = Union[AlreadyPaidError, BillingKeyAlreadyDeletedError, BillingKeyNotFoundError, ChannelNotFoundError, DiscountAmountExceedsTotalAmountError, ForbiddenError, InvalidRequestError, PgProviderError, PromotionPayMethodDoesNotMatchError, SumOfPartsExceedsTotalAmountError, UnauthorizedError]
 """PayWithBillingKeyError"""
 

@@ -4,7 +4,7 @@ from portone_server_sdk._openapi._schemas._cash_receipt_type import CashReceiptT
 from portone_server_sdk._openapi._schemas._currency import Currency
 from portone_server_sdk._openapi._schemas._selected_channel import SelectedChannel
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class IssuedCashReceipt:
     """발급 완료"""
     status: Literal["ISSUED"]

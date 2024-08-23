@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Optional
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class ConfirmEscrowBody:
     """에스크로 구매 확정 입력 정보"""
     storeId: Optional[str]

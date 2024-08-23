@@ -4,7 +4,7 @@ from portone_server_sdk._openapi._schemas._billing_key_filter_input import Billi
 from portone_server_sdk._openapi._schemas._billing_key_sort_input import BillingKeySortInput
 from portone_server_sdk._openapi._schemas._page_input import PageInput
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetBillingKeyInfosBody:
     """GetBillingKeyInfosBody
     

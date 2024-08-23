@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Optional
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class RevokePaymentSchedulesBody:
     """결제 예약 건 취소 요청 입력 정보
     

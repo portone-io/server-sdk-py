@@ -1,8 +1,10 @@
 import dataclasses
+import serde
 from portone_server_sdk._openapi._schemas._page_info import PageInfo
 from portone_server_sdk._openapi._schemas._payment import Payment
 
-@dataclasses.dataclass(kw_only=True)
+@serde.serde(tagging=serde.Untagged)
+@dataclasses.dataclass
 class GetPaymentsResponse:
     """결제 건 다건 조회 성공 응답 정보"""
     items: list[Payment]

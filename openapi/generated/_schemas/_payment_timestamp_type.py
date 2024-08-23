@@ -1,6 +1,6 @@
 from typing import Literal
 
-type PaymentTimestampType = Literal["CREATED_AT", "STATUS_CHANGED_AT"]
+PaymentTimestampType = Literal["CREATED_AT", "STATUS_CHANGED_AT"]
 """조회 시점 기준
 
 어떤 시점을 기준으로 조회를 할 것인지 선택합니다.

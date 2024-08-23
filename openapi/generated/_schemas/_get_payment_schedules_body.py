@@ -4,7 +4,7 @@ from portone_server_sdk._openapi._schemas._page_input import PageInput
 from portone_server_sdk._openapi._schemas._payment_schedule_filter_input import PaymentScheduleFilterInput
 from portone_server_sdk._openapi._schemas._payment_schedule_sort_input import PaymentScheduleSortInput
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetPaymentSchedulesBody:
     """결제 예약 다건 조회를 위한 입력 정보
     

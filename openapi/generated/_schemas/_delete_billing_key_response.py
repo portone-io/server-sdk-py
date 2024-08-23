@@ -1,6 +1,6 @@
 import dataclasses
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class DeleteBillingKeyResponse:
     """빌링키 삭제 성공 응답"""
     deletedAt: str

@@ -3,7 +3,7 @@ from typing import Literal, Optional
 from portone_server_sdk._openapi._schemas._cash_receipt_type import CashReceiptType
 from portone_server_sdk._openapi._schemas._currency import Currency
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class IssuedPaymentCashReceipt:
     """발급 완료된 현금영수증"""
     status: Literal["ISSUED"]

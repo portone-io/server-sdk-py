@@ -1,6 +1,6 @@
 import dataclasses
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class ChannelGroupSummary:
     """채널 그룹 정보"""
     id: str

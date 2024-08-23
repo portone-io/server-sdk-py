@@ -3,7 +3,7 @@ from typing import Any, Optional
 from portone_server_sdk._openapi._schemas._customer_input import CustomerInput
 from portone_server_sdk._openapi._schemas._instant_billing_key_payment_method_input import InstantBillingKeyPaymentMethodInput
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class IssueBillingKeyBody:
     """빌링키 발급 요청 양식"""
     storeId: Optional[str]

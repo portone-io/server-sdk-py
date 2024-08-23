@@ -2,7 +2,7 @@ import dataclasses
 from typing import Optional
 from portone_server_sdk._openapi._schemas._currency import Currency
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PreRegisterPaymentBody:
     """결제 정보 사전 등록 입력 정보"""
     storeId: Optional[str]

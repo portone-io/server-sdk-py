@@ -15,12 +15,12 @@ from portone_server_sdk._openapi._schemas._register_store_receipt_error import R
 from portone_server_sdk._openapi._schemas._register_store_receipt_response import RegisterStoreReceiptResponse
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class RegisterStoreReceiptParam:
     paymentId: str
     """등록할 하위 상점 결제 건 아이디"""
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class RegisterStoreReceiptQuery:
     pass
 

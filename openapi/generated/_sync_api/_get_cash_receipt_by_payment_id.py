@@ -11,12 +11,12 @@ from portone_server_sdk._openapi._schemas._get_cash_receipt_error import GetCash
 from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetCashReceiptByPaymentIdParam:
     paymentId: str
     """결제 건 아이디"""
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetCashReceiptByPaymentIdQuery:
     storeId: Optional[str]
     """상점 아이디

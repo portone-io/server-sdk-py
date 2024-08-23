@@ -5,7 +5,7 @@ from portone_server_sdk._openapi._schemas._payment_escrow_sender_input import Pa
 from portone_server_sdk._openapi._schemas._payment_logistics import PaymentLogistics
 from portone_server_sdk._openapi._schemas._payment_product import PaymentProduct
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class RegisterEscrowLogisticsBody:
     """에스크로 배송 정보 등록 입력 정보"""
     storeId: Optional[str]

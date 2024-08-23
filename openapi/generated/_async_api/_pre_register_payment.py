@@ -13,12 +13,12 @@ from portone_server_sdk._openapi._schemas._pre_register_payment_error import Pre
 from portone_server_sdk._openapi._schemas._pre_register_payment_response import PreRegisterPaymentResponse
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PreRegisterPaymentParam:
     paymentId: str
     """결제 건 아이디"""
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PreRegisterPaymentQuery:
     pass
 

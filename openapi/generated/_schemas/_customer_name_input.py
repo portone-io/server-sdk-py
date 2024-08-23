@@ -2,7 +2,7 @@ import dataclasses
 from typing import Optional
 from portone_server_sdk._openapi._schemas._customer_separated_name import CustomerSeparatedName
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class CustomerNameInput:
     """고객 이름 입력 정보
     

@@ -2,7 +2,7 @@ import dataclasses
 from typing import Literal, Optional
 from portone_server_sdk._openapi._schemas._card import Card
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class BillingKeyPaymentMethodCard:
     """카드 정보"""
     type: Literal["BillingKeyPaymentMethodCard"]

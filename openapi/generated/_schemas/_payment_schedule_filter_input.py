@@ -2,7 +2,7 @@ import dataclasses
 from typing import Optional
 from portone_server_sdk._openapi._schemas._payment_schedule_status import PaymentScheduleStatus
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PaymentScheduleFilterInput:
     """결제 예약 건 다건 조회를 위한 입력 정보"""
     storeId: Optional[str]

@@ -2,7 +2,7 @@ import dataclasses
 from typing import Literal, Optional
 from portone_server_sdk._openapi._schemas._payment_method_gift_certificate_type import PaymentMethodGiftCertificateType
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PaymentMethodGiftCertificate:
     """상품권 상세 정보"""
     type: Literal["PaymentMethodGiftCertificate"]

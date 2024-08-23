@@ -5,7 +5,7 @@ from portone_server_sdk._openapi._schemas._customer_name_input import CustomerNa
 from portone_server_sdk._openapi._schemas._gender import Gender
 from portone_server_sdk._openapi._schemas._separated_address_input import SeparatedAddressInput
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class CustomerInput:
     """고객 정보 입력 정보"""
     id: Optional[str]

@@ -1,6 +1,6 @@
 import dataclasses
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class PageInfo:
     """반환된 페이지 결과 정보"""
     number: int

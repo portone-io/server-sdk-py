@@ -1,6 +1,6 @@
 import dataclasses
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class ApplyEscrowLogisticsResponse:
     """에스크로 배송 정보 등록 성공 응답"""
     invoiceNumber: str

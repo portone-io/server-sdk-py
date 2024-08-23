@@ -11,12 +11,12 @@ from portone_server_sdk._openapi._schemas._identity_verification_not_found_error
 from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetIdentityVerificationParam:
     identityVerificationId: str
     """조회할 본인인증 아이디"""
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetIdentityVerificationQuery:
     storeId: Optional[str]
     """상점 아이디

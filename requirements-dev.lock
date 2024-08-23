@@ -14,6 +14,8 @@ anyio==4.4.0
     # via httpx
 babel==2.15.0
     # via mkdocs-material
+backports-strenum==1.3.1
+    # via griffe
 beartype==0.18.5
     # via plum-dispatch
     # via pyserde
@@ -37,6 +39,8 @@ colorama==0.4.6
     # via mkdocs-material
 distlib==0.3.8
     # via virtualenv
+exceptiongroup==1.2.2
+    # via anyio
 filelock==3.15.4
     # via virtualenv
 ghp-import==2.1.0
@@ -55,6 +59,11 @@ idna==3.7
     # via anyio
     # via httpx
     # via requests
+importlib-metadata==8.4.0
+    # via markdown
+    # via mkdocs
+    # via mkdocs-get-deps
+    # via mkdocstrings
 jinja2==3.1.4
     # via mkdocs
     # via mkdocs-material
@@ -144,8 +153,15 @@ sniffio==1.3.1
     # via httpx
 soupsieve==2.5
     # via beautifulsoup4
-typing-extensions==4.12.2
+toml==0.10.2
+tomli==2.0.1
     # via mypy
+types-toml==0.10.8.20240310
+typing-extensions==4.12.2
+    # via anyio
+    # via mkdocstrings
+    # via mypy
+    # via plum-dispatch
     # via pyserde
     # via typing-inspect
 typing-inspect==0.9.0
@@ -156,3 +172,5 @@ virtualenv==20.26.3
     # via pre-commit
 watchdog==4.0.1
     # via mkdocs
+zipp==3.20.0
+    # via importlib-metadata

@@ -1,6 +1,6 @@
 import dataclasses
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class BillingKeyPaymentSummary:
     """빌링키 결제 완료된 결제 건 요약 정보"""
     pgTxId: str

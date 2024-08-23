@@ -3,7 +3,7 @@ import re
 from dataclasses import dataclass, field
 from keyword import iskeyword
 from pathlib import Path
-from typing import ClassVar, Optional, cast
+from typing import ClassVar, Optional, Union, cast
 
 from markdownify import markdownify as md  # type: ignore[import-untyped]
 
@@ -37,22 +37,22 @@ def gen() -> None:
     generator.generate_files()
 
 
-type Record = dict[str, "RecordValue"]
-type RecordValue = str | int | float | bool | list[RecordValue] | Record
+Record = dict[str, "RecordValue"]
+RecordValue = Union[str, int, float, bool, list["RecordValue"], Record]
 
 
-@dataclass(kw_only=True)
+@dataclass
 class Documented:
     title: Optional[str]
     description: Optional[str]
 
 
-@dataclass(slots=True, kw_only=True)
+@dataclass
 class Spec(Documented):
     name: str
     as_type: str
-    properties: Optional[list["Spec"]] = None
     refs: set[str]
+    properties: Optional[list["Spec"]] = None
 
     @classmethod
     def empty(cls, name: str) -> "Spec":
@@ -66,7 +66,7 @@ class Spec(Documented):
         )
 
 
-@dataclass(slots=True, kw_only=True)
+@dataclass
 class Operation(Documented):
     name: str
     path: str
@@ -81,7 +81,7 @@ class Operation(Documented):
     description: Optional[str]
 
 
-@dataclass(slots=True)
+@dataclass
 class SchemaGenerator:
     resolved_names: set[str] = field(default_factory=set, init=False)
     operations: list[Operation] = field(default_factory=list, init=False)
@@ -272,7 +272,8 @@ class SchemaGenerator:
                         if prop.name == property_name:
                             prop.as_type = f'Literal["{key}"]'
                             spec.refs.add("Literal")
-                as_type = " | ".join(as_types)
+                as_type = f"Union[{', '.join(as_types)}]"
+                refs.add("Union")
                 return Spec(
                     name=name,
                     as_type=as_type,
@@ -282,101 +283,100 @@ class SchemaGenerator:
                 )
         type = schema.get("type")
         if isinstance(type, str):
-            match type:
-                case "object":
-                    as_type = name
-                    properties = []
-                    raw_required = schema.get("required", [])
-                    if not isinstance(raw_required, list):
-                        raise NotImplementedError(
-                            "Unimplemented required field", schema, name
+            if type == "object":
+                as_type = name
+                properties = []
+                raw_required = schema.get("required", [])
+                if not isinstance(raw_required, list):
+                    raise NotImplementedError(
+                        "Unimplemented required field", schema, name
+                    )
+                required = set(raw_required)
+                raw_properties = schema.get("properties")
+                refs = set()
+                if isinstance(raw_properties, dict):
+                    for key, value in raw_properties.items():
+                        if isinstance(value, dict):
+                            spec = self.visit_schema(value, key)
+                            refs.update(spec.refs)
+                            if key not in required:
+                                spec.as_type = f"Optional[{spec.as_type}]"
+                                refs.add("Optional")
+                            properties.append(spec)
+                else:
+                    as_type = "Any"
+                    refs.add("Any")
+                return Spec(
+                    name=name,
+                    as_type=as_type,
+                    title=title,
+                    description=description,
+                    properties=properties,
+                    refs=refs,
+                )
+            elif type == "array":
+                items = schema.get("items")
+                if isinstance(items, dict):
+                    spec = self.visit_schema(items, name)
+                    as_type = f"list[{spec.as_type}]"
+                    return Spec(
+                        name=name,
+                        as_type=as_type,
+                        title=title,
+                        description=description,
+                        refs=spec.refs,
+                    )
+                else:
+                    raise NotImplementedError(items)
+            elif type == "string":
+                enum = schema.get("enum")
+                if isinstance(enum, list):
+                    as_type = (
+                        "Literal["
+                        + ", ".join(
+                            [
+                                f'"{literal}"'
+                                for literal in enum
+                                if isinstance(literal, str)
+                            ]
                         )
-                    required = set(raw_required)
-                    raw_properties = schema.get("properties")
+                        + "]"
+                    )
+                    refs = set(["Literal"])
+                else:
+                    as_type = "str"
                     refs = set()
-                    if isinstance(raw_properties, dict):
-                        for key, value in raw_properties.items():
-                            if isinstance(value, dict):
-                                spec = self.visit_schema(value, key)
-                                refs.update(spec.refs)
-                                if key not in required:
-                                    spec.as_type = f"Optional[{spec.as_type}]"
-                                    refs.add("Optional")
-                                properties.append(spec)
-                    else:
-                        as_type = "Any"
-                        refs.add("Any")
-                    return Spec(
-                        name=name,
-                        as_type=as_type,
-                        title=title,
-                        description=description,
-                        properties=properties,
-                        refs=refs,
-                    )
-                case "array":
-                    items = schema.get("items")
-                    if isinstance(items, dict):
-                        spec = self.visit_schema(items, name)
-                        as_type = f"list[{spec.as_type}]"
-                        return Spec(
-                            name=name,
-                            as_type=as_type,
-                            title=title,
-                            description=description,
-                            refs=spec.refs,
-                        )
-                    else:
-                        raise NotImplementedError(items)
-                case "string":
-                    enum = schema.get("enum")
-                    if isinstance(enum, list):
-                        as_type = (
-                            "Literal["
-                            + ", ".join(
-                                [
-                                    f'"{literal}"'
-                                    for literal in enum
-                                    if isinstance(literal, str)
-                                ]
-                            )
-                            + "]"
-                        )
-                        refs = set(["Literal"])
-                    else:
-                        as_type = "str"
-                        refs = set()
-                    return Spec(
-                        name=name,
-                        as_type=as_type,
-                        title=title,
-                        description=description,
-                        refs=refs,
-                    )
-                case "integer":
-                    return Spec(
-                        name=name,
-                        as_type="int",
-                        title=title,
-                        description=description,
-                        refs=set(),
-                    )
-                case "number":
-                    return Spec(
-                        name=name,
-                        as_type="float",
-                        title=title,
-                        description=description,
-                        refs=set(),
-                    )
-                case "boolean":
-                    return Spec(
-                        name=name,
-                        as_type="bool",
-                        title=title,
-                        description=description,
-                        refs=set(),
-                    )
+                return Spec(
+                    name=name,
+                    as_type=as_type,
+                    title=title,
+                    description=description,
+                    refs=refs,
+                )
+            elif type == "integer":
+                return Spec(
+                    name=name,
+                    as_type="int",
+                    title=title,
+                    description=description,
+                    refs=set(),
+                )
+            elif type == "number":
+                return Spec(
+                    name=name,
+                    as_type="float",
+                    title=title,
+                    description=description,
+                    refs=set(),
+                )
+            elif type == "boolean":
+                return Spec(
+                    name=name,
+                    as_type="bool",
+                    title=title,
+                    description=description,
+                    refs=set(),
+                )
         raise NotImplementedError(schema, name)
 
     def export_type(self, name: str) -> None:
@@ -420,15 +420,28 @@ class SchemaGenerator:
                 lines[-1] = f'{lines[-1]}"""'
         return lines
 
-    @classmethod
-    def generate_schema(cls, spec: Spec) -> str:
+    def has_union(self, spec: Spec) -> bool:
+        if spec.refs:
+            for prop in spec.refs:
+                schema = self.schemas.get(prop)
+                if schema is not None and "Union" in schema.refs:
+                    return True
+        return False
+
+    def generate_schema(self, spec: Spec) -> str:
         if spec.properties is None:
-            docs = cls.make_doc_lines(spec)
-            body = f"type {spec.name} = {spec.as_type}{f"\n{"\n".join(docs)}" if docs else ""}\n"
+            docs = self.make_doc_lines(spec)
+            docs_join = "\n".join(docs)
+            docs_or_empty = f"\n{docs_join}" if docs else ""
+            body = f"{spec.name} = {spec.as_type}{docs_or_empty}\n"
             return body
         else:
-            lines = ["@dataclasses.dataclass(kw_only=True)\n", f"class {spec.name}:\n"]
-            docs = cls.make_doc_lines(spec)
+            lines = []
+            if self.has_union(spec):
+                lines.append("@serde.serde(tagging=serde.Untagged)\n")
+            lines.append("@dataclasses.dataclass\n")
+            lines.append(f"class {spec.name}:\n")
+            docs = self.make_doc_lines(spec)
             lines.extend(f"    {line}\n" for line in docs)
             for prop in spec.properties:
                 if iskeyword(prop.name):
@@ -437,13 +450,13 @@ class SchemaGenerator:
                     )
                 else:
                     lines.append(f"    {prop.name}: {prop.as_type}\n")
-                docs = cls.make_doc_lines(prop)
+                docs = self.make_doc_lines(prop)
                 lines.extend(f"    {line}\n" for line in docs)
             if not spec.properties:
                 lines.append("    pass\n")
             return "".join(lines)
 
-    typing_types: ClassVar[list[str]] = ["Any", "Literal", "Optional"]
+    typing_types: ClassVar[list[str]] = ["Any", "Literal", "Optional", "Union"]
 
     def generate_files_schemas(self, generated_path: Path) -> None:
         schema_dir = generated_path.joinpath("_schemas")
@@ -468,11 +481,13 @@ class SchemaGenerator:
                 f"from portone_server_sdk._openapi._schemas._{to_snake_case(ref)} import {ref}\n"
                 for ref in sorted(refs)
             )
-            typing = ", ".join(typing_refs)
+            typing = ", ".join(sorted(typing_refs))
+            has_union = self.has_union(spec)
+            import_serde = "import serde\n" if has_union else ""
             import_typing = typing and f"from typing import {typing}\n"
             import_dataclass = "" if spec.properties is None else "import dataclasses\n"
             with open(file, "wt") as f:
-                f.write(f"""{import_dataclass}{import_typing}{import_refs}
+                f.write(f"""{import_dataclass}{import_serde}{import_typing}{import_refs}
 {self.generate_schema(spec)}
 """)
         with open(schema_dir.joinpath("__init__.py"), "wt") as f:
@@ -566,7 +581,7 @@ __all__ = [
             raises = []
             refs.add(operation.error)
             error_spec = self.schemas[operation.error]
-            errors.extend(error_spec.as_type.split(" | "))
+            errors.extend(error_spec.as_type[len("Union[") : -1].split(", "))
             errors.sort()
             docs.append("")
             docs.append("Raises:")
@@ -600,6 +615,18 @@ __all__ = [
                 import_refs.append(
                     f"from portone_server_sdk._openapi._schemas._{module_name} import {ref}\n"
                 )
+            args_join = "".join(f"\n        {arg}" for arg in args)
+            docs_join = "".join(f"\n        {line}" for line in docs) if docs else ""
+            param_join = "".join(f"\n            {arg}" for arg in param_args)
+            param_list = f"({param_join}\n        )" if param_args else "()"
+            query_join = "".join(f"\n            {arg}" for arg in query_args)
+            query_list = f"({query_join}\n        )" if query_args else "()"
+            body_join = "".join(f"\n            {arg}" for arg in body_args)
+            body_list = f"({body_join}\n        )" if body_args else "()"
+            raises_join = "".join(f"            {line}\n" for line in raises)
+            return_data_or_none = (
+                "\n        return response_.data" if success_class != "None" else ""
+            )
             for is_async in [True, False]:
                 async_def = "async def" if is_async else "def"
                 await_self = "await self" if is_async else "self"
@@ -624,11 +651,11 @@ class {class_name}Request(ApiRequest[{success_class}, {error_class}, {operation.
 @dataclasses.dataclass
 class {class_name}(ApiClient):
     {async_def} {method_name}(
-        self,{"".join(f"\n        {arg}" for arg in args)}
-    ) -> {operation.success}:{"".join(f"\n        {line}" for line in docs) if docs else ""}
-        param_ = {operation.param.name}{f"({"".join(f"\n            {arg}" for arg in param_args)}\n        )" if param_args else "()"}
-        query_ = {operation.query.name}{f"({"".join(f"\n            {arg}" for arg in query_args)}\n        )" if query_args else "()"}
-        body_ = {body_class}{f"({"".join(f"\n            {arg}" for arg in body_args)}\n        )" if body_args else "()"}
+        self,{args_join}
+    ) -> {operation.success}:{docs_join}
+        param_ = {operation.param.name}{param_list}
+        query_ = {operation.query.name}{query_list}
+        body_ = {body_class}{body_list}
         response_ = {await_self}.send(
             {class_name}Request(param_, query_, body_),
             {operation.success},
@@ -636,14 +663,14 @@ class {class_name}(ApiClient):
         )
         if isinstance(response_, ApiErrorResponse):
             error_ = response_.data
-{"".join(f"            {line}\n" for line in raises)}{"\n        return response_.data" if success_class != "None" else ""}
+{raises_join}{return_data_or_none}
 """
                 path = async_path if is_async else sync_path
                 with path.joinpath(f"_{method_name}.py").open("wt") as f:
                     f.write(body)
         init = f"""from dataclasses import dataclass
 {"".join(imports)}
-@dataclass(slots=True)
+@dataclass
 class PortOneApi(
 {"".join(extends)}):
     pass

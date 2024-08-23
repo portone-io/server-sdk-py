@@ -1,7 +1,9 @@
 import dataclasses
+import serde
 from portone_server_sdk._openapi._schemas._payment import Payment
 
-@dataclasses.dataclass(kw_only=True)
+@serde.serde(tagging=serde.Untagged)
+@dataclasses.dataclass
 class PaymentWithCursor:
     """결제 건 및 커서 정보"""
     payment: Payment

@@ -11,12 +11,12 @@ from portone_server_sdk._openapi._schemas._payment import Payment
 from portone_server_sdk._openapi._schemas._payment_not_found_error import PaymentNotFoundError
 from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetPaymentParam:
     paymentId: str
     """조회할 결제 아이디"""
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class GetPaymentQuery:
     storeId: Optional[str]
     """상점 아이디"""
