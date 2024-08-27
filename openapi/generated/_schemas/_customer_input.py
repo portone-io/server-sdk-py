@@ -8,31 +8,31 @@ from portone_server_sdk._openapi._schemas._separated_address_input import Separa
 @dataclasses.dataclass
 class CustomerInput:
     """고객 정보 입력 정보"""
-    id: Optional[str]
+    id: Optional[str] = dataclasses.field()
     """고객 아이디
     
     고객사가 지정한 고객의 고유 식별자입니다.
     """
-    name: Optional[CustomerNameInput]
+    name: Optional[CustomerNameInput] = dataclasses.field()
     """이름"""
-    birthYear: Optional[str]
+    birth_year: Optional[str] = dataclasses.field(metadata={"serde_rename": "birthYear"})
     """출생 연도"""
-    birthMonth: Optional[str]
+    birth_month: Optional[str] = dataclasses.field(metadata={"serde_rename": "birthMonth"})
     """출생월"""
-    birthDay: Optional[str]
+    birth_day: Optional[str] = dataclasses.field(metadata={"serde_rename": "birthDay"})
     """출생일"""
-    country: Optional[Country]
+    country: Optional[Country] = dataclasses.field()
     """국가"""
-    gender: Optional[Gender]
+    gender: Optional[Gender] = dataclasses.field()
     """성별"""
-    email: Optional[str]
+    email: Optional[str] = dataclasses.field()
     """이메일"""
-    phoneNumber: Optional[str]
+    phone_number: Optional[str] = dataclasses.field(metadata={"serde_rename": "phoneNumber"})
     """전화번호"""
-    address: Optional[SeparatedAddressInput]
+    address: Optional[SeparatedAddressInput] = dataclasses.field()
     """주소"""
-    zipcode: Optional[str]
+    zipcode: Optional[str] = dataclasses.field()
     """우편번호"""
-    businessRegistrationNumber: Optional[str]
+    business_registration_number: Optional[str] = dataclasses.field(metadata={"serde_rename": "businessRegistrationNumber"})
     """사업자 등록 번호"""
 

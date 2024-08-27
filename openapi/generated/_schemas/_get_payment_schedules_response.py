@@ -7,8 +7,8 @@ from portone_server_sdk._openapi._schemas._payment_schedule import PaymentSchedu
 @dataclasses.dataclass
 class GetPaymentSchedulesResponse:
     """결제 예약 다건 조회 성공 응답 정보"""
-    items: list[PaymentSchedule]
+    items: list[PaymentSchedule] = dataclasses.field()
     """조회된 결제 예약 건 리스트"""
-    page: PageInfo
+    page: PageInfo = dataclasses.field()
     """조회된 페이지 정보"""
 

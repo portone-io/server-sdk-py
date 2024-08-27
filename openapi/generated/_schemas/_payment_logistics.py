@@ -6,14 +6,14 @@ from portone_server_sdk._openapi._schemas._separated_address_input import Separa
 @dataclasses.dataclass
 class PaymentLogistics:
     """배송정보"""
-    company: PaymentLogisticsCompany
+    company: PaymentLogisticsCompany = dataclasses.field()
     """물류회사"""
-    invoiceNumber: str
+    invoice_number: str = dataclasses.field(metadata={"serde_rename": "invoiceNumber"})
     """송장번호"""
-    sentAt: str
+    sent_at: str = dataclasses.field(metadata={"serde_rename": "sentAt"})
     """발송시점"""
-    receivedAt: Optional[str]
+    received_at: Optional[str] = dataclasses.field(metadata={"serde_rename": "receivedAt"})
     """수령시점"""
-    address: Optional[SeparatedAddressInput]
+    address: Optional[SeparatedAddressInput] = dataclasses.field()
     """주소"""
 

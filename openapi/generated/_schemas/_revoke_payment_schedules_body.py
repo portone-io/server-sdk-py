@@ -11,13 +11,13 @@ class RevokePaymentSchedulesBody:
     billingKey, scheduleIds 모두 입력된 경우 -> 입력된 결제 예약 건 아이디에 해당하는 예약 건들이 취소됩니다. 그리고 예약한 빌링키가 입력된 빌링키와 일치하는지 검증합니다.
     위 정책에 따라 선택된 결제 예약 건들 중 하나라도 취소에 실패할 경우, 모든 취소 요청이 실패합니다.
     """
-    storeId: Optional[str]
+    store_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "storeId"})
     """상점 아이디
     
     접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
     """
-    billingKey: Optional[str]
+    billing_key: Optional[str] = dataclasses.field(metadata={"serde_rename": "billingKey"})
     """빌링키"""
-    scheduleIds: Optional[list[str]]
+    schedule_ids: Optional[list[str]] = dataclasses.field(metadata={"serde_rename": "scheduleIds"})
     """결제 예약 건 아이디 목록"""
 

@@ -73,16 +73,16 @@ class PgProviderError(PortOneError):
     """PG사에서 오류를 전달한 경우"""
 
     message: str = field(init=False)
-    pgCode: str = field(init=False)
-    pgMessage: str = field(init=False)
+    pg_code: str = field(init=False)
+    pg_message: str = field(init=False)
     error: InitVar[_schemas.PgProviderError]
 
     def __post_init__(self, error: _schemas.PgProviderError) -> None:
         self.message = (
             "PG사에서 오류를 전달했습니다." if error.message is None else error.message
         )
-        self.pgCode = error.pgCode
-        self.pgMessage = error.pgMessage
+        self.pg_code = error.pg_code
+        self.pg_message = error.pg_message
 
 
 @dataclass
@@ -554,7 +554,7 @@ class ChannelSpecificError(PortOneError):
             if error.message is None
             else error.message
         )
-        self.succeeded_channels = error.succeededChannels
+        self.succeeded_channels = error.succeeded_channels
         self.failures = error.failures
 
 

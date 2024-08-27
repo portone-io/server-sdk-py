@@ -5,15 +5,15 @@ from portone_server_sdk._openapi._schemas._currency import Currency
 @dataclasses.dataclass
 class PreRegisterPaymentBody:
     """결제 정보 사전 등록 입력 정보"""
-    storeId: Optional[str]
+    store_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "storeId"})
     """상점 아이디
     
     접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
     """
-    totalAmount: Optional[int]
+    total_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "totalAmount"})
     """결제 총 금액"""
-    taxFreeAmount: Optional[int]
+    tax_free_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "taxFreeAmount"})
     """결제 면세 금액"""
-    currency: Optional[Currency]
+    currency: Optional[Currency] = dataclasses.field()
     """통화 단위"""
 

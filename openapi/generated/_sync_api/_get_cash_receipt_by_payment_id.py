@@ -13,12 +13,12 @@ from portone_server_sdk._openapi._schemas._unauthorized_error import Unauthorize
 
 @dataclasses.dataclass
 class GetCashReceiptByPaymentIdParam:
-    paymentId: str
+    payment_id: str = dataclasses.field(metadata={"serde_rename": "paymentId"})
     """결제 건 아이디"""
 
 @dataclasses.dataclass
 class GetCashReceiptByPaymentIdQuery:
-    storeId: Optional[str]
+    store_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "storeId"})
     """상점 아이디
     
     
@@ -34,16 +34,16 @@ class GetCashReceiptByPaymentIdRequest(ApiRequest[CashReceipt, GetCashReceiptErr
 class GetCashReceiptByPaymentId(ApiClient):
     def get_cash_receipt_by_payment_id(
         self,
-        paymentId: str,
-        storeId: Optional[str],
+        payment_id: str,
+        store_id: Optional[str],
     ) -> CashReceipt:
         """현금 영수증 단건 조회
         
         주어진 결제 아이디에 대응되는 현금 영수증 내역을 조회합니다.
         
         Args:
-            paymentId (str): 결제 건 아이디.
-            storeId (Optional[str]): 상점 아이디.
+            payment_id (str): 결제 건 아이디.
+            store_id (Optional[str]): 상점 아이디.
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
         
         Returns:
@@ -56,10 +56,10 @@ class GetCashReceiptByPaymentId(ApiClient):
             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
         """
         param_ = GetCashReceiptByPaymentIdParam(
-            paymentId=paymentId,
+            payment_id=payment_id,
         )
         query_ = GetCashReceiptByPaymentIdQuery(
-            storeId=storeId,
+            store_id=store_id,
         )
         body_ = Empty()
         response_ = self.send(

@@ -15,7 +15,7 @@ from portone_server_sdk._openapi._schemas._webhook_not_found_error import Webhoo
 
 @dataclasses.dataclass
 class ResendWebhookParam:
-    paymentId: str
+    payment_id: str = dataclasses.field(metadata={"serde_rename": "paymentId"})
     """결제 건 아이디"""
 
 @dataclasses.dataclass
@@ -31,19 +31,19 @@ class ResendWebhookRequest(ApiRequest[ResendWebhookResponse, ResendWebhookError,
 class ResendWebhook(ApiClient):
     def resend_webhook(
         self,
-        paymentId: str,
-        storeId: Optional[str],
-        webhookId: Optional[str],
+        payment_id: str,
+        store_id: Optional[str],
+        webhook_id: Optional[str],
     ) -> ResendWebhookResponse:
         """웹훅 재발송
         
         웹훅을 재발송합니다.
         
         Args:
-            paymentId (str): 결제 건 아이디.
-            storeId (Optional[str]): 상점 아이디.
+            payment_id (str): 결제 건 아이디.
+            store_id (Optional[str]): 상점 아이디.
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
-            webhookId (Optional[str]): 웹훅 아이디.
+            webhook_id (Optional[str]): 웹훅 아이디.
                 입력하지 않으면 결제 건의 가장 최근 웹훅 아이디가 기본 적용됩니다
         
         Returns:
@@ -57,12 +57,12 @@ class ResendWebhook(ApiClient):
             _errors.WebhookNotFoundError: 웹훅 내역이 존재하지 않는 경우
         """
         param_ = ResendWebhookParam(
-            paymentId=paymentId,
+            payment_id=payment_id,
         )
         query_ = ResendWebhookQuery()
         body_ = ResendWebhookBody(
-            storeId=storeId,
-            webhookId=webhookId,
+            store_id=store_id,
+            webhook_id=webhook_id,
         )
         response_ = self.send(
             ResendWebhookRequest(param_, query_, body_),

@@ -33,31 +33,31 @@ class IssueBillingKeyRequest(ApiRequest[IssueBillingKeyResponse, IssueBillingKey
 class IssueBillingKey(ApiClient):
     async def issue_billing_key(
         self,
-        storeId: Optional[str],
+        store_id: Optional[str],
         method: InstantBillingKeyPaymentMethodInput,
-        channelKey: Optional[str],
-        channelGroupId: Optional[str],
+        channel_key: Optional[str],
+        channel_group_id: Optional[str],
         customer: Optional[CustomerInput],
-        customData: Optional[str],
+        custom_data: Optional[str],
         bypass: Optional[Any],
-        noticeUrls: Optional[list[str]],
+        notice_urls: Optional[list[str]],
     ) -> IssueBillingKeyResponse:
         """빌링키 발급
         
         빌링키 발급을 요청합니다.
         
         Args:
-            storeId (Optional[str]): 상점 아이디.
+            store_id (Optional[str]): 상점 아이디.
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
             method (InstantBillingKeyPaymentMethodInput): 빌링키 결제 수단 정보.
-            channelKey (Optional[str]): 채널 키.
+            channel_key (Optional[str]): 채널 키.
                 채널 키 또는 채널 그룹 ID 필수
-            channelGroupId (Optional[str]): 채널 그룹 ID.
+            channel_group_id (Optional[str]): 채널 그룹 ID.
                 채널 키 또는 채널 그룹 ID 필수
             customer (Optional[CustomerInput]): 고객 정보.
-            customData (Optional[str]): 사용자 지정 데이터.
+            custom_data (Optional[str]): 사용자 지정 데이터.
             bypass (Optional[Any]): PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고).
-            noticeUrls (Optional[list[str]]): 웹훅 주소.
+            notice_urls (Optional[list[str]]): 웹훅 주소.
                 빌링키 발급 시 요청을 받을 웹훅 주소입니다.
                 상점에 설정되어 있는 값보다 우선적으로 적용됩니다.
                 입력된 값이 없을 경우에는 빈 배열로 해석됩니다.
@@ -76,14 +76,14 @@ class IssueBillingKey(ApiClient):
         param_ = IssueBillingKeyParam()
         query_ = IssueBillingKeyQuery()
         body_ = IssueBillingKeyBody(
-            storeId=storeId,
+            store_id=store_id,
             method=method,
-            channelKey=channelKey,
-            channelGroupId=channelGroupId,
+            channel_key=channel_key,
+            channel_group_id=channel_group_id,
             customer=customer,
-            customData=customData,
+            custom_data=custom_data,
             bypass=bypass,
-            noticeUrls=noticeUrls,
+            notice_urls=notice_urls,
         )
         response_ = await self.send(
             IssueBillingKeyRequest(param_, query_, body_),

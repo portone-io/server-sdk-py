@@ -18,12 +18,12 @@ from portone_server_sdk._openapi._schemas._unauthorized_error import Unauthorize
 
 @dataclasses.dataclass
 class DeleteBillingKeyParam:
-    billingKey: str
+    billing_key: str = dataclasses.field(metadata={"serde_rename": "billingKey"})
     """삭제할 빌링키"""
 
 @dataclasses.dataclass
 class DeleteBillingKeyQuery:
-    storeId: Optional[str]
+    store_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "storeId"})
     """상점 아이디
     
     
@@ -39,16 +39,16 @@ class DeleteBillingKeyRequest(ApiRequest[DeleteBillingKeyResponse, DeleteBilling
 class DeleteBillingKey(ApiClient):
     def delete_billing_key(
         self,
-        billingKey: str,
-        storeId: Optional[str],
+        billing_key: str,
+        store_id: Optional[str],
     ) -> DeleteBillingKeyResponse:
         """빌링키 삭제
         
         빌링키를 삭제합니다.
         
         Args:
-            billingKey (str): 삭제할 빌링키.
-            storeId (Optional[str]): 상점 아이디.
+            billing_key (str): 삭제할 빌링키.
+            store_id (Optional[str]): 상점 아이디.
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
         
         Returns:
@@ -66,10 +66,10 @@ class DeleteBillingKey(ApiClient):
             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
         """
         param_ = DeleteBillingKeyParam(
-            billingKey=billingKey,
+            billing_key=billing_key,
         )
         query_ = DeleteBillingKeyQuery(
-            storeId=storeId,
+            store_id=store_id,
         )
         body_ = Empty()
         response_ = self.send(

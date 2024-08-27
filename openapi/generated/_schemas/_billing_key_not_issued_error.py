@@ -4,6 +4,6 @@ from typing import Literal, Optional
 @dataclasses.dataclass
 class BillingKeyNotIssuedError:
     """BillingKeyNotIssuedError"""
-    type: Literal["BILLING_KEY_NOT_ISSUED"]
-    message: Optional[str]
+    type: Literal["BILLING_KEY_NOT_ISSUED"] = dataclasses.field()
+    message: Optional[str] = dataclasses.field()
 

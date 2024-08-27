@@ -4,14 +4,14 @@ from typing import Optional
 @dataclasses.dataclass
 class CardCredential:
     """카드 인증 관련 정보"""
-    number: str
+    number: str = dataclasses.field()
     """카드 번호 (숫자만)"""
-    expiryYear: str
+    expiry_year: str = dataclasses.field(metadata={"serde_rename": "expiryYear"})
     """유효 기간 만료 연도 (2자리)"""
-    expiryMonth: str
+    expiry_month: str = dataclasses.field(metadata={"serde_rename": "expiryMonth"})
     """유효 기간 만료 월 (2자리)"""
-    birthOrBusinessRegistrationNumber: Optional[str]
+    birth_or_business_registration_number: Optional[str] = dataclasses.field(metadata={"serde_rename": "birthOrBusinessRegistrationNumber"})
     """생년월일 (yyMMdd) 또는 사업자 등록 번호 (10자리, 숫자만)"""
-    passwordTwoDigits: Optional[str]
+    password_two_digits: Optional[str] = dataclasses.field(metadata={"serde_rename": "passwordTwoDigits"})
     """비밀번호 앞 2자리"""
 

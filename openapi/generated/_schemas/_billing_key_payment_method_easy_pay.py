@@ -8,9 +8,9 @@ from portone_server_sdk._openapi._schemas._easy_pay_provider import EasyPayProvi
 @dataclasses.dataclass
 class BillingKeyPaymentMethodEasyPay:
     """간편 결제 정보"""
-    type: Literal["BillingKeyPaymentMethodEasyPay"]
-    provider: Optional[EasyPayProvider]
+    type: Literal["BillingKeyPaymentMethodEasyPay"] = dataclasses.field()
+    provider: Optional[EasyPayProvider] = dataclasses.field()
     """간편 결제 PG사"""
-    method: Optional[BillingKeyPaymentMethodEasyPayMethod]
+    method: Optional[BillingKeyPaymentMethodEasyPayMethod] = dataclasses.field()
     """간편 결제 수단"""
 

@@ -16,7 +16,7 @@ from portone_server_sdk._openapi._schemas._unauthorized_error import Unauthorize
 
 @dataclasses.dataclass
 class ConfirmEscrowParam:
-    paymentId: str
+    payment_id: str = dataclasses.field(metadata={"serde_rename": "paymentId"})
     """결제 건 아이디"""
 
 @dataclasses.dataclass
@@ -32,19 +32,19 @@ class ConfirmEscrowRequest(ApiRequest[ConfirmEscrowResponse, ConfirmEscrowError,
 class ConfirmEscrow(ApiClient):
     async def confirm_escrow(
         self,
-        paymentId: str,
-        storeId: Optional[str],
-        fromStore: Optional[bool],
+        payment_id: str,
+        store_id: Optional[str],
+        from_store: Optional[bool],
     ) -> ConfirmEscrowResponse:
         """에스크로 구매 확정
         
         에스크로 결제를 구매 확정 처리합니다
         
         Args:
-            paymentId (str): 결제 건 아이디.
-            storeId (Optional[str]): 상점 아이디.
+            payment_id (str): 결제 건 아이디.
+            store_id (Optional[str]): 상점 아이디.
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
-            fromStore (Optional[bool]): 확인 주체가 상점인지 여부.
+            from_store (Optional[bool]): 확인 주체가 상점인지 여부.
                 구매확정요청 주체가 고객사 관리자인지 구매자인지 구분하기 위한 필드입니다.
                 네이버페이 전용 파라미터이며, 구분이 모호한 경우 고객사 관리자(true)로 입력합니다.
         
@@ -60,12 +60,12 @@ class ConfirmEscrow(ApiClient):
             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
         """
         param_ = ConfirmEscrowParam(
-            paymentId=paymentId,
+            payment_id=payment_id,
         )
         query_ = ConfirmEscrowQuery()
         body_ = ConfirmEscrowBody(
-            storeId=storeId,
-            fromStore=fromStore,
+            store_id=store_id,
+            from_store=from_store,
         )
         response_ = await self.send(
             ConfirmEscrowRequest(param_, query_, body_),

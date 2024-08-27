@@ -29,7 +29,7 @@ from portone_server_sdk._openapi._schemas._unauthorized_error import Unauthorize
 
 @dataclasses.dataclass
 class PayWithBillingKeyParam:
-    paymentId: str
+    payment_id: str = dataclasses.field(metadata={"serde_rename": "paymentId"})
     """결제 건 아이디"""
 
 @dataclasses.dataclass
@@ -45,26 +45,26 @@ class PayWithBillingKeyRequest(ApiRequest[PayWithBillingKeyResponse, PayWithBill
 class PayWithBillingKey(ApiClient):
     async def pay_with_billing_key(
         self,
-        paymentId: str,
-        storeId: Optional[str],
-        billingKey: str,
-        channelKey: Optional[str],
-        orderName: str,
+        payment_id: str,
+        store_id: Optional[str],
+        billing_key: str,
+        channel_key: Optional[str],
+        order_name: str,
         customer: Optional[CustomerInput],
-        customData: Optional[str],
+        custom_data: Optional[str],
         amount: PaymentAmountInput,
         currency: Currency,
-        installmentMonth: Optional[int],
-        useFreeInterestFromMerchant: Optional[bool],
-        useCardPoint: Optional[bool],
-        cashReceipt: Optional[CashReceiptInput],
+        installment_month: Optional[int],
+        use_free_interest_from_merchant: Optional[bool],
+        use_card_point: Optional[bool],
+        cash_receipt: Optional[CashReceiptInput],
         country: Optional[Country],
-        noticeUrls: Optional[list[str]],
+        notice_urls: Optional[list[str]],
         products: Optional[list[PaymentProduct]],
-        productCount: Optional[int],
-        productType: Optional[PaymentProductType],
-        shippingAddress: Optional[SeparatedAddressInput],
-        promotionId: Optional[str],
+        product_count: Optional[int],
+        product_type: Optional[PaymentProductType],
+        shipping_address: Optional[SeparatedAddressInput],
+        promotion_id: Optional[str],
         bypass: Optional[Any],
     ) -> PayWithBillingKeyResponse:
         """빌링키 결제
@@ -72,32 +72,32 @@ class PayWithBillingKey(ApiClient):
         빌링키로 결제를 진행합니다.
         
         Args:
-            paymentId (str): 결제 건 아이디.
-            storeId (Optional[str]): 상점 아이디.
+            payment_id (str): 결제 건 아이디.
+            store_id (Optional[str]): 상점 아이디.
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
-            billingKey (str): 빌링키 결제에 사용할 빌링키.
-            channelKey (Optional[str]): 채널 키.
+            billing_key (str): 빌링키 결제에 사용할 빌링키.
+            channel_key (Optional[str]): 채널 키.
                 다수 채널에 대해 발급된 빌링키에 대해, 결제 채널을 특정하고 싶을 때 명시
-            orderName (str): 주문명.
+            order_name (str): 주문명.
             customer (Optional[CustomerInput]): 고객 정보.
-            customData (Optional[str]): 사용자 지정 데이터.
+            custom_data (Optional[str]): 사용자 지정 데이터.
             amount (PaymentAmountInput): 결제 금액 세부 입력 정보.
             currency (Currency): 통화.
-            installmentMonth (Optional[int]): 할부 개월 수.
-            useFreeInterestFromMerchant (Optional[bool]): 무이자 할부 이자를 고객사가 부담할지 여부.
-            useCardPoint (Optional[bool]): 카드 포인트 사용 여부.
-            cashReceipt (Optional[CashReceiptInput]): 현금영수증 정보.
+            installment_month (Optional[int]): 할부 개월 수.
+            use_free_interest_from_merchant (Optional[bool]): 무이자 할부 이자를 고객사가 부담할지 여부.
+            use_card_point (Optional[bool]): 카드 포인트 사용 여부.
+            cash_receipt (Optional[CashReceiptInput]): 현금영수증 정보.
             country (Optional[Country]): 결제 국가.
-            noticeUrls (Optional[list[str]]): 웹훅 주소.
+            notice_urls (Optional[list[str]]): 웹훅 주소.
                 결제 승인/실패 시 요청을 받을 웹훅 주소입니다.
                 상점에 설정되어 있는 값보다 우선적으로 적용됩니다.
                 입력된 값이 없을 경우에는 빈 배열로 해석됩니다.
             products (Optional[list[PaymentProduct]]): 상품 정보.
                 입력된 값이 없을 경우에는 빈 배열로 해석됩니다.
-            productCount (Optional[int]): 상품 개수.
-            productType (Optional[PaymentProductType]): 상품 유형.
-            shippingAddress (Optional[SeparatedAddressInput]): 배송지 주소.
-            promotionId (Optional[str]): 해당 결제에 적용할 프로모션 아이디.
+            product_count (Optional[int]): 상품 개수.
+            product_type (Optional[PaymentProductType]): 상품 유형.
+            shipping_address (Optional[SeparatedAddressInput]): 배송지 주소.
+            promotion_id (Optional[str]): 해당 결제에 적용할 프로모션 아이디.
             bypass (Optional[Any]): PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고).
         
         Returns:
@@ -117,29 +117,29 @@ class PayWithBillingKey(ApiClient):
             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
         """
         param_ = PayWithBillingKeyParam(
-            paymentId=paymentId,
+            payment_id=payment_id,
         )
         query_ = PayWithBillingKeyQuery()
         body_ = BillingKeyPaymentInput(
-            storeId=storeId,
-            billingKey=billingKey,
-            channelKey=channelKey,
-            orderName=orderName,
+            store_id=store_id,
+            billing_key=billing_key,
+            channel_key=channel_key,
+            order_name=order_name,
             customer=customer,
-            customData=customData,
+            custom_data=custom_data,
             amount=amount,
             currency=currency,
-            installmentMonth=installmentMonth,
-            useFreeInterestFromMerchant=useFreeInterestFromMerchant,
-            useCardPoint=useCardPoint,
-            cashReceipt=cashReceipt,
+            installment_month=installment_month,
+            use_free_interest_from_merchant=use_free_interest_from_merchant,
+            use_card_point=use_card_point,
+            cash_receipt=cash_receipt,
             country=country,
-            noticeUrls=noticeUrls,
+            notice_urls=notice_urls,
             products=products,
-            productCount=productCount,
-            productType=productType,
-            shippingAddress=shippingAddress,
-            promotionId=promotionId,
+            product_count=product_count,
+            product_type=product_type,
+            shipping_address=shipping_address,
+            promotion_id=promotion_id,
             bypass=bypass,
         )
         response_ = await self.send(

@@ -3,8 +3,8 @@ import dataclasses
 @dataclasses.dataclass
 class CustomerSeparatedName:
     """고객 분리형 이름"""
-    first: str
+    first: str = dataclasses.field()
     """이름"""
-    last: str
+    last: str = dataclasses.field()
     """성"""
 

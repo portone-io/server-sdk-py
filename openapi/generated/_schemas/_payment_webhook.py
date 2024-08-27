@@ -9,35 +9,35 @@ from portone_server_sdk._openapi._schemas._payment_webhook_trigger import Paymen
 @dataclasses.dataclass
 class PaymentWebhook:
     """성공 웹훅 내역"""
-    paymentStatus: Optional[PaymentWebhookPaymentStatus]
+    payment_status: Optional[PaymentWebhookPaymentStatus] = dataclasses.field(metadata={"serde_rename": "paymentStatus"})
     """웹훅 발송 시 결제 건 상태
     
     V1 결제 건인 경우, 값이 존재하지 않습니다.
     """
-    id: str
+    id: str = dataclasses.field()
     """웹훅 아이디"""
-    status: Optional[PaymentWebhookStatus]
+    status: Optional[PaymentWebhookStatus] = dataclasses.field()
     """웹훅 상태"""
-    url: str
+    url: str = dataclasses.field()
     """웹훅이 발송된 url
     
     V1 결제 건인 경우, 값이 존재하지 않습니다.
     """
-    isAsync: Optional[bool]
+    is_async: Optional[bool] = dataclasses.field(metadata={"serde_rename": "isAsync"})
     """비동기 웹훅 여부
     
     V1 결제 건인 경우, 값이 존재하지 않습니다.
     """
-    currentExecutionCount: Optional[int]
+    current_execution_count: Optional[int] = dataclasses.field(metadata={"serde_rename": "currentExecutionCount"})
     """현재 발송 횟수"""
-    maxExecutionCount: Optional[int]
+    max_execution_count: Optional[int] = dataclasses.field(metadata={"serde_rename": "maxExecutionCount"})
     """최대 발송 횟수"""
-    trigger: Optional[PaymentWebhookTrigger]
+    trigger: Optional[PaymentWebhookTrigger] = dataclasses.field()
     """웹훅 실행 맥락"""
-    request: Optional[PaymentWebhookRequest]
+    request: Optional[PaymentWebhookRequest] = dataclasses.field()
     """웹훅 요청 정보"""
-    response: Optional[PaymentWebhookResponse]
+    response: Optional[PaymentWebhookResponse] = dataclasses.field()
     """웹훅 응답 정보"""
-    triggeredAt: Optional[str]
+    triggered_at: Optional[str] = dataclasses.field(metadata={"serde_rename": "triggeredAt"})
     """웹훅 처리 시작 시점"""
 

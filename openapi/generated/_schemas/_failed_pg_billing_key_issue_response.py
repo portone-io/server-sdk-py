@@ -6,12 +6,12 @@ from portone_server_sdk._openapi._schemas._selected_channel import SelectedChann
 @dataclasses.dataclass
 class FailedPgBillingKeyIssueResponse:
     """빌링키 발급 실패 채널 응답"""
-    type: Literal["FAILED"]
-    channel: SelectedChannel
+    type: Literal["FAILED"] = dataclasses.field()
+    channel: SelectedChannel = dataclasses.field()
     """채널
     
     빌링키 발급을 시도한 채널입니다.
     """
-    failure: BillingKeyFailure
+    failure: BillingKeyFailure = dataclasses.field()
     """발급 실패 상세 정보"""
 

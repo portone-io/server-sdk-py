@@ -4,21 +4,21 @@ from typing import Optional
 @dataclasses.dataclass
 class SendIdentityVerificationBodyCustomer:
     """본인인증 요청을 위한 고객 정보"""
-    id: Optional[str]
+    id: Optional[str] = dataclasses.field()
     """식별 아이디"""
-    name: str
+    name: str = dataclasses.field()
     """이름"""
-    phoneNumber: str
+    phone_number: str = dataclasses.field(metadata={"serde_rename": "phoneNumber"})
     """전화번호
     
     특수 문자(-) 없이 숫자만 입력합니다.
     """
-    identityNumber: Optional[str]
+    identity_number: Optional[str] = dataclasses.field(metadata={"serde_rename": "identityNumber"})
     """주민등록번호 앞 7자리
     
     SMS 방식의 경우 필수로 입력합니다.
     """
-    ipAddress: str
+    ip_address: str = dataclasses.field(metadata={"serde_rename": "ipAddress"})
     """IP 주소
     
     고객의 요청 속도 제한에 사용됩니다.

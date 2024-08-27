@@ -8,9 +8,9 @@ from portone_server_sdk._openapi._schemas._payment_method_easy_pay_method import
 @dataclasses.dataclass
 class PaymentMethodEasyPay:
     """간편 결제 상세 정보"""
-    type: Literal["PaymentMethodEasyPay"]
-    provider: Optional[EasyPayProvider]
+    type: Literal["PaymentMethodEasyPay"] = dataclasses.field()
+    provider: Optional[EasyPayProvider] = dataclasses.field()
     """간편 결제 PG사"""
-    easyPayMethod: Optional[PaymentMethodEasyPayMethod]
+    easy_pay_method: Optional[PaymentMethodEasyPayMethod] = dataclasses.field(metadata={"serde_rename": "easyPayMethod"})
     """간편 결제 수단"""
 

@@ -4,8 +4,8 @@ from typing import Optional
 @dataclasses.dataclass
 class RevokePaymentSchedulesResponse:
     """결제 예약 건 취소 성공 응답"""
-    revokedScheduleIds: list[str]
+    revoked_schedule_ids: list[str] = dataclasses.field(metadata={"serde_rename": "revokedScheduleIds"})
     """취소 완료된 결제 예약 건 아이디 목록"""
-    revokedAt: Optional[str]
+    revoked_at: Optional[str] = dataclasses.field(metadata={"serde_rename": "revokedAt"})
     """결제 예약 건 취소 완료 시점"""
 

@@ -13,12 +13,12 @@ from portone_server_sdk._openapi._schemas._unauthorized_error import Unauthorize
 
 @dataclasses.dataclass
 class GetPaymentParam:
-    paymentId: str
+    payment_id: str = dataclasses.field(metadata={"serde_rename": "paymentId"})
     """조회할 결제 아이디"""
 
 @dataclasses.dataclass
 class GetPaymentQuery:
-    storeId: Optional[str]
+    store_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "storeId"})
     """상점 아이디"""
 
 @dataclasses.dataclass
@@ -30,16 +30,16 @@ class GetPaymentRequest(ApiRequest[Payment, GetPaymentError, GetPaymentParam, Ge
 class GetPayment(ApiClient):
     async def get_payment(
         self,
-        paymentId: str,
-        storeId: Optional[str],
+        payment_id: str,
+        store_id: Optional[str],
     ) -> Payment:
         """결제 단건 조회
         
         주어진 아이디에 대응되는 결제 건을 조회합니다.
         
         Args:
-            paymentId (str): 조회할 결제 아이디.
-            storeId (Optional[str]): 상점 아이디.
+            payment_id (str): 조회할 결제 아이디.
+            store_id (Optional[str]): 상점 아이디.
         
         Returns:
             Payment: 성공 응답으로 결제 건 객체를 반환합니다.
@@ -51,10 +51,10 @@ class GetPayment(ApiClient):
             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
         """
         param_ = GetPaymentParam(
-            paymentId=paymentId,
+            payment_id=payment_id,
         )
         query_ = GetPaymentQuery(
-            storeId=storeId,
+            store_id=store_id,
         )
         body_ = Empty()
         response_ = await self.send(

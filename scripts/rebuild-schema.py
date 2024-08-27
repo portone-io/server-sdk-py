@@ -444,12 +444,17 @@ class SchemaGenerator:
             docs = self.make_doc_lines(spec)
             lines.extend(f"    {line}\n" for line in docs)
             for prop in spec.properties:
-                if iskeyword(prop.name):
+                filtered = to_snake_case(
+                    f"{prop.name}_" if iskeyword(prop.name) else prop.name
+                )
+                if prop.name != filtered:
                     lines.append(
-                        f'    {prop.name}_: {prop.as_type} = dataclasses.field(metadata={{"serde_rename": "{prop.name}"}})\n'
+                        f'    {filtered}: {prop.as_type} = dataclasses.field(metadata={{"serde_rename": "{prop.name}"}})\n'
                     )
                 else:
-                    lines.append(f"    {prop.name}: {prop.as_type}\n")
+                    lines.append(
+                        f"    {filtered}: {prop.as_type} = dataclasses.field()\n"
+                    )
                 docs = self.make_doc_lines(prop)
                 lines.extend(f"    {line}\n" for line in docs)
             if not spec.properties:
@@ -516,7 +521,9 @@ __all__ = [
             param_args = []
             if operation.param.properties:
                 for prop in operation.param.properties:
-                    filtered = f"{prop.name}_" if iskeyword(prop.name) else prop.name
+                    filtered = to_snake_case(
+                        f"{prop.name}_" if iskeyword(prop.name) else prop.name
+                    )
                     args.append(f"{filtered}: {prop.as_type},")
                     prop_docs = self.make_doc_lines_raw(prop)
                     if prop_docs:
@@ -524,12 +531,14 @@ __all__ = [
                         docs.extend(f"        {line}" for line in prop_docs[1:] if line)
                     else:
                         docs.append(f"    {filtered} ({prop.as_type})")
-                    param_args.append(f"{filtered}={prop.name},")
+                    param_args.append(f"{filtered}={filtered},")
                     refs.update(prop.refs)
             query_args = []
             if operation.query.properties:
                 for prop in operation.query.properties:
-                    filtered = f"{prop.name}_" if iskeyword(prop.name) else prop.name
+                    filtered = to_snake_case(
+                        f"{prop.name}_" if iskeyword(prop.name) else prop.name
+                    )
                     args.append(f"{filtered}: {prop.as_type},")
                     prop_docs = self.make_doc_lines_raw(prop)
                     if prop_docs:
@@ -544,7 +553,7 @@ __all__ = [
                 body_spec = self.schemas[operation.body]
                 if body_spec.properties:
                     for prop in body_spec.properties:
-                        filtered = (
+                        filtered = to_snake_case(
                             f"{prop.name}_" if iskeyword(prop.name) else prop.name
                         )
                         args.append(f"{filtered}: {prop.as_type},")

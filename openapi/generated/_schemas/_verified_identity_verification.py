@@ -6,26 +6,26 @@ from portone_server_sdk._openapi._schemas._selected_channel import SelectedChann
 @dataclasses.dataclass
 class VerifiedIdentityVerification:
     """완료된 본인인증 내역"""
-    status: Literal["VERIFIED"]
+    status: Literal["VERIFIED"] = dataclasses.field()
     """본인인증 상태"""
-    id: str
+    id: str = dataclasses.field()
     """본인인증 내역 아이디"""
-    channel: Optional[SelectedChannel]
+    channel: Optional[SelectedChannel] = dataclasses.field()
     """사용된 본인인증 채널"""
-    verifiedCustomer: IdentityVerificationVerifiedCustomer
+    verified_customer: IdentityVerificationVerifiedCustomer = dataclasses.field(metadata={"serde_rename": "verifiedCustomer"})
     """인증된 고객 정보"""
-    customData: Optional[str]
+    custom_data: Optional[str] = dataclasses.field(metadata={"serde_rename": "customData"})
     """사용자 지정 데이터"""
-    requestedAt: str
+    requested_at: str = dataclasses.field(metadata={"serde_rename": "requestedAt"})
     """본인인증 요청 시점"""
-    updatedAt: str
+    updated_at: str = dataclasses.field(metadata={"serde_rename": "updatedAt"})
     """업데이트 시점"""
-    statusChangedAt: str
+    status_changed_at: str = dataclasses.field(metadata={"serde_rename": "statusChangedAt"})
     """상태 업데이트 시점"""
-    verifiedAt: str
+    verified_at: str = dataclasses.field(metadata={"serde_rename": "verifiedAt"})
     """본인인증 완료 시점"""
-    pgTxId: str
+    pg_tx_id: str = dataclasses.field(metadata={"serde_rename": "pgTxId"})
     """본인인증 내역 PG사 아이디"""
-    pgRawResponse: str
+    pg_raw_response: str = dataclasses.field(metadata={"serde_rename": "pgRawResponse"})
     """PG사 응답 데이터"""
 

@@ -6,28 +6,28 @@ from portone_server_sdk._openapi._schemas._identity_verification_operator import
 @dataclasses.dataclass
 class IdentityVerificationVerifiedCustomer:
     """인증된 고객 정보"""
-    id: Optional[str]
+    id: Optional[str] = dataclasses.field()
     """식별 아이디"""
-    name: str
+    name: str = dataclasses.field()
     """이름"""
-    operator: Optional[IdentityVerificationOperator]
+    operator: Optional[IdentityVerificationOperator] = dataclasses.field()
     """통신사"""
-    phoneNumber: Optional[str]
+    phone_number: Optional[str] = dataclasses.field(metadata={"serde_rename": "phoneNumber"})
     """전화번호
     
     특수 문자(-) 없이 숫자로만 이루어진 번호 형식입니다.
     """
-    birthDate: str
+    birth_date: str = dataclasses.field(metadata={"serde_rename": "birthDate"})
     """생년월일 (yyyy-MM-dd)
     
     날짜를 나타내는 문자열로, `yyyy-MM-dd` 형식을 따릅니다.
     """
-    gender: Gender
+    gender: Gender = dataclasses.field()
     """성별"""
-    isForeigner: Optional[bool]
+    is_foreigner: Optional[bool] = dataclasses.field(metadata={"serde_rename": "isForeigner"})
     """외국인 여부"""
-    ci: str
+    ci: str = dataclasses.field()
     """CI (개인 고유 식별키)"""
-    di: str
+    di: str = dataclasses.field()
     """DI (사이트별 개인 고유 식별키)"""
 

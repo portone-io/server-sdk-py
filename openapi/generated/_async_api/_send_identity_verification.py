@@ -21,7 +21,7 @@ from portone_server_sdk._openapi._schemas._unauthorized_error import Unauthorize
 
 @dataclasses.dataclass
 class SendIdentityVerificationParam:
-    identityVerificationId: str
+    identity_verification_id: str = dataclasses.field(metadata={"serde_rename": "identityVerificationId"})
     """본인인증 아이디"""
 
 @dataclasses.dataclass
@@ -37,11 +37,11 @@ class SendIdentityVerificationRequest(ApiRequest[SendIdentityVerificationRespons
 class SendIdentityVerification(ApiClient):
     async def send_identity_verification(
         self,
-        identityVerificationId: str,
-        storeId: Optional[str],
-        channelKey: str,
+        identity_verification_id: str,
+        store_id: Optional[str],
+        channel_key: str,
         customer: SendIdentityVerificationBodyCustomer,
-        customData: Optional[str],
+        custom_data: Optional[str],
         bypass: Optional[Any],
         operator: IdentityVerificationOperator,
         method: IdentityVerificationMethod,
@@ -51,12 +51,12 @@ class SendIdentityVerification(ApiClient):
         SMS 또는 APP 방식을 이용하여 본인인증 요청을 전송합니다.
         
         Args:
-            identityVerificationId (str): 본인인증 아이디.
-            storeId (Optional[str]): 상점 아이디.
+            identity_verification_id (str): 본인인증 아이디.
+            store_id (Optional[str]): 상점 아이디.
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
-            channelKey (str): 채널 키.
+            channel_key (str): 채널 키.
             customer (SendIdentityVerificationBodyCustomer): 고객 정보.
-            customData (Optional[str]): 사용자 지정 데이터.
+            custom_data (Optional[str]): 사용자 지정 데이터.
             bypass (Optional[Any]): PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고).
             operator (IdentityVerificationOperator): 통신사.
             method (IdentityVerificationMethod): 본인인증 방식.
@@ -75,14 +75,14 @@ class SendIdentityVerification(ApiClient):
             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
         """
         param_ = SendIdentityVerificationParam(
-            identityVerificationId=identityVerificationId,
+            identity_verification_id=identity_verification_id,
         )
         query_ = SendIdentityVerificationQuery()
         body_ = SendIdentityVerificationBody(
-            storeId=storeId,
-            channelKey=channelKey,
+            store_id=store_id,
+            channel_key=channel_key,
             customer=customer,
-            customData=customData,
+            custom_data=custom_data,
             bypass=bypass,
             operator=operator,
             method=method,

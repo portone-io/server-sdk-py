@@ -15,7 +15,7 @@ from portone_server_sdk._openapi._schemas._unauthorized_error import Unauthorize
 
 @dataclasses.dataclass
 class PreRegisterPaymentParam:
-    paymentId: str
+    payment_id: str = dataclasses.field(metadata={"serde_rename": "paymentId"})
     """결제 건 아이디"""
 
 @dataclasses.dataclass
@@ -31,10 +31,10 @@ class PreRegisterPaymentRequest(ApiRequest[PreRegisterPaymentResponse, PreRegist
 class PreRegisterPayment(ApiClient):
     async def pre_register_payment(
         self,
-        paymentId: str,
-        storeId: Optional[str],
-        totalAmount: Optional[int],
-        taxFreeAmount: Optional[int],
+        payment_id: str,
+        store_id: Optional[str],
+        total_amount: Optional[int],
+        tax_free_amount: Optional[int],
         currency: Optional[Currency],
     ) -> PreRegisterPaymentResponse:
         """결제 정보 사전 등록
@@ -42,11 +42,11 @@ class PreRegisterPayment(ApiClient):
         결제 정보를 사전 등록합니다.
         
         Args:
-            paymentId (str): 결제 건 아이디.
-            storeId (Optional[str]): 상점 아이디.
+            payment_id (str): 결제 건 아이디.
+            store_id (Optional[str]): 상점 아이디.
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
-            totalAmount (Optional[int]): 결제 총 금액.
-            taxFreeAmount (Optional[int]): 결제 면세 금액.
+            total_amount (Optional[int]): 결제 총 금액.
+            tax_free_amount (Optional[int]): 결제 면세 금액.
             currency (Optional[Currency]): 통화 단위.
         
         Returns:
@@ -59,13 +59,13 @@ class PreRegisterPayment(ApiClient):
             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
         """
         param_ = PreRegisterPaymentParam(
-            paymentId=paymentId,
+            payment_id=payment_id,
         )
         query_ = PreRegisterPaymentQuery()
         body_ = PreRegisterPaymentBody(
-            storeId=storeId,
-            totalAmount=totalAmount,
-            taxFreeAmount=taxFreeAmount,
+            store_id=store_id,
+            total_amount=total_amount,
+            tax_free_amount=tax_free_amount,
             currency=currency,
         )
         response_ = await self.send(

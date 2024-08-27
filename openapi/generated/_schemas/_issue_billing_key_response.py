@@ -8,8 +8,8 @@ from portone_server_sdk._openapi._schemas._channel_specific_failure import Chann
 @dataclasses.dataclass
 class IssueBillingKeyResponse:
     """빌링키 발급 성공 응답"""
-    billingKeyInfo: BillingKeyInfoSummary
+    billing_key_info: BillingKeyInfoSummary = dataclasses.field(metadata={"serde_rename": "billingKeyInfo"})
     """빌링키 정보"""
-    channelSpecificFailures: Optional[list[ChannelSpecificFailure]]
+    channel_specific_failures: Optional[list[ChannelSpecificFailure]] = dataclasses.field(metadata={"serde_rename": "channelSpecificFailures"})
     """발급에 실패한 채널이 있을시 실패 정보"""
 

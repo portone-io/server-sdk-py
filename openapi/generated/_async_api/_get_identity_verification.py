@@ -13,12 +13,12 @@ from portone_server_sdk._openapi._schemas._unauthorized_error import Unauthorize
 
 @dataclasses.dataclass
 class GetIdentityVerificationParam:
-    identityVerificationId: str
+    identity_verification_id: str = dataclasses.field(metadata={"serde_rename": "identityVerificationId"})
     """조회할 본인인증 아이디"""
 
 @dataclasses.dataclass
 class GetIdentityVerificationQuery:
-    storeId: Optional[str]
+    store_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "storeId"})
     """상점 아이디
     
     
@@ -34,16 +34,16 @@ class GetIdentityVerificationRequest(ApiRequest[IdentityVerification, GetIdentit
 class GetIdentityVerification(ApiClient):
     async def get_identity_verification(
         self,
-        identityVerificationId: str,
-        storeId: Optional[str],
+        identity_verification_id: str,
+        store_id: Optional[str],
     ) -> IdentityVerification:
         """본인인증 단건 조회
         
         주어진 아이디에 대응되는 본인인증 내역을 조회합니다.
         
         Args:
-            identityVerificationId (str): 조회할 본인인증 아이디.
-            storeId (Optional[str]): 상점 아이디.
+            identity_verification_id (str): 조회할 본인인증 아이디.
+            store_id (Optional[str]): 상점 아이디.
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
         
         Returns:
@@ -56,10 +56,10 @@ class GetIdentityVerification(ApiClient):
             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
         """
         param_ = GetIdentityVerificationParam(
-            identityVerificationId=identityVerificationId,
+            identity_verification_id=identity_verification_id,
         )
         query_ = GetIdentityVerificationQuery(
-            storeId=storeId,
+            store_id=store_id,
         )
         body_ = Empty()
         response_ = await self.send(

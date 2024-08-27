@@ -5,18 +5,18 @@ from portone_server_sdk._openapi._schemas._currency import Currency
 @dataclasses.dataclass
 class RegisterStoreReceiptBodyItem:
     """하위 상점 거래 정보"""
-    storeBusinessRegistrationNumber: str
+    store_business_registration_number: str = dataclasses.field(metadata={"serde_rename": "storeBusinessRegistrationNumber"})
     """하위 상점 사업자등록번호"""
-    storeName: str
+    store_name: str = dataclasses.field(metadata={"serde_rename": "storeName"})
     """하위 상점명"""
-    totalAmount: int
+    total_amount: int = dataclasses.field(metadata={"serde_rename": "totalAmount"})
     """결제 총 금액"""
-    taxFreeAmount: Optional[int]
+    tax_free_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "taxFreeAmount"})
     """면세액"""
-    vatAmount: Optional[int]
+    vat_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "vatAmount"})
     """부가세액"""
-    supplyAmount: Optional[int]
+    supply_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "supplyAmount"})
     """공급가액"""
-    currency: Currency
+    currency: Currency = dataclasses.field()
     """통화"""
 

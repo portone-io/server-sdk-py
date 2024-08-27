@@ -14,9 +14,9 @@ class GetKakaopayPaymentOrderParam:
 
 @dataclasses.dataclass
 class GetKakaopayPaymentOrderQuery:
-    pgTxId: str
+    pg_tx_id: str = dataclasses.field(metadata={"serde_rename": "pgTxId"})
     """카카오페이 주문 번호 (tid)"""
-    channelKey: str
+    channel_key: str = dataclasses.field(metadata={"serde_rename": "channelKey"})
     """채널 키"""
 
 @dataclasses.dataclass
@@ -28,8 +28,8 @@ class GetKakaopayPaymentOrderRequest(ApiRequest[GetKakaopayPaymentOrderResponse,
 class GetKakaopayPaymentOrder(ApiClient):
     async def get_kakaopay_payment_order(
         self,
-        pgTxId: str,
-        channelKey: str,
+        pg_tx_id: str,
+        channel_key: str,
     ) -> GetKakaopayPaymentOrderResponse:
         """카카오페이 주문 조회 API
         
@@ -37,8 +37,8 @@ class GetKakaopayPaymentOrder(ApiClient):
         해당 API 사용이 필요한 경우 포트원 기술지원팀으로 문의 주시길 바랍니다.
         
         Args:
-            pgTxId (str): 카카오페이 주문 번호 (tid).
-            channelKey (str): 채널 키.
+            pg_tx_id (str): 카카오페이 주문 번호 (tid).
+            channel_key (str): 채널 키.
         
         Returns:
             GetKakaopayPaymentOrderResponse: 성공 응답으로 카카오페이 주문 조회 응답 객체를 반환합니다.
@@ -49,8 +49,8 @@ class GetKakaopayPaymentOrder(ApiClient):
         """
         param_ = GetKakaopayPaymentOrderParam()
         query_ = GetKakaopayPaymentOrderQuery(
-            pgTxId=pgTxId,
-            channelKey=channelKey,
+            pg_tx_id=pg_tx_id,
+            channel_key=channel_key,
         )
         body_ = Empty()
         response_ = await self.send(

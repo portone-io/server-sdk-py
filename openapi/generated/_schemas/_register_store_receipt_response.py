@@ -4,6 +4,6 @@ from typing import Optional
 @dataclasses.dataclass
 class RegisterStoreReceiptResponse:
     """영수증 내 하위 상점 거래 등록 응답"""
-    receiptUrl: Optional[str]
+    receipt_url: Optional[str] = dataclasses.field(metadata={"serde_rename": "receiptUrl"})
     """결제 영수증 URL"""
 

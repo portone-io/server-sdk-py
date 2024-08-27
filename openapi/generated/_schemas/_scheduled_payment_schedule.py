@@ -7,44 +7,44 @@ from portone_server_sdk._openapi._schemas._payment_product import PaymentProduct
 @dataclasses.dataclass
 class ScheduledPaymentSchedule:
     """결제 예약 완료 상태"""
-    status: Literal["SCHEDULED"]
+    status: Literal["SCHEDULED"] = dataclasses.field()
     """결제 예약 건 상태"""
-    id: str
+    id: str = dataclasses.field()
     """결제 예약 건 아이디"""
-    merchantId: str
+    merchant_id: str = dataclasses.field(metadata={"serde_rename": "merchantId"})
     """고객사 아이디"""
-    storeId: str
+    store_id: str = dataclasses.field(metadata={"serde_rename": "storeId"})
     """상점 아이디"""
-    paymentId: str
+    payment_id: str = dataclasses.field(metadata={"serde_rename": "paymentId"})
     """결제 건 아이디"""
-    billingKey: str
+    billing_key: str = dataclasses.field(metadata={"serde_rename": "billingKey"})
     """빌링키"""
-    orderName: str
+    order_name: str = dataclasses.field(metadata={"serde_rename": "orderName"})
     """주문명"""
-    isCulturalExpense: bool
+    is_cultural_expense: bool = dataclasses.field(metadata={"serde_rename": "isCulturalExpense"})
     """문화비 지출 여부"""
-    isEscrow: bool
+    is_escrow: bool = dataclasses.field(metadata={"serde_rename": "isEscrow"})
     """에스크로 결제 여부"""
-    customer: Customer
+    customer: Customer = dataclasses.field()
     """고객 정보"""
-    customData: str
+    custom_data: str = dataclasses.field(metadata={"serde_rename": "customData"})
     """사용자 지정 데이터"""
-    totalAmount: int
+    total_amount: int = dataclasses.field(metadata={"serde_rename": "totalAmount"})
     """결제 총 금액"""
-    taxFreeAmount: Optional[int]
+    tax_free_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "taxFreeAmount"})
     """면세액"""
-    vatAmount: Optional[int]
+    vat_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "vatAmount"})
     """부가세"""
-    currency: Currency
+    currency: Currency = dataclasses.field()
     """통화"""
-    installmentMonth: Optional[int]
+    installment_month: Optional[int] = dataclasses.field(metadata={"serde_rename": "installmentMonth"})
     """할부 개월 수"""
-    noticeUrls: Optional[list[str]]
+    notice_urls: Optional[list[str]] = dataclasses.field(metadata={"serde_rename": "noticeUrls"})
     """웹훅 주소"""
-    products: Optional[list[PaymentProduct]]
+    products: Optional[list[PaymentProduct]] = dataclasses.field()
     """상품 정보"""
-    createdAt: str
+    created_at: str = dataclasses.field(metadata={"serde_rename": "createdAt"})
     """결제 예약 등록 시점"""
-    timeToPay: str
+    time_to_pay: str = dataclasses.field(metadata={"serde_rename": "timeToPay"})
     """결제 예정 시점"""
 

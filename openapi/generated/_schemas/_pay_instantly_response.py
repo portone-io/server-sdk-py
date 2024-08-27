@@ -4,6 +4,6 @@ from portone_server_sdk._openapi._schemas._instant_payment_summary import Instan
 @dataclasses.dataclass
 class PayInstantlyResponse:
     """수기 결제 성공 응답"""
-    payment: InstantPaymentSummary
+    payment: InstantPaymentSummary = dataclasses.field()
     """결제 건 요약 정보"""
 

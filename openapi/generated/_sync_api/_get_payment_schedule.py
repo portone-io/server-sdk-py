@@ -13,12 +13,12 @@ from portone_server_sdk._openapi._schemas._unauthorized_error import Unauthorize
 
 @dataclasses.dataclass
 class GetPaymentScheduleParam:
-    paymentScheduleId: str
+    payment_schedule_id: str = dataclasses.field(metadata={"serde_rename": "paymentScheduleId"})
     """조회할 결제 예약 건 아이디"""
 
 @dataclasses.dataclass
 class GetPaymentScheduleQuery:
-    storeId: Optional[str]
+    store_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "storeId"})
     """상점 아이디
     
     
@@ -34,16 +34,16 @@ class GetPaymentScheduleRequest(ApiRequest[PaymentSchedule, GetPaymentScheduleEr
 class GetPaymentSchedule(ApiClient):
     def get_payment_schedule(
         self,
-        paymentScheduleId: str,
-        storeId: Optional[str],
+        payment_schedule_id: str,
+        store_id: Optional[str],
     ) -> PaymentSchedule:
         """결제 예약 단건 조회
         
         주어진 아이디에 대응되는 결제 예약 건을 조회합니다.
         
         Args:
-            paymentScheduleId (str): 조회할 결제 예약 건 아이디.
-            storeId (Optional[str]): 상점 아이디.
+            payment_schedule_id (str): 조회할 결제 예약 건 아이디.
+            store_id (Optional[str]): 상점 아이디.
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
         
         Returns:
@@ -56,10 +56,10 @@ class GetPaymentSchedule(ApiClient):
             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
         """
         param_ = GetPaymentScheduleParam(
-            paymentScheduleId=paymentScheduleId,
+            payment_schedule_id=payment_schedule_id,
         )
         query_ = GetPaymentScheduleQuery(
-            storeId=storeId,
+            store_id=store_id,
         )
         body_ = Empty()
         response_ = self.send(

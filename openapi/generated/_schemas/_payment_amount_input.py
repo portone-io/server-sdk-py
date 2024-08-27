@@ -4,11 +4,11 @@ from typing import Optional
 @dataclasses.dataclass
 class PaymentAmountInput:
     """금액 세부 입력 정보"""
-    total: int
+    total: int = dataclasses.field()
     """총 금액"""
-    taxFree: Optional[int]
+    tax_free: Optional[int] = dataclasses.field(metadata={"serde_rename": "taxFree"})
     """면세액"""
-    vat: Optional[int]
+    vat: Optional[int] = dataclasses.field()
     """부가세액
     
     고객사에서 직접 계산이 필요한 경우 입력합니다.

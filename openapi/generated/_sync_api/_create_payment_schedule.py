@@ -18,7 +18,7 @@ from portone_server_sdk._openapi._schemas._unauthorized_error import Unauthorize
 
 @dataclasses.dataclass
 class CreatePaymentScheduleParam:
-    paymentId: str
+    payment_id: str = dataclasses.field(metadata={"serde_rename": "paymentId"})
     """결제 건 아이디"""
 
 @dataclasses.dataclass
@@ -34,18 +34,18 @@ class CreatePaymentScheduleRequest(ApiRequest[CreatePaymentScheduleResponse, Cre
 class CreatePaymentSchedule(ApiClient):
     def create_payment_schedule(
         self,
-        paymentId: str,
+        payment_id: str,
         payment: BillingKeyPaymentInput,
-        timeToPay: str,
+        time_to_pay: str,
     ) -> CreatePaymentScheduleResponse:
         """결제 예약
         
         결제를 예약합니다.
         
         Args:
-            paymentId (str): 결제 건 아이디.
+            payment_id (str): 결제 건 아이디.
             payment (BillingKeyPaymentInput): 빌링키 결제 입력 정보.
-            timeToPay (str): 결제 예정 시점.
+            time_to_pay (str): 결제 예정 시점.
         
         Returns:
             CreatePaymentScheduleResponse: 성공 응답
@@ -61,12 +61,12 @@ class CreatePaymentSchedule(ApiClient):
             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
         """
         param_ = CreatePaymentScheduleParam(
-            paymentId=paymentId,
+            payment_id=payment_id,
         )
         query_ = CreatePaymentScheduleQuery()
         body_ = CreatePaymentScheduleBody(
             payment=payment,
-            timeToPay=timeToPay,
+            time_to_pay=time_to_pay,
         )
         response_ = self.send(
             CreatePaymentScheduleRequest(param_, query_, body_),

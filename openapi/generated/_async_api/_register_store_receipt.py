@@ -17,7 +17,7 @@ from portone_server_sdk._openapi._schemas._unauthorized_error import Unauthorize
 
 @dataclasses.dataclass
 class RegisterStoreReceiptParam:
-    paymentId: str
+    payment_id: str = dataclasses.field(metadata={"serde_rename": "paymentId"})
     """등록할 하위 상점 결제 건 아이디"""
 
 @dataclasses.dataclass
@@ -33,9 +33,9 @@ class RegisterStoreReceiptRequest(ApiRequest[RegisterStoreReceiptResponse, Regis
 class RegisterStoreReceipt(ApiClient):
     async def register_store_receipt(
         self,
-        paymentId: str,
+        payment_id: str,
         items: list[RegisterStoreReceiptBodyItem],
-        storeId: Optional[str],
+        store_id: Optional[str],
     ) -> RegisterStoreReceiptResponse:
         """영수증 내 하위 상점 거래 등록
         
@@ -44,9 +44,9 @@ class RegisterStoreReceipt(ApiClient):
         KG이니시스(이용 전 콘솔 -> 결제연동 탭에서 INIApi Key 등록 필요)
         
         Args:
-            paymentId (str): 등록할 하위 상점 결제 건 아이디.
+            payment_id (str): 등록할 하위 상점 결제 건 아이디.
             items (list[RegisterStoreReceiptBodyItem]): 하위 상점 거래 목록.
-            storeId (Optional[str]): 상점 아이디.
+            store_id (Optional[str]): 상점 아이디.
         
         Returns:
             RegisterStoreReceiptResponse: 성공 응답
@@ -60,12 +60,12 @@ class RegisterStoreReceipt(ApiClient):
             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
         """
         param_ = RegisterStoreReceiptParam(
-            paymentId=paymentId,
+            payment_id=payment_id,
         )
         query_ = RegisterStoreReceiptQuery()
         body_ = RegisterStoreReceiptBody(
             items=items,
-            storeId=storeId,
+            store_id=store_id,
         )
         response_ = await self.send(
             RegisterStoreReceiptRequest(param_, query_, body_),

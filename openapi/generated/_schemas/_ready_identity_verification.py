@@ -6,20 +6,20 @@ from portone_server_sdk._openapi._schemas._selected_channel import SelectedChann
 @dataclasses.dataclass
 class ReadyIdentityVerification:
     """준비 상태의 본인인증 내역"""
-    status: Literal["READY"]
+    status: Literal["READY"] = dataclasses.field()
     """본인인증 상태"""
-    id: str
+    id: str = dataclasses.field()
     """본인인증 내역 아이디"""
-    channel: Optional[SelectedChannel]
+    channel: Optional[SelectedChannel] = dataclasses.field()
     """사용된 본인인증 채널"""
-    requestedCustomer: IdentityVerificationRequestedCustomer
+    requested_customer: IdentityVerificationRequestedCustomer = dataclasses.field(metadata={"serde_rename": "requestedCustomer"})
     """요청 시 고객 정보"""
-    customData: Optional[str]
+    custom_data: Optional[str] = dataclasses.field(metadata={"serde_rename": "customData"})
     """사용자 지정 데이터"""
-    requestedAt: str
+    requested_at: str = dataclasses.field(metadata={"serde_rename": "requestedAt"})
     """본인인증 요청 시점"""
-    updatedAt: str
+    updated_at: str = dataclasses.field(metadata={"serde_rename": "updatedAt"})
     """업데이트 시점"""
-    statusChangedAt: str
+    status_changed_at: str = dataclasses.field(metadata={"serde_rename": "statusChangedAt"})
     """상태 업데이트 시점"""
 

@@ -8,14 +8,14 @@ from portone_server_sdk._openapi._schemas._instant_payment_method_input_virtual_
 @dataclasses.dataclass
 class InstantPaymentMethodInputVirtualAccount:
     """가상계좌 수단 정보 입력 정보"""
-    bank: Bank
+    bank: Bank = dataclasses.field()
     """은행"""
-    expiry: InstantPaymentMethodInputVirtualAccountExpiry
+    expiry: InstantPaymentMethodInputVirtualAccountExpiry = dataclasses.field()
     """입금 만료 기한"""
-    option: InstantPaymentMethodInputVirtualAccountOption
+    option: InstantPaymentMethodInputVirtualAccountOption = dataclasses.field()
     """가상계좌 유형"""
-    cashReceipt: InstantPaymentMethodInputVirtualAccountCashReceiptInfo
+    cash_receipt: InstantPaymentMethodInputVirtualAccountCashReceiptInfo = dataclasses.field(metadata={"serde_rename": "cashReceipt"})
     """현금영수증 정보"""
-    remitteeName: Optional[str]
+    remittee_name: Optional[str] = dataclasses.field(metadata={"serde_rename": "remitteeName"})
     """예금주명"""
 

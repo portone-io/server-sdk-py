@@ -4,12 +4,12 @@ from typing import Optional
 @dataclasses.dataclass
 class BillingKeyFailure:
     """발급 실패 상세 정보"""
-    message: Optional[str]
+    message: Optional[str] = dataclasses.field()
     """실패 사유"""
-    pgCode: Optional[str]
+    pg_code: Optional[str] = dataclasses.field(metadata={"serde_rename": "pgCode"})
     """PG사 실패 코드"""
-    pgMessage: Optional[str]
+    pg_message: Optional[str] = dataclasses.field(metadata={"serde_rename": "pgMessage"})
     """PG사 실패 사유"""
-    failedAt: str
+    failed_at: str = dataclasses.field(metadata={"serde_rename": "failedAt"})
     """실패 시점"""
 

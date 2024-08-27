@@ -4,24 +4,24 @@ from typing import Literal, Optional
 @dataclasses.dataclass
 class RequestedPaymentCancellation:
     """취소 요청 상태"""
-    status: Literal["REQUESTED"]
+    status: Literal["REQUESTED"] = dataclasses.field()
     """결제 취소 내역 상태"""
-    id: str
+    id: str = dataclasses.field()
     """취소 내역 아이디"""
-    pgCancellationId: Optional[str]
+    pg_cancellation_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "pgCancellationId"})
     """PG사 결제 취소 내역 아이디"""
-    totalAmount: int
+    total_amount: int = dataclasses.field(metadata={"serde_rename": "totalAmount"})
     """취소 총 금액"""
-    taxFreeAmount: int
+    tax_free_amount: int = dataclasses.field(metadata={"serde_rename": "taxFreeAmount"})
     """취소 금액 중 면세 금액"""
-    vatAmount: int
+    vat_amount: int = dataclasses.field(metadata={"serde_rename": "vatAmount"})
     """취소 금액 중 부가세액"""
-    easyPayDiscountAmount: Optional[int]
+    easy_pay_discount_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "easyPayDiscountAmount"})
     """적립형 포인트의 환불 금액"""
-    reason: str
+    reason: str = dataclasses.field()
     """취소 사유"""
-    cancelledAt: Optional[str]
+    cancelled_at: Optional[str] = dataclasses.field(metadata={"serde_rename": "cancelledAt"})
     """취소 시점"""
-    requestedAt: str
+    requested_at: str = dataclasses.field(metadata={"serde_rename": "requestedAt"})
     """취소 요청 시점"""
 

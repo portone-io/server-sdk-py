@@ -10,16 +10,16 @@ class GetPaymentSchedulesBody:
     
     조회 결과는 결제 예정 시점(timeToPay) 기준 최신 순으로 정렬됩니다.
     """
-    page: Optional[PageInput]
+    page: Optional[PageInput] = dataclasses.field()
     """요청할 페이지 정보
     
     미 입력 시 number: 0, size: 10 으로 기본값이 적용됩니다.
     """
-    sort: Optional[PaymentScheduleSortInput]
+    sort: Optional[PaymentScheduleSortInput] = dataclasses.field()
     """정렬 조건
     
     미 입력 시 sortBy: TIME_TO_PAY, sortOrder: DESC 으로 기본값이 적용됩니다.
     """
-    filter: Optional[PaymentScheduleFilterInput]
+    filter: Optional[PaymentScheduleFilterInput] = dataclasses.field()
     """조회할 결제 예약 건의 조건 필터"""
 

@@ -5,9 +5,9 @@ from portone_server_sdk._openapi._schemas._selected_channel import SelectedChann
 @dataclasses.dataclass
 class ChannelSpecificFailurePgProvider:
     """PG사에서 오류를 전달한 경우"""
-    type: Literal["PG_PROVIDER"]
-    channel: SelectedChannel
-    message: Optional[str]
-    pgCode: str
-    pgMessage: str
+    type: Literal["PG_PROVIDER"] = dataclasses.field()
+    channel: SelectedChannel = dataclasses.field()
+    message: Optional[str] = dataclasses.field()
+    pg_code: str = dataclasses.field(metadata={"serde_rename": "pgCode"})
+    pg_message: str = dataclasses.field(metadata={"serde_rename": "pgMessage"})
 

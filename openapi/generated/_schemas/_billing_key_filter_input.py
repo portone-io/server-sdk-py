@@ -12,54 +12,54 @@ from portone_server_sdk._openapi._schemas._port_one_version import PortOneVersio
 @dataclasses.dataclass
 class BillingKeyFilterInput:
     """빌링키 다건 조회를 위한 입력 정보"""
-    storeId: Optional[str]
+    store_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "storeId"})
     """상점 아이디
     
     Merchant 사용자만 사용가능하며, 지정되지 않은 경우 고객사 전체 빌링키를 조회합니다.
     """
-    timeRangeField: Optional[BillingKeyTimeRangeField]
+    time_range_field: Optional[BillingKeyTimeRangeField] = dataclasses.field(metadata={"serde_rename": "timeRangeField"})
     """조회 기준 시점 유형"""
     from_: Optional[str] = dataclasses.field(metadata={"serde_rename": "from"})
     """조회 기준 시점 범위의 시작
     
     값을 입력하지 않으면 end의 90일 전으로 설정됩니다.
     """
-    until: Optional[str]
+    until: Optional[str] = dataclasses.field()
     """조회 기준 시점 범위의 끝
     
     값을 입력하지 않으면 현재 시점으로 설정됩니다.
     """
-    status: Optional[list[BillingKeyStatus]]
+    status: Optional[list[BillingKeyStatus]] = dataclasses.field()
     """빌링키 상태 리스트
     
     값을 입력하지 않으면 빌링키 상태 필터링이 적용되지 않습니다.
     """
-    channelGroupIds: Optional[list[str]]
+    channel_group_ids: Optional[list[str]] = dataclasses.field(metadata={"serde_rename": "channelGroupIds"})
     """채널 그룹 아이디 리스트
     
     값을 입력하지 않으면 스마트 라우팅 그룹 아이디 필터링이 적용되지 않습니다.
     """
-    customerId: Optional[str]
+    customer_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "customerId"})
     """고객 ID"""
-    platformType: Optional[PaymentClientType]
+    platform_type: Optional[PaymentClientType] = dataclasses.field(metadata={"serde_rename": "platformType"})
     """플랫폼 유형"""
-    textSearch: Optional[BillingKeyTextSearch]
+    text_search: Optional[BillingKeyTextSearch] = dataclasses.field(metadata={"serde_rename": "textSearch"})
     """통합 검색 필터"""
-    pgProviders: Optional[list[PgProvider]]
+    pg_providers: Optional[list[PgProvider]] = dataclasses.field(metadata={"serde_rename": "pgProviders"})
     """PG사 결제 모듈 리스트
     
     값을 입력하지 않으면 PG사 결제 모듈 필터링이 적용되지 않습니다.
     """
-    pgCompanies: Optional[list[PgCompany]]
+    pg_companies: Optional[list[PgCompany]] = dataclasses.field(metadata={"serde_rename": "pgCompanies"})
     """PG사 리스트
     
     값을 입력하지 않으면 PG사 필터링이 적용되지 않습니다.
     """
-    methods: Optional[list[BillingKeyPaymentMethodType]]
+    methods: Optional[list[BillingKeyPaymentMethodType]] = dataclasses.field()
     """결제수단 리스트
     
     값을 입력하지 않으면 결제수단 필터링이 적용되지 않습니다.
     """
-    version: Optional[PortOneVersion]
+    version: Optional[PortOneVersion] = dataclasses.field()
     """포트원 버전"""
 

@@ -17,7 +17,7 @@ from portone_server_sdk._openapi._schemas._unauthorized_error import Unauthorize
 
 @dataclasses.dataclass
 class ConfirmIdentityVerificationParam:
-    identityVerificationId: str
+    identity_verification_id: str = dataclasses.field(metadata={"serde_rename": "identityVerificationId"})
     """본인인증 아이디"""
 
 @dataclasses.dataclass
@@ -33,8 +33,8 @@ class ConfirmIdentityVerificationRequest(ApiRequest[ConfirmIdentityVerificationR
 class ConfirmIdentityVerification(ApiClient):
     def confirm_identity_verification(
         self,
-        identityVerificationId: str,
-        storeId: Optional[str],
+        identity_verification_id: str,
+        store_id: Optional[str],
         otp: Optional[str],
     ) -> ConfirmIdentityVerificationResponse:
         """본인인증 확인
@@ -42,8 +42,8 @@ class ConfirmIdentityVerification(ApiClient):
         요청된 본인인증에 대한 확인을 진행합니다.
         
         Args:
-            identityVerificationId (str): 본인인증 아이디.
-            storeId (Optional[str]): 상점 아이디.
+            identity_verification_id (str): 본인인증 아이디.
+            store_id (Optional[str]): 상점 아이디.
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
             otp (Optional[str]): OTP (One-Time Password).
                 SMS 방식에서만 사용됩니다.
@@ -61,11 +61,11 @@ class ConfirmIdentityVerification(ApiClient):
             _errors.UnauthorizedError: 인증 정보가 올바르지 않은 경우
         """
         param_ = ConfirmIdentityVerificationParam(
-            identityVerificationId=identityVerificationId,
+            identity_verification_id=identity_verification_id,
         )
         query_ = ConfirmIdentityVerificationQuery()
         body_ = ConfirmIdentityVerificationBody(
-            storeId=storeId,
+            store_id=store_id,
             otp=otp,
         )
         response_ = self.send(

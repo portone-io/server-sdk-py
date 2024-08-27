@@ -7,21 +7,21 @@ from portone_server_sdk._openapi._schemas._payment_method_virtual_account_type i
 @dataclasses.dataclass
 class PaymentMethodVirtualAccount:
     """가상계좌 상세 정보"""
-    type: Literal["PaymentMethodVirtualAccount"]
-    bank: Optional[Bank]
+    type: Literal["PaymentMethodVirtualAccount"] = dataclasses.field()
+    bank: Optional[Bank] = dataclasses.field()
     """표준 은행 코드"""
-    accountNumber: str
+    account_number: str = dataclasses.field(metadata={"serde_rename": "accountNumber"})
     """계좌번호"""
-    accountType: Optional[PaymentMethodVirtualAccountType]
+    account_type: Optional[PaymentMethodVirtualAccountType] = dataclasses.field(metadata={"serde_rename": "accountType"})
     """계좌 유형"""
-    remitteeName: Optional[str]
+    remittee_name: Optional[str] = dataclasses.field(metadata={"serde_rename": "remitteeName"})
     """계좌주"""
-    remitterName: Optional[str]
+    remitter_name: Optional[str] = dataclasses.field(metadata={"serde_rename": "remitterName"})
     """송금인(입금자)"""
-    expiredAt: Optional[str]
+    expired_at: Optional[str] = dataclasses.field(metadata={"serde_rename": "expiredAt"})
     """입금만료시점"""
-    issuedAt: Optional[str]
+    issued_at: Optional[str] = dataclasses.field(metadata={"serde_rename": "issuedAt"})
     """계좌발급시점"""
-    refundStatus: Optional[PaymentMethodVirtualAccountRefundStatus]
+    refund_status: Optional[PaymentMethodVirtualAccountRefundStatus] = dataclasses.field(metadata={"serde_rename": "refundStatus"})
     """가상계좌 결제가 환불 단계일 때의 환불 상태"""
 

@@ -28,7 +28,7 @@ class GetAllPaymentsByCursorRequest(ApiRequest[GetAllPaymentsByCursorResponse, G
 class GetAllPaymentsByCursor(ApiClient):
     async def get_all_payments_by_cursor(
         self,
-        storeId: Optional[str],
+        store_id: Optional[str],
         from_: Optional[str],
         until: Optional[str],
         cursor: Optional[str],
@@ -39,7 +39,7 @@ class GetAllPaymentsByCursor(ApiClient):
         기간 내 모든 결제 건을 커서 기반으로 조회합니다. 결제 건의 생성일시를 기준으로 주어진 기간 내 존재하는 모든 결제 건이 조회됩니다.
         
         Args:
-            storeId (Optional[str]): 상점 아이디.
+            store_id (Optional[str]): 상점 아이디.
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
             from_ (Optional[str]): 결제 건 생성시점 범위 조건의 시작.
                 값을 입력하지 않으면 end의 90일 전으로 설정됩니다.
@@ -61,7 +61,7 @@ class GetAllPaymentsByCursor(ApiClient):
         param_ = GetAllPaymentsByCursorParam()
         query_ = GetAllPaymentsByCursorQuery()
         body_ = GetAllPaymentsByCursorBody(
-            storeId=storeId,
+            store_id=store_id,
             from_=from_,
             until=until,
             cursor=cursor,
