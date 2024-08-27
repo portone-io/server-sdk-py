@@ -8,8 +8,8 @@ class CustomerNameInput:
     
     두 개의 이름 형식 중 한 가지만 선택하여 입력해주세요.
     """
-    full: Optional[str] = dataclasses.field()
+    full: Optional[str] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """한 줄 이름 형식"""
-    separated: Optional[CustomerSeparatedName] = dataclasses.field()
+    separated: Optional[CustomerSeparatedName] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """분리형 이름 형식"""
 

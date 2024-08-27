@@ -12,8 +12,8 @@ class PaymentLogistics:
     """송장번호"""
     sent_at: str = dataclasses.field(metadata={"serde_rename": "sentAt"})
     """발송시점"""
-    received_at: Optional[str] = dataclasses.field(metadata={"serde_rename": "receivedAt"})
+    received_at: Optional[str] = dataclasses.field(metadata={"serde_rename": "receivedAt", "serde_skip_if": lambda value: value is None})
     """수령시점"""
-    address: Optional[SeparatedAddressInput] = dataclasses.field()
+    address: Optional[SeparatedAddressInput] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """주소"""
 

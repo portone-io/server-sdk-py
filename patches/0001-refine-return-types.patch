@@ -77,7 +77,7 @@ index 9e494e4..96e58f7 100644
 -            return response_.data
 +            return response_.data.schedule
 diff --git a/_async_api/_get_billing_key_info.py b/_async_api/_get_billing_key_info.py
-index 0a61abf..1ecfdb8 100644
+index a8b6e79..699d04b 100644
 --- a/_async_api/_get_billing_key_info.py
 +++ b/_async_api/_get_billing_key_info.py
 @@ -36,7 +36,7 @@ class GetBillingKeyInfo(ApiClient):
@@ -111,7 +111,7 @@ index 0a61abf..1ecfdb8 100644
                  raise _errors.ForbiddenError(error_)
              elif isinstance(error_, InvalidRequestError):
 diff --git a/_async_api/_get_cash_receipt_by_payment_id.py b/_async_api/_get_cash_receipt_by_payment_id.py
-index 83ba9b1..5ad97bb 100644
+index fd9f2a1..006ec0c 100644
 --- a/_async_api/_get_cash_receipt_by_payment_id.py
 +++ b/_async_api/_get_cash_receipt_by_payment_id.py
 @@ -36,7 +36,7 @@ class GetCashReceiptByPaymentId(ApiClient):
@@ -145,7 +145,7 @@ index 83ba9b1..5ad97bb 100644
                  raise _errors.ForbiddenError(error_)
              elif isinstance(error_, InvalidRequestError):
 diff --git a/_async_api/_get_identity_verification.py b/_async_api/_get_identity_verification.py
-index 2b333d7..543fb10 100644
+index 2dafe22..c2fc88e 100644
 --- a/_async_api/_get_identity_verification.py
 +++ b/_async_api/_get_identity_verification.py
 @@ -36,7 +36,7 @@ class GetIdentityVerification(ApiClient):
@@ -180,7 +180,7 @@ index 2b333d7..543fb10 100644
                  raise _errors.InvalidRequestError(error_)
              else:
 diff --git a/_async_api/_get_payment.py b/_async_api/_get_payment.py
-index f7327f3..70648ce 100644
+index 993f4e0..fcc7f23 100644
 --- a/_async_api/_get_payment.py
 +++ b/_async_api/_get_payment.py
 @@ -32,7 +32,7 @@ class GetPayment(ApiClient):
@@ -216,7 +216,7 @@ index f7327f3..70648ce 100644
                  raise _errors.UnauthorizedError(error_)
          else:
 diff --git a/_async_api/_get_payment_schedule.py b/_async_api/_get_payment_schedule.py
-index 6993f61..30bcd6e 100644
+index 27d500b..0dfb517 100644
 --- a/_async_api/_get_payment_schedule.py
 +++ b/_async_api/_get_payment_schedule.py
 @@ -36,7 +36,7 @@ class GetPaymentSchedule(ApiClient):
@@ -252,7 +252,7 @@ index 6993f61..30bcd6e 100644
                  raise _errors.UnauthorizedError(error_)
          else:
 diff --git a/_async_api/_issue_cash_receipt.py b/_async_api/_issue_cash_receipt.py
-index 72ad894..a4a1c09 100644
+index 72ad894..885cbf5 100644
 --- a/_async_api/_issue_cash_receipt.py
 +++ b/_async_api/_issue_cash_receipt.py
 @@ -18,6 +18,7 @@ from portone_server_sdk._openapi._schemas._payment_amount_input import PaymentAm
@@ -389,7 +389,7 @@ index 8a1c70f..e71a3f1 100644
 -        else:
 -            return response_.data
 diff --git a/_async_api/_resend_identity_verification.py b/_async_api/_resend_identity_verification.py
-index a962f22..dac4c55 100644
+index 340961f..8df85e5 100644
 --- a/_async_api/_resend_identity_verification.py
 +++ b/_async_api/_resend_identity_verification.py
 @@ -39,7 +39,7 @@ class ResendIdentityVerification(ApiClient):
@@ -555,7 +555,7 @@ index f8e97b1..b752668 100644
 -            return response_.data
 +            return response_.data.schedule
 diff --git a/_sync_api/_get_billing_key_info.py b/_sync_api/_get_billing_key_info.py
-index 0334bd5..95c4795 100644
+index b5a7e0c..e29e320 100644
 --- a/_sync_api/_get_billing_key_info.py
 +++ b/_sync_api/_get_billing_key_info.py
 @@ -36,7 +36,7 @@ class GetBillingKeyInfo(ApiClient):
@@ -589,7 +589,7 @@ index 0334bd5..95c4795 100644
                  raise _errors.ForbiddenError(error_)
              elif isinstance(error_, InvalidRequestError):
 diff --git a/_sync_api/_get_cash_receipt_by_payment_id.py b/_sync_api/_get_cash_receipt_by_payment_id.py
-index 0e35bda..874e283 100644
+index eddd427..bbc6762 100644
 --- a/_sync_api/_get_cash_receipt_by_payment_id.py
 +++ b/_sync_api/_get_cash_receipt_by_payment_id.py
 @@ -36,7 +36,7 @@ class GetCashReceiptByPaymentId(ApiClient):
@@ -623,7 +623,7 @@ index 0e35bda..874e283 100644
                  raise _errors.ForbiddenError(error_)
              elif isinstance(error_, InvalidRequestError):
 diff --git a/_sync_api/_get_identity_verification.py b/_sync_api/_get_identity_verification.py
-index f1dc517..c7a215c 100644
+index 8fe1441..2a6006f 100644
 --- a/_sync_api/_get_identity_verification.py
 +++ b/_sync_api/_get_identity_verification.py
 @@ -36,7 +36,7 @@ class GetIdentityVerification(ApiClient):
@@ -658,7 +658,7 @@ index f1dc517..c7a215c 100644
                  raise _errors.InvalidRequestError(error_)
              else:
 diff --git a/_sync_api/_get_payment.py b/_sync_api/_get_payment.py
-index fbceb21..f61d2e3 100644
+index 46196eb..0782670 100644
 --- a/_sync_api/_get_payment.py
 +++ b/_sync_api/_get_payment.py
 @@ -32,7 +32,7 @@ class GetPayment(ApiClient):
@@ -694,7 +694,7 @@ index fbceb21..f61d2e3 100644
                  raise _errors.UnauthorizedError(error_)
          else:
 diff --git a/_sync_api/_get_payment_schedule.py b/_sync_api/_get_payment_schedule.py
-index b08ceec..521c9b8 100644
+index d8f2ca8..a13c9b4 100644
 --- a/_sync_api/_get_payment_schedule.py
 +++ b/_sync_api/_get_payment_schedule.py
 @@ -36,7 +36,7 @@ class GetPaymentSchedule(ApiClient):
@@ -730,7 +730,7 @@ index b08ceec..521c9b8 100644
                  raise _errors.UnauthorizedError(error_)
          else:
 diff --git a/_sync_api/_issue_cash_receipt.py b/_sync_api/_issue_cash_receipt.py
-index 7fe48ca..6ac80a5 100644
+index 7fe48ca..1cf0d79 100644
 --- a/_sync_api/_issue_cash_receipt.py
 +++ b/_sync_api/_issue_cash_receipt.py
 @@ -18,6 +18,7 @@ from portone_server_sdk._openapi._schemas._payment_amount_input import PaymentAm
@@ -867,7 +867,7 @@ index 3f20153..92a2a69 100644
 -        else:
 -            return response_.data
 diff --git a/_sync_api/_resend_identity_verification.py b/_sync_api/_resend_identity_verification.py
-index 512fa94..5e13802 100644
+index e0ad7fa..744eec3 100644
 --- a/_sync_api/_resend_identity_verification.py
 +++ b/_sync_api/_resend_identity_verification.py
 @@ -39,7 +39,7 @@ class ResendIdentityVerification(ApiClient):

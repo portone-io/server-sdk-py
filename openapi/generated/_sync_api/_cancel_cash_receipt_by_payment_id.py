@@ -20,7 +20,7 @@ class CancelCashReceiptByPaymentIdParam:
 
 @dataclasses.dataclass
 class CancelCashReceiptByPaymentIdQuery:
-    store_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "storeId"})
+    store_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "storeId", "serde_skip_if": lambda value: value is None})
     """상점 아이디
     
     

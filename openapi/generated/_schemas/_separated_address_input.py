@@ -9,10 +9,10 @@ class SeparatedAddressInput:
     """상세 주소 1"""
     address_line2: str = dataclasses.field(metadata={"serde_rename": "addressLine2"})
     """상세 주소 2"""
-    city: Optional[str] = dataclasses.field()
+    city: Optional[str] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """시/군/구"""
-    province: Optional[str] = dataclasses.field()
+    province: Optional[str] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """주/도/시"""
-    country: Optional[Country] = dataclasses.field()
+    country: Optional[Country] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """국가"""
 

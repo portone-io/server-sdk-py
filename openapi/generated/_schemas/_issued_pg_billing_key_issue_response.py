@@ -14,9 +14,9 @@ class IssuedPgBillingKeyIssueResponse:
     
     빌링키 발급을 시도한 채널입니다.
     """
-    pg_tx_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "pgTxId"})
+    pg_tx_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "pgTxId", "serde_skip_if": lambda value: value is None})
     """PG사 거래 아이디"""
-    method: Optional[BillingKeyPaymentMethod] = dataclasses.field()
+    method: Optional[BillingKeyPaymentMethod] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """빌링키 결제수단 상세 정보
     
     채널에 대응되는 PG사에서 응답한 빌링키 발급 수단 정보입니다.

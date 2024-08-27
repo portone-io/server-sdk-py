@@ -9,8 +9,8 @@ class InstantPaymentMethodInput:
     
     하나의 필드만 입력합니다.
     """
-    card: Optional[InstantPaymentMethodInputCard] = dataclasses.field()
+    card: Optional[InstantPaymentMethodInputCard] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """카드"""
-    virtual_account: Optional[InstantPaymentMethodInputVirtualAccount] = dataclasses.field(metadata={"serde_rename": "virtualAccount"})
+    virtual_account: Optional[InstantPaymentMethodInputVirtualAccount] = dataclasses.field(metadata={"serde_rename": "virtualAccount", "serde_skip_if": lambda value: value is None})
     """가상계좌"""
 

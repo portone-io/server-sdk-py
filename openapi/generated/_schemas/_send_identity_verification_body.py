@@ -7,7 +7,7 @@ from portone_server_sdk._openapi._schemas._send_identity_verification_body_custo
 @dataclasses.dataclass
 class SendIdentityVerificationBody:
     """본인인증 요청을 위한 입력 정보"""
-    store_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "storeId"})
+    store_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "storeId", "serde_skip_if": lambda value: value is None})
     """상점 아이디
     
     접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
@@ -16,9 +16,9 @@ class SendIdentityVerificationBody:
     """채널 키"""
     customer: SendIdentityVerificationBodyCustomer = dataclasses.field()
     """고객 정보"""
-    custom_data: Optional[str] = dataclasses.field(metadata={"serde_rename": "customData"})
+    custom_data: Optional[str] = dataclasses.field(metadata={"serde_rename": "customData", "serde_skip_if": lambda value: value is None})
     """사용자 지정 데이터"""
-    bypass: Optional[Any] = dataclasses.field()
+    bypass: Optional[Any] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고)"""
     operator: IdentityVerificationOperator = dataclasses.field()
     """통신사"""

@@ -5,5 +5,5 @@ from portone_server_sdk._openapi._schemas._instant_billing_key_payment_method_in
 @dataclasses.dataclass
 class InstantBillingKeyPaymentMethodInput:
     """빌링키 발급 시 결제 수단 입력 양식"""
-    card: Optional[InstantBillingKeyPaymentMethodInputCard] = dataclasses.field()
+    card: Optional[InstantBillingKeyPaymentMethodInputCard] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
 

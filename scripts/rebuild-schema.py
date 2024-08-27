@@ -447,14 +447,17 @@ class SchemaGenerator:
                 filtered = to_snake_case(
                     f"{prop.name}_" if iskeyword(prop.name) else prop.name
                 )
+                metadata = []
                 if prop.name != filtered:
-                    lines.append(
-                        f'    {filtered}: {prop.as_type} = dataclasses.field(metadata={{"serde_rename": "{prop.name}"}})\n'
-                    )
-                else:
-                    lines.append(
-                        f"    {filtered}: {prop.as_type} = dataclasses.field()\n"
-                    )
+                    metadata.append(f'"serde_rename": "{prop.name}"')
+                if prop.as_type.startswith("Optional["):
+                    metadata.append('"serde_skip_if": lambda value: value is None')
+                metadata_join = (
+                    f"metadata={{{', '.join(metadata)}}}" if metadata else ""
+                )
+                lines.append(
+                    f"    {filtered}: {prop.as_type} = dataclasses.field({metadata_join})\n"
+                )
                 docs = self.make_doc_lines(prop)
                 lines.extend(f"    {line}\n" for line in docs)
             if not spec.properties:

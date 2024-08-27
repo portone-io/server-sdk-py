@@ -4,7 +4,7 @@ from typing import Optional
 @dataclasses.dataclass
 class SendIdentityVerificationBodyCustomer:
     """본인인증 요청을 위한 고객 정보"""
-    id: Optional[str] = dataclasses.field()
+    id: Optional[str] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """식별 아이디"""
     name: str = dataclasses.field()
     """이름"""
@@ -13,7 +13,7 @@ class SendIdentityVerificationBodyCustomer:
     
     특수 문자(-) 없이 숫자만 입력합니다.
     """
-    identity_number: Optional[str] = dataclasses.field(metadata={"serde_rename": "identityNumber"})
+    identity_number: Optional[str] = dataclasses.field(metadata={"serde_rename": "identityNumber", "serde_skip_if": lambda value: value is None})
     """주민등록번호 앞 7자리
     
     SMS 방식의 경우 필수로 입력합니다.

@@ -11,11 +11,11 @@ class RegisterStoreReceiptBodyItem:
     """하위 상점명"""
     total_amount: int = dataclasses.field(metadata={"serde_rename": "totalAmount"})
     """결제 총 금액"""
-    tax_free_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "taxFreeAmount"})
+    tax_free_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "taxFreeAmount", "serde_skip_if": lambda value: value is None})
     """면세액"""
-    vat_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "vatAmount"})
+    vat_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "vatAmount", "serde_skip_if": lambda value: value is None})
     """부가세액"""
-    supply_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "supplyAmount"})
+    supply_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "supplyAmount", "serde_skip_if": lambda value: value is None})
     """공급가액"""
     currency: Currency = dataclasses.field()
     """통화"""

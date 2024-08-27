@@ -16,6 +16,6 @@ class InstantPaymentMethodInputVirtualAccount:
     """가상계좌 유형"""
     cash_receipt: InstantPaymentMethodInputVirtualAccountCashReceiptInfo = dataclasses.field(metadata={"serde_rename": "cashReceipt"})
     """현금영수증 정보"""
-    remittee_name: Optional[str] = dataclasses.field(metadata={"serde_rename": "remitteeName"})
+    remittee_name: Optional[str] = dataclasses.field(metadata={"serde_rename": "remitteeName", "serde_skip_if": lambda value: value is None})
     """예금주명"""
 

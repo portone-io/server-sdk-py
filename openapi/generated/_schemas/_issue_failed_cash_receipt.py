@@ -13,7 +13,7 @@ class IssueFailedCashReceipt:
     """상점 아이디"""
     payment_id: str = dataclasses.field(metadata={"serde_rename": "paymentId"})
     """결제 건 아이디"""
-    channel: Optional[SelectedChannel] = dataclasses.field()
+    channel: Optional[SelectedChannel] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """현금영수증 발급에 사용된 채널"""
     order_name: str = dataclasses.field(metadata={"serde_rename": "orderName"})
     """주문명"""

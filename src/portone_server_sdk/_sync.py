@@ -1,4 +1,3 @@
-import dataclasses
 import json
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, Optional, TypeVar, Union
@@ -43,25 +42,17 @@ class ApiClient:
         error_cls: Any,
     ) -> Union[ApiSuccessResponse[SuccessT], ApiErrorResponse[ErrorT]]:
         path = request.path
-        for key, value in dataclasses.asdict(request.param).items():
+        for key, value in serde.to_dict(request.param).items():
             if value is not None:
                 path = path.replace(f"{{{key}}}", value)
-        query = dataclasses.asdict(
-            request.query, dict_factory=lambda x: {k: v for k, v in x if v is not None}
-        )
+        query = serde.to_dict(request.query)
         body: Optional[dict[str, Any]] = None
         if request.method == "get" or request.method == "delete":
-            asdict = dataclasses.asdict(
-                request.body,
-                dict_factory=lambda x: {k: v for k, v in x if v is not None},
-            )
+            asdict = serde.to_dict(request.body)
             if len(asdict) > 0:
                 query["requestBody"] = json.dumps(asdict)
         if request.method == "post" or request.method == "patch":
-            body = dataclasses.asdict(
-                request.body,
-                dict_factory=lambda x: {k: v for k, v in x if v is not None},
-            )
+            body = serde.to_dict(request.body)
         response = self.client.request(
             method=request.method,
             url=path,

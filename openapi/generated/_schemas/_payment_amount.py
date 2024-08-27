@@ -8,9 +8,9 @@ class PaymentAmount:
     """총 결제금액"""
     tax_free: int = dataclasses.field(metadata={"serde_rename": "taxFree"})
     """면세액"""
-    vat: Optional[int] = dataclasses.field()
+    vat: Optional[int] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """부가세액"""
-    supply: Optional[int] = dataclasses.field()
+    supply: Optional[int] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """공급가액"""
     discount: int = dataclasses.field()
     """할인금액

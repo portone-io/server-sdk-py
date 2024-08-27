@@ -32,25 +32,25 @@ class PartialCancelledPayment:
     """고객사 아이디"""
     store_id: str = dataclasses.field(metadata={"serde_rename": "storeId"})
     """상점 아이디"""
-    method: Optional[PaymentMethod] = dataclasses.field()
+    method: Optional[PaymentMethod] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """결제수단 정보"""
     channel: SelectedChannel = dataclasses.field()
     """결제 채널"""
-    channel_group: Optional[ChannelGroupSummary] = dataclasses.field(metadata={"serde_rename": "channelGroup"})
+    channel_group: Optional[ChannelGroupSummary] = dataclasses.field(metadata={"serde_rename": "channelGroup", "serde_skip_if": lambda value: value is None})
     """결제 채널 그룹 정보"""
     version: PortOneVersion = dataclasses.field()
     """포트원 버전"""
-    schedule_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "scheduleId"})
+    schedule_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "scheduleId", "serde_skip_if": lambda value: value is None})
     """결제 예약 건 아이디
     
     결제 예약을 이용한 경우에만 존재
     """
-    billing_key: Optional[str] = dataclasses.field(metadata={"serde_rename": "billingKey"})
+    billing_key: Optional[str] = dataclasses.field(metadata={"serde_rename": "billingKey", "serde_skip_if": lambda value: value is None})
     """결제 시 사용된 빌링키
     
     빌링키 결제인 경우에만 존재
     """
-    webhooks: Optional[list[PaymentWebhook]] = dataclasses.field()
+    webhooks: Optional[list[PaymentWebhook]] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """웹훅 발송 내역"""
     requested_at: str = dataclasses.field(metadata={"serde_rename": "requestedAt"})
     """결제 요청 시점"""
@@ -66,30 +66,30 @@ class PartialCancelledPayment:
     """통화"""
     customer: Customer = dataclasses.field()
     """구매자 정보"""
-    promotion_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "promotionId"})
+    promotion_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "promotionId", "serde_skip_if": lambda value: value is None})
     """프로모션 아이디"""
-    is_cultural_expense: Optional[bool] = dataclasses.field(metadata={"serde_rename": "isCulturalExpense"})
+    is_cultural_expense: Optional[bool] = dataclasses.field(metadata={"serde_rename": "isCulturalExpense", "serde_skip_if": lambda value: value is None})
     """문화비 지출 여부"""
-    escrow: Optional[PaymentEscrow] = dataclasses.field()
+    escrow: Optional[PaymentEscrow] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """에스크로 결제 정보
     
     에스크로 결제인 경우 존재합니다.
     """
-    products: Optional[list[PaymentProduct]] = dataclasses.field()
+    products: Optional[list[PaymentProduct]] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """상품 정보"""
-    product_count: Optional[int] = dataclasses.field(metadata={"serde_rename": "productCount"})
+    product_count: Optional[int] = dataclasses.field(metadata={"serde_rename": "productCount", "serde_skip_if": lambda value: value is None})
     """상품 갯수"""
-    custom_data: Optional[str] = dataclasses.field(metadata={"serde_rename": "customData"})
+    custom_data: Optional[str] = dataclasses.field(metadata={"serde_rename": "customData", "serde_skip_if": lambda value: value is None})
     """사용자 지정 데이터"""
-    country: Optional[Country] = dataclasses.field()
+    country: Optional[Country] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """국가 코드"""
-    paid_at: Optional[str] = dataclasses.field(metadata={"serde_rename": "paidAt"})
+    paid_at: Optional[str] = dataclasses.field(metadata={"serde_rename": "paidAt", "serde_skip_if": lambda value: value is None})
     """결제 완료 시점"""
-    pg_tx_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "pgTxId"})
+    pg_tx_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "pgTxId", "serde_skip_if": lambda value: value is None})
     """PG사 거래 아이디"""
-    cash_receipt: Optional[PaymentCashReceipt] = dataclasses.field(metadata={"serde_rename": "cashReceipt"})
+    cash_receipt: Optional[PaymentCashReceipt] = dataclasses.field(metadata={"serde_rename": "cashReceipt", "serde_skip_if": lambda value: value is None})
     """현금영수증"""
-    receipt_url: Optional[str] = dataclasses.field(metadata={"serde_rename": "receiptUrl"})
+    receipt_url: Optional[str] = dataclasses.field(metadata={"serde_rename": "receiptUrl", "serde_skip_if": lambda value: value is None})
     """거래 영수증 URL"""
     cancellations: list[PaymentCancellation] = dataclasses.field()
     """결제 취소 내역"""

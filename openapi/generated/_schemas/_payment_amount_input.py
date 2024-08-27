@@ -6,9 +6,9 @@ class PaymentAmountInput:
     """금액 세부 입력 정보"""
     total: int = dataclasses.field()
     """총 금액"""
-    tax_free: Optional[int] = dataclasses.field(metadata={"serde_rename": "taxFree"})
+    tax_free: Optional[int] = dataclasses.field(metadata={"serde_rename": "taxFree", "serde_skip_if": lambda value: value is None})
     """면세액"""
-    vat: Optional[int] = dataclasses.field()
+    vat: Optional[int] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """부가세액
     
     고객사에서 직접 계산이 필요한 경우 입력합니다.

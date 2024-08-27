@@ -9,7 +9,7 @@ from portone_server_sdk._openapi._schemas._payment_product_type import PaymentPr
 @dataclasses.dataclass
 class IssueCashReceiptBody:
     """현금영수증 발급 요청 양식"""
-    store_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "storeId"})
+    store_id: Optional[str] = dataclasses.field(metadata={"serde_rename": "storeId", "serde_skip_if": lambda value: value is None})
     """상점 아이디
     
     접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
@@ -29,10 +29,10 @@ class IssueCashReceiptBody:
     """화폐"""
     amount: PaymentAmountInput = dataclasses.field()
     """금액 세부 입력 정보"""
-    product_type: Optional[PaymentProductType] = dataclasses.field(metadata={"serde_rename": "productType"})
+    product_type: Optional[PaymentProductType] = dataclasses.field(metadata={"serde_rename": "productType", "serde_skip_if": lambda value: value is None})
     """상품 유형"""
     customer: IssueCashReceiptCustomerInput = dataclasses.field()
     """고객 정보"""
-    paid_at: Optional[str] = dataclasses.field(metadata={"serde_rename": "paidAt"})
+    paid_at: Optional[str] = dataclasses.field(metadata={"serde_rename": "paidAt", "serde_skip_if": lambda value: value is None})
     """결제 일자"""
 

@@ -11,12 +11,12 @@ class PaymentProduct:
     """
     name: str = dataclasses.field()
     """상품명"""
-    tag: Optional[str] = dataclasses.field()
+    tag: Optional[str] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """상품 태그
     
     카테고리 등으로 활용될 수 있습니다.
     """
-    code: Optional[str] = dataclasses.field()
+    code: Optional[str] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """상품 코드"""
     amount: int = dataclasses.field()
     """상품 단위가격"""

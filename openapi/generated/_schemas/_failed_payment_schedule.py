@@ -31,17 +31,17 @@ class FailedPaymentSchedule:
     """사용자 지정 데이터"""
     total_amount: int = dataclasses.field(metadata={"serde_rename": "totalAmount"})
     """결제 총 금액"""
-    tax_free_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "taxFreeAmount"})
+    tax_free_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "taxFreeAmount", "serde_skip_if": lambda value: value is None})
     """면세액"""
-    vat_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "vatAmount"})
+    vat_amount: Optional[int] = dataclasses.field(metadata={"serde_rename": "vatAmount", "serde_skip_if": lambda value: value is None})
     """부가세"""
     currency: Currency = dataclasses.field()
     """통화"""
-    installment_month: Optional[int] = dataclasses.field(metadata={"serde_rename": "installmentMonth"})
+    installment_month: Optional[int] = dataclasses.field(metadata={"serde_rename": "installmentMonth", "serde_skip_if": lambda value: value is None})
     """할부 개월 수"""
-    notice_urls: Optional[list[str]] = dataclasses.field(metadata={"serde_rename": "noticeUrls"})
+    notice_urls: Optional[list[str]] = dataclasses.field(metadata={"serde_rename": "noticeUrls", "serde_skip_if": lambda value: value is None})
     """웹훅 주소"""
-    products: Optional[list[PaymentProduct]] = dataclasses.field()
+    products: Optional[list[PaymentProduct]] = dataclasses.field(metadata={"serde_skip_if": lambda value: value is None})
     """상품 정보"""
     created_at: str = dataclasses.field(metadata={"serde_rename": "createdAt"})
     """결제 예약 등록 시점"""
