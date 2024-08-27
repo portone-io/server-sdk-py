@@ -27,6 +27,7 @@ from portone_server_sdk._errors import (
     UnauthorizedError,
     UnknownError,
     WebhookNotFoundError,
+    WebhookVerificationError,
 )
 
 __all__ = [
@@ -58,4 +59,5 @@ __all__ = [
     "UnauthorizedError",
     "UnknownError",
     "WebhookNotFoundError",
+    "WebhookVerificationError",
 ]
