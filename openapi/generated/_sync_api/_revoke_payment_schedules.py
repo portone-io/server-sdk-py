@@ -76,19 +76,19 @@ class RevokePaymentSchedules(ApiClient):
             error_ = response_.data
             if isinstance(error_, BillingKeyAlreadyDeletedError):
                 raise _errors.BillingKeyAlreadyDeletedError(error_)
-            if isinstance(error_, BillingKeyNotFoundError):
+            elif isinstance(error_, BillingKeyNotFoundError):
                 raise _errors.BillingKeyNotFoundError(error_)
-            if isinstance(error_, ForbiddenError):
+            elif isinstance(error_, ForbiddenError):
                 raise _errors.ForbiddenError(error_)
-            if isinstance(error_, InvalidRequestError):
+            elif isinstance(error_, InvalidRequestError):
                 raise _errors.InvalidRequestError(error_)
-            if isinstance(error_, PaymentScheduleAlreadyProcessedError):
+            elif isinstance(error_, PaymentScheduleAlreadyProcessedError):
                 raise _errors.PaymentScheduleAlreadyProcessedError(error_)
-            if isinstance(error_, PaymentScheduleAlreadyRevokedError):
+            elif isinstance(error_, PaymentScheduleAlreadyRevokedError):
                 raise _errors.PaymentScheduleAlreadyRevokedError(error_)
-            if isinstance(error_, PaymentScheduleNotFoundError):
+            elif isinstance(error_, PaymentScheduleNotFoundError):
                 raise _errors.PaymentScheduleNotFoundError(error_)
-            if isinstance(error_, UnauthorizedError):
+            else:
                 raise _errors.UnauthorizedError(error_)
-
-        return response_.data
+        else:
+            return response_.data

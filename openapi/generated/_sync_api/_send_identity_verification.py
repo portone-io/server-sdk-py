@@ -96,19 +96,19 @@ class SendIdentityVerification(ApiClient):
             error_ = response_.data
             if isinstance(error_, ChannelNotFoundError):
                 raise _errors.ChannelNotFoundError(error_)
-            if isinstance(error_, ForbiddenError):
+            elif isinstance(error_, ForbiddenError):
                 raise _errors.ForbiddenError(error_)
-            if isinstance(error_, IdentityVerificationAlreadySentError):
+            elif isinstance(error_, IdentityVerificationAlreadySentError):
                 raise _errors.IdentityVerificationAlreadySentError(error_)
-            if isinstance(error_, IdentityVerificationAlreadyVerifiedError):
+            elif isinstance(error_, IdentityVerificationAlreadyVerifiedError):
                 raise _errors.IdentityVerificationAlreadyVerifiedError(error_)
-            if isinstance(error_, IdentityVerificationNotFoundError):
+            elif isinstance(error_, IdentityVerificationNotFoundError):
                 raise _errors.IdentityVerificationNotFoundError(error_)
-            if isinstance(error_, InvalidRequestError):
+            elif isinstance(error_, InvalidRequestError):
                 raise _errors.InvalidRequestError(error_)
-            if isinstance(error_, PgProviderError):
+            elif isinstance(error_, PgProviderError):
                 raise _errors.PgProviderError(error_)
-            if isinstance(error_, UnauthorizedError):
+            else:
                 raise _errors.UnauthorizedError(error_)
-
-        return response_.data
+        else:
+            return response_.data

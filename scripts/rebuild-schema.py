@@ -5,7 +5,7 @@ from keyword import iskeyword
 from pathlib import Path
 from typing import ClassVar, Optional, Union, cast
 
-from markdownify import markdownify as md  # type: ignore[import-untyped]
+from markdownify import markdownify as md
 
 
 def rst(markdown: str) -> str:
@@ -21,7 +21,7 @@ project_dir = Path(__file__).resolve().parent.parent
 openapi_dir = project_dir.joinpath("openapi/generated")
 
 
-def gen() -> None:
+def main() -> None:
     schema = json.load(open(project_dir.joinpath("openapi/v2.openapi.json")))
     generator = SchemaGenerator(
         schema,
@@ -589,8 +589,11 @@ __all__ = [
                 variant_spec = self.schemas[variant]
                 docs.append(f"    _errors.{variant}: {variant_spec.title}")
                 refs.add(variant)
-                raises.append(f"if isinstance(error_, {variant}):")
+                if_elif = "elif" if raises else "if"
+                raises.append(f"{if_elif} isinstance(error_, {variant}):")
                 raises.append(f"    raise _errors.{variant}(error_)")
+            if raises:
+                raises[-2] = "else:"
             error_class = operation.error
             if docs:
                 docs[0] = f'"""{docs[0]}'
@@ -625,7 +628,9 @@ __all__ = [
             body_list = f"({body_join}\n        )" if body_args else "()"
             raises_join = "".join(f"            {line}\n" for line in raises)
             return_data_or_none = (
-                "\n        return response_.data" if success_class != "None" else ""
+                "        else:\n            return response_.data"
+                if success_class != "None"
+                else ""
             )
             for is_async in [True, False]:
                 async_def = "async def" if is_async else "def"
@@ -689,3 +694,7 @@ def to_snake_case(camel_case: str) -> str:
 
 def to_pascal_case(camel_case: str) -> str:
     return camel_case[:1].upper() + camel_case[1:]
+
+
+if __name__ == "__main__":
+    main()

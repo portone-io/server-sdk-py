@@ -77,19 +77,19 @@ class CreatePaymentSchedule(ApiClient):
             error_ = response_.data
             if isinstance(error_, AlreadyPaidOrWaitingError):
                 raise _errors.AlreadyPaidOrWaitingError(error_)
-            if isinstance(error_, BillingKeyAlreadyDeletedError):
+            elif isinstance(error_, BillingKeyAlreadyDeletedError):
                 raise _errors.BillingKeyAlreadyDeletedError(error_)
-            if isinstance(error_, BillingKeyNotFoundError):
+            elif isinstance(error_, BillingKeyNotFoundError):
                 raise _errors.BillingKeyNotFoundError(error_)
-            if isinstance(error_, ForbiddenError):
+            elif isinstance(error_, ForbiddenError):
                 raise _errors.ForbiddenError(error_)
-            if isinstance(error_, InvalidRequestError):
+            elif isinstance(error_, InvalidRequestError):
                 raise _errors.InvalidRequestError(error_)
-            if isinstance(error_, PaymentScheduleAlreadyExistsError):
+            elif isinstance(error_, PaymentScheduleAlreadyExistsError):
                 raise _errors.PaymentScheduleAlreadyExistsError(error_)
-            if isinstance(error_, SumOfPartsExceedsTotalAmountError):
+            elif isinstance(error_, SumOfPartsExceedsTotalAmountError):
                 raise _errors.SumOfPartsExceedsTotalAmountError(error_)
-            if isinstance(error_, UnauthorizedError):
+            else:
                 raise _errors.UnauthorizedError(error_)
-
-        return response_.data
+        else:
+            return response_.data

@@ -75,15 +75,15 @@ class CancelCashReceiptByPaymentId(ApiClient):
             error_ = response_.data
             if isinstance(error_, CashReceiptNotFoundError):
                 raise _errors.CashReceiptNotFoundError(error_)
-            if isinstance(error_, CashReceiptNotIssuedError):
+            elif isinstance(error_, CashReceiptNotIssuedError):
                 raise _errors.CashReceiptNotIssuedError(error_)
-            if isinstance(error_, ForbiddenError):
+            elif isinstance(error_, ForbiddenError):
                 raise _errors.ForbiddenError(error_)
-            if isinstance(error_, InvalidRequestError):
+            elif isinstance(error_, InvalidRequestError):
                 raise _errors.InvalidRequestError(error_)
-            if isinstance(error_, PgProviderError):
+            elif isinstance(error_, PgProviderError):
                 raise _errors.PgProviderError(error_)
-            if isinstance(error_, UnauthorizedError):
+            else:
                 raise _errors.UnauthorizedError(error_)
-
-        return response_.data
+        else:
+            return response_.data

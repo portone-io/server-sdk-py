@@ -5,7 +5,7 @@ Subject: [PATCH] refine return types
 
 
 diff --git a/_async_api/_cancel_payment.py b/_async_api/_cancel_payment.py
-index b4f048d..ef3ed0e 100644
+index 5f1bc9e..d0f08fd 100644
 --- a/_async_api/_cancel_payment.py
 +++ b/_async_api/_cancel_payment.py
 @@ -22,6 +22,7 @@ from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderEr
@@ -35,13 +35,13 @@ index b4f048d..ef3ed0e 100644
          Raises:
              _errors.CancelAmountExceedsCancellableAmountError: 결제 취소 금액이 취소 가능 금액을 초과한 경우
 @@ -139,4 +140,4 @@ class CancelPayment(ApiClient):
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
- 
--        return response_.data
-+        return response_.data.cancellation
+         else:
+-            return response_.data
++            return response_.data.cancellation
 diff --git a/_async_api/_create_payment_schedule.py b/_async_api/_create_payment_schedule.py
-index 8d38bb5..1c06659 100644
+index 6b4778c..33c98af 100644
 --- a/_async_api/_create_payment_schedule.py
 +++ b/_async_api/_create_payment_schedule.py
 @@ -15,6 +15,7 @@ from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidR
@@ -71,13 +71,13 @@ index 8d38bb5..1c06659 100644
          Raises:
              _errors.AlreadyPaidOrWaitingError: 결제가 이미 완료되었거나 대기중인 경우
 @@ -92,4 +93,4 @@ class CreatePaymentSchedule(ApiClient):
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
- 
--        return response_.data
-+        return response_.data.schedule
+         else:
+-            return response_.data
++            return response_.data.schedule
 diff --git a/_async_api/_get_billing_key_info.py b/_async_api/_get_billing_key_info.py
-index a129407..0321e0f 100644
+index 2d48566..9f59285 100644
 --- a/_async_api/_get_billing_key_info.py
 +++ b/_async_api/_get_billing_key_info.py
 @@ -36,7 +36,7 @@ class GetBillingKeyInfo(ApiClient):
@@ -107,11 +107,11 @@ index a129407..0321e0f 100644
              if isinstance(error_, BillingKeyNotFoundError):
 -                raise _errors.BillingKeyNotFoundError(error_)
 +                return None
-             if isinstance(error_, ForbiddenError):
+             elif isinstance(error_, ForbiddenError):
                  raise _errors.ForbiddenError(error_)
-             if isinstance(error_, InvalidRequestError):
+             elif isinstance(error_, InvalidRequestError):
 diff --git a/_async_api/_get_cash_receipt_by_payment_id.py b/_async_api/_get_cash_receipt_by_payment_id.py
-index 5f2fdf5..235960d 100644
+index 611faac..e46075e 100644
 --- a/_async_api/_get_cash_receipt_by_payment_id.py
 +++ b/_async_api/_get_cash_receipt_by_payment_id.py
 @@ -36,7 +36,7 @@ class GetCashReceiptByPaymentId(ApiClient):
@@ -141,11 +141,11 @@ index 5f2fdf5..235960d 100644
              if isinstance(error_, CashReceiptNotFoundError):
 -                raise _errors.CashReceiptNotFoundError(error_)
 +                return None
-             if isinstance(error_, ForbiddenError):
+             elif isinstance(error_, ForbiddenError):
                  raise _errors.ForbiddenError(error_)
-             if isinstance(error_, InvalidRequestError):
+             elif isinstance(error_, InvalidRequestError):
 diff --git a/_async_api/_get_identity_verification.py b/_async_api/_get_identity_verification.py
-index 5cad089..594a78b 100644
+index a3891a9..bd99812 100644
 --- a/_async_api/_get_identity_verification.py
 +++ b/_async_api/_get_identity_verification.py
 @@ -36,7 +36,7 @@ class GetIdentityVerification(ApiClient):
@@ -173,14 +173,14 @@ index 5cad089..594a78b 100644
 @@ -72,7 +71,7 @@ class GetIdentityVerification(ApiClient):
              if isinstance(error_, ForbiddenError):
                  raise _errors.ForbiddenError(error_)
-             if isinstance(error_, IdentityVerificationNotFoundError):
+             elif isinstance(error_, IdentityVerificationNotFoundError):
 -                raise _errors.IdentityVerificationNotFoundError(error_)
 +                return None
-             if isinstance(error_, InvalidRequestError):
+             elif isinstance(error_, InvalidRequestError):
                  raise _errors.InvalidRequestError(error_)
-             if isinstance(error_, UnauthorizedError):
+             else:
 diff --git a/_async_api/_get_payment.py b/_async_api/_get_payment.py
-index 29be944..3db28fc 100644
+index 301b0aa..1ddd21e 100644
 --- a/_async_api/_get_payment.py
 +++ b/_async_api/_get_payment.py
 @@ -32,7 +32,7 @@ class GetPayment(ApiClient):
@@ -207,16 +207,16 @@ index 29be944..3db28fc 100644
          """
          param_ = GetPaymentParam(
 @@ -69,7 +68,7 @@ class GetPayment(ApiClient):
-             if isinstance(error_, InvalidRequestError):
+             elif isinstance(error_, InvalidRequestError):
                  raise _errors.InvalidRequestError(error_)
-             if isinstance(error_, PaymentNotFoundError):
+             elif isinstance(error_, PaymentNotFoundError):
 -                raise _errors.PaymentNotFoundError(error_)
 +                return None
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
- 
+         else:
 diff --git a/_async_api/_get_payment_schedule.py b/_async_api/_get_payment_schedule.py
-index da38746..5be1f9f 100644
+index 921c52b..b771168 100644
 --- a/_async_api/_get_payment_schedule.py
 +++ b/_async_api/_get_payment_schedule.py
 @@ -36,7 +36,7 @@ class GetPaymentSchedule(ApiClient):
@@ -243,16 +243,16 @@ index da38746..5be1f9f 100644
          """
          param_ = GetPaymentScheduleParam(
 @@ -74,7 +73,7 @@ class GetPaymentSchedule(ApiClient):
-             if isinstance(error_, InvalidRequestError):
+             elif isinstance(error_, InvalidRequestError):
                  raise _errors.InvalidRequestError(error_)
-             if isinstance(error_, PaymentScheduleNotFoundError):
+             elif isinstance(error_, PaymentScheduleNotFoundError):
 -                raise _errors.PaymentScheduleNotFoundError(error_)
 +                return None
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
- 
+         else:
 diff --git a/_async_api/_issue_cash_receipt.py b/_async_api/_issue_cash_receipt.py
-index 4d7bd54..f31c5e2 100644
+index b20a9ce..d7e09ba 100644
 --- a/_async_api/_issue_cash_receipt.py
 +++ b/_async_api/_issue_cash_receipt.py
 @@ -18,6 +18,7 @@ from portone_server_sdk._openapi._schemas._payment_amount_input import PaymentAm
@@ -282,13 +282,13 @@ index 4d7bd54..f31c5e2 100644
          Raises:
              _errors.CashReceiptAlreadyIssuedError: 현금영수증이 이미 발급된 경우
 @@ -110,4 +111,4 @@ class IssueCashReceipt(ApiClient):
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
- 
--        return response_.data
-+        return response_.data.cashReceipt
+         else:
+-            return response_.data
++            return response_.data.cashReceipt
 diff --git a/_async_api/_pay_instantly.py b/_async_api/_pay_instantly.py
-index 093a031..8b72e61 100644
+index 0d5cb92..5d1aa8e 100644
 --- a/_async_api/_pay_instantly.py
 +++ b/_async_api/_pay_instantly.py
 @@ -24,6 +24,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
@@ -318,13 +318,13 @@ index 093a031..8b72e61 100644
          Raises:
              _errors.AlreadyPaidError: 결제가 이미 완료된 경우
 @@ -161,4 +162,4 @@ class PayInstantly(ApiClient):
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
- 
--        return response_.data
-+        return response_.data.payment
+         else:
+-            return response_.data
++            return response_.data.payment
 diff --git a/_async_api/_pay_with_billing_key.py b/_async_api/_pay_with_billing_key.py
-index ae454ef..6033c48 100644
+index a428cb0..5c0ba15 100644
 --- a/_async_api/_pay_with_billing_key.py
 +++ b/_async_api/_pay_with_billing_key.py
 @@ -26,6 +26,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
@@ -354,13 +354,13 @@ index ae454ef..6033c48 100644
          Raises:
              _errors.AlreadyPaidError: 결제가 이미 완료된 경우
 @@ -172,4 +173,4 @@ class PayWithBillingKey(ApiClient):
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
- 
--        return response_.data
-+        return response_.data.payment
+         else:
+-            return response_.data
++            return response_.data.payment
 diff --git a/_async_api/_pre_register_payment.py b/_async_api/_pre_register_payment.py
-index 0c257e1..9ee6b40 100644
+index d634f3b..23a9595 100644
 --- a/_async_api/_pre_register_payment.py
 +++ b/_async_api/_pre_register_payment.py
 @@ -36,7 +36,7 @@ class PreRegisterPayment(ApiClient):
@@ -384,12 +384,12 @@ index 0c257e1..9ee6b40 100644
              _errors.ForbiddenError: 요청이 거절된 경우
 @@ -83,5 +80,3 @@ class PreRegisterPayment(ApiClient):
                  raise _errors.InvalidRequestError(error_)
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
--
--        return response_.data
+-        else:
+-            return response_.data
 diff --git a/_async_api/_resend_identity_verification.py b/_async_api/_resend_identity_verification.py
-index fedbccf..62810b1 100644
+index 6e08b38..b28de0d 100644
 --- a/_async_api/_resend_identity_verification.py
 +++ b/_async_api/_resend_identity_verification.py
 @@ -39,7 +39,7 @@ class ResendIdentityVerification(ApiClient):
@@ -413,12 +413,12 @@ index fedbccf..62810b1 100644
              _errors.IdentityVerificationAlreadyVerifiedError: 본인인증 건이 이미 인증 완료된 상태인 경우
 @@ -89,5 +86,3 @@ class ResendIdentityVerification(ApiClient):
                  raise _errors.PgProviderError(error_)
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
--
--        return response_.data
+-        else:
+-            return response_.data
 diff --git a/_async_api/_resend_webhook.py b/_async_api/_resend_webhook.py
-index 4ec17b2..6382b5d 100644
+index 382cd2e..9f21fc4 100644
 --- a/_async_api/_resend_webhook.py
 +++ b/_async_api/_resend_webhook.py
 @@ -12,6 +12,7 @@ from portone_server_sdk._openapi._schemas._resend_webhook_error import ResendWeb
@@ -448,13 +448,13 @@ index 4ec17b2..6382b5d 100644
          Raises:
              _errors.ForbiddenError: 요청이 거절된 경우
 @@ -82,4 +83,4 @@ class ResendWebhook(ApiClient):
-             if isinstance(error_, WebhookNotFoundError):
+             else:
                  raise _errors.WebhookNotFoundError(error_)
- 
--        return response_.data
-+        return response_.data.webhook
+         else:
+-            return response_.data
++            return response_.data.webhook
 diff --git a/_async_api/_send_identity_verification.py b/_async_api/_send_identity_verification.py
-index f2b01d5..e66fe52 100644
+index fa02961..dea9504 100644
 --- a/_async_api/_send_identity_verification.py
 +++ b/_async_api/_send_identity_verification.py
 @@ -45,7 +45,7 @@ class SendIdentityVerification(ApiClient):
@@ -478,12 +478,12 @@ index f2b01d5..e66fe52 100644
              _errors.ForbiddenError: 요청이 거절된 경우
 @@ -110,5 +107,3 @@ class SendIdentityVerification(ApiClient):
                  raise _errors.PgProviderError(error_)
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
--
--        return response_.data
+-        else:
+-            return response_.data
 diff --git a/_sync_api/_cancel_payment.py b/_sync_api/_cancel_payment.py
-index 095ca27..e3506bf 100644
+index 8753de0..4af8e6d 100644
 --- a/_sync_api/_cancel_payment.py
 +++ b/_sync_api/_cancel_payment.py
 @@ -22,6 +22,7 @@ from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderEr
@@ -513,13 +513,13 @@ index 095ca27..e3506bf 100644
          Raises:
              _errors.CancelAmountExceedsCancellableAmountError: 결제 취소 금액이 취소 가능 금액을 초과한 경우
 @@ -139,4 +140,4 @@ class CancelPayment(ApiClient):
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
- 
--        return response_.data
-+        return response_.data.cancellation
+         else:
+-            return response_.data
++            return response_.data.cancellation
 diff --git a/_sync_api/_create_payment_schedule.py b/_sync_api/_create_payment_schedule.py
-index 48dfd03..07bbcc9 100644
+index 722dcb8..f39aa53 100644
 --- a/_sync_api/_create_payment_schedule.py
 +++ b/_sync_api/_create_payment_schedule.py
 @@ -15,6 +15,7 @@ from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidR
@@ -549,13 +549,13 @@ index 48dfd03..07bbcc9 100644
          Raises:
              _errors.AlreadyPaidOrWaitingError: 결제가 이미 완료되었거나 대기중인 경우
 @@ -92,4 +93,4 @@ class CreatePaymentSchedule(ApiClient):
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
- 
--        return response_.data
-+        return response_.data.schedule
+         else:
+-            return response_.data
++            return response_.data.schedule
 diff --git a/_sync_api/_get_billing_key_info.py b/_sync_api/_get_billing_key_info.py
-index fcc5da9..15a189c 100644
+index 7c89ddc..0829706 100644
 --- a/_sync_api/_get_billing_key_info.py
 +++ b/_sync_api/_get_billing_key_info.py
 @@ -36,7 +36,7 @@ class GetBillingKeyInfo(ApiClient):
@@ -585,11 +585,11 @@ index fcc5da9..15a189c 100644
              if isinstance(error_, BillingKeyNotFoundError):
 -                raise _errors.BillingKeyNotFoundError(error_)
 +                return None
-             if isinstance(error_, ForbiddenError):
+             elif isinstance(error_, ForbiddenError):
                  raise _errors.ForbiddenError(error_)
-             if isinstance(error_, InvalidRequestError):
+             elif isinstance(error_, InvalidRequestError):
 diff --git a/_sync_api/_get_cash_receipt_by_payment_id.py b/_sync_api/_get_cash_receipt_by_payment_id.py
-index d28aab1..44eb5b7 100644
+index 049b4c3..16dfd2b 100644
 --- a/_sync_api/_get_cash_receipt_by_payment_id.py
 +++ b/_sync_api/_get_cash_receipt_by_payment_id.py
 @@ -36,7 +36,7 @@ class GetCashReceiptByPaymentId(ApiClient):
@@ -619,11 +619,11 @@ index d28aab1..44eb5b7 100644
              if isinstance(error_, CashReceiptNotFoundError):
 -                raise _errors.CashReceiptNotFoundError(error_)
 +                return None
-             if isinstance(error_, ForbiddenError):
+             elif isinstance(error_, ForbiddenError):
                  raise _errors.ForbiddenError(error_)
-             if isinstance(error_, InvalidRequestError):
+             elif isinstance(error_, InvalidRequestError):
 diff --git a/_sync_api/_get_identity_verification.py b/_sync_api/_get_identity_verification.py
-index 4385ed3..95d4cd4 100644
+index c076e88..da341ca 100644
 --- a/_sync_api/_get_identity_verification.py
 +++ b/_sync_api/_get_identity_verification.py
 @@ -36,7 +36,7 @@ class GetIdentityVerification(ApiClient):
@@ -651,14 +651,14 @@ index 4385ed3..95d4cd4 100644
 @@ -72,7 +71,7 @@ class GetIdentityVerification(ApiClient):
              if isinstance(error_, ForbiddenError):
                  raise _errors.ForbiddenError(error_)
-             if isinstance(error_, IdentityVerificationNotFoundError):
+             elif isinstance(error_, IdentityVerificationNotFoundError):
 -                raise _errors.IdentityVerificationNotFoundError(error_)
 +                return None
-             if isinstance(error_, InvalidRequestError):
+             elif isinstance(error_, InvalidRequestError):
                  raise _errors.InvalidRequestError(error_)
-             if isinstance(error_, UnauthorizedError):
+             else:
 diff --git a/_sync_api/_get_payment.py b/_sync_api/_get_payment.py
-index def4815..25eed61 100644
+index 23ca8a2..31dbb25 100644
 --- a/_sync_api/_get_payment.py
 +++ b/_sync_api/_get_payment.py
 @@ -32,7 +32,7 @@ class GetPayment(ApiClient):
@@ -685,16 +685,16 @@ index def4815..25eed61 100644
          """
          param_ = GetPaymentParam(
 @@ -69,7 +68,7 @@ class GetPayment(ApiClient):
-             if isinstance(error_, InvalidRequestError):
+             elif isinstance(error_, InvalidRequestError):
                  raise _errors.InvalidRequestError(error_)
-             if isinstance(error_, PaymentNotFoundError):
+             elif isinstance(error_, PaymentNotFoundError):
 -                raise _errors.PaymentNotFoundError(error_)
 +                return None
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
- 
+         else:
 diff --git a/_sync_api/_get_payment_schedule.py b/_sync_api/_get_payment_schedule.py
-index c6b675c..ac14039 100644
+index 8036196..6d8f492 100644
 --- a/_sync_api/_get_payment_schedule.py
 +++ b/_sync_api/_get_payment_schedule.py
 @@ -36,7 +36,7 @@ class GetPaymentSchedule(ApiClient):
@@ -721,16 +721,16 @@ index c6b675c..ac14039 100644
          """
          param_ = GetPaymentScheduleParam(
 @@ -74,7 +73,7 @@ class GetPaymentSchedule(ApiClient):
-             if isinstance(error_, InvalidRequestError):
+             elif isinstance(error_, InvalidRequestError):
                  raise _errors.InvalidRequestError(error_)
-             if isinstance(error_, PaymentScheduleNotFoundError):
+             elif isinstance(error_, PaymentScheduleNotFoundError):
 -                raise _errors.PaymentScheduleNotFoundError(error_)
 +                return None
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
- 
+         else:
 diff --git a/_sync_api/_issue_cash_receipt.py b/_sync_api/_issue_cash_receipt.py
-index f3ea5b7..549efbb 100644
+index 0d31ac7..303db0d 100644
 --- a/_sync_api/_issue_cash_receipt.py
 +++ b/_sync_api/_issue_cash_receipt.py
 @@ -18,6 +18,7 @@ from portone_server_sdk._openapi._schemas._payment_amount_input import PaymentAm
@@ -760,13 +760,13 @@ index f3ea5b7..549efbb 100644
          Raises:
              _errors.CashReceiptAlreadyIssuedError: 현금영수증이 이미 발급된 경우
 @@ -110,4 +111,4 @@ class IssueCashReceipt(ApiClient):
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
- 
--        return response_.data
-+        return response_.data.cashReceipt
+         else:
+-            return response_.data
++            return response_.data.cashReceipt
 diff --git a/_sync_api/_pay_instantly.py b/_sync_api/_pay_instantly.py
-index 178e4ee..b753f3d 100644
+index c07861d..2ec0530 100644
 --- a/_sync_api/_pay_instantly.py
 +++ b/_sync_api/_pay_instantly.py
 @@ -24,6 +24,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
@@ -796,13 +796,13 @@ index 178e4ee..b753f3d 100644
          Raises:
              _errors.AlreadyPaidError: 결제가 이미 완료된 경우
 @@ -161,4 +162,4 @@ class PayInstantly(ApiClient):
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
- 
--        return response_.data
-+        return response_.data.payment
+         else:
+-            return response_.data
++            return response_.data.payment
 diff --git a/_sync_api/_pay_with_billing_key.py b/_sync_api/_pay_with_billing_key.py
-index 6fdfe0a..59c5ecd 100644
+index 965157f..12dc851 100644
 --- a/_sync_api/_pay_with_billing_key.py
 +++ b/_sync_api/_pay_with_billing_key.py
 @@ -26,6 +26,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
@@ -832,13 +832,13 @@ index 6fdfe0a..59c5ecd 100644
          Raises:
              _errors.AlreadyPaidError: 결제가 이미 완료된 경우
 @@ -172,4 +173,4 @@ class PayWithBillingKey(ApiClient):
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
- 
--        return response_.data
-+        return response_.data.payment
+         else:
+-            return response_.data
++            return response_.data.payment
 diff --git a/_sync_api/_pre_register_payment.py b/_sync_api/_pre_register_payment.py
-index f3d3397..3b66fd9 100644
+index 9e55968..79f9057 100644
 --- a/_sync_api/_pre_register_payment.py
 +++ b/_sync_api/_pre_register_payment.py
 @@ -36,7 +36,7 @@ class PreRegisterPayment(ApiClient):
@@ -862,12 +862,12 @@ index f3d3397..3b66fd9 100644
              _errors.ForbiddenError: 요청이 거절된 경우
 @@ -83,5 +80,3 @@ class PreRegisterPayment(ApiClient):
                  raise _errors.InvalidRequestError(error_)
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
--
--        return response_.data
+-        else:
+-            return response_.data
 diff --git a/_sync_api/_resend_identity_verification.py b/_sync_api/_resend_identity_verification.py
-index 7eb5418..ba92c3d 100644
+index 6777c4c..f8c505a 100644
 --- a/_sync_api/_resend_identity_verification.py
 +++ b/_sync_api/_resend_identity_verification.py
 @@ -39,7 +39,7 @@ class ResendIdentityVerification(ApiClient):
@@ -891,12 +891,12 @@ index 7eb5418..ba92c3d 100644
              _errors.IdentityVerificationAlreadyVerifiedError: 본인인증 건이 이미 인증 완료된 상태인 경우
 @@ -89,5 +86,3 @@ class ResendIdentityVerification(ApiClient):
                  raise _errors.PgProviderError(error_)
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
--
--        return response_.data
+-        else:
+-            return response_.data
 diff --git a/_sync_api/_resend_webhook.py b/_sync_api/_resend_webhook.py
-index 31576dd..ad9c8e4 100644
+index 445ad9e..5337655 100644
 --- a/_sync_api/_resend_webhook.py
 +++ b/_sync_api/_resend_webhook.py
 @@ -12,6 +12,7 @@ from portone_server_sdk._openapi._schemas._resend_webhook_error import ResendWeb
@@ -926,13 +926,13 @@ index 31576dd..ad9c8e4 100644
          Raises:
              _errors.ForbiddenError: 요청이 거절된 경우
 @@ -82,4 +83,4 @@ class ResendWebhook(ApiClient):
-             if isinstance(error_, WebhookNotFoundError):
+             else:
                  raise _errors.WebhookNotFoundError(error_)
- 
--        return response_.data
-+        return response_.data.webhook
+         else:
+-            return response_.data
++            return response_.data.webhook
 diff --git a/_sync_api/_send_identity_verification.py b/_sync_api/_send_identity_verification.py
-index ed9af56..818d5ad 100644
+index 3550a71..1e307c4 100644
 --- a/_sync_api/_send_identity_verification.py
 +++ b/_sync_api/_send_identity_verification.py
 @@ -45,7 +45,7 @@ class SendIdentityVerification(ApiClient):
@@ -956,10 +956,10 @@ index ed9af56..818d5ad 100644
              _errors.ForbiddenError: 요청이 거절된 경우
 @@ -110,5 +107,3 @@ class SendIdentityVerification(ApiClient):
                  raise _errors.PgProviderError(error_)
-             if isinstance(error_, UnauthorizedError):
+             else:
                  raise _errors.UnauthorizedError(error_)
--
--        return response_.data
+-        else:
+-            return response_.data
 -- 
 2.39.3 (Apple Git-146)
 

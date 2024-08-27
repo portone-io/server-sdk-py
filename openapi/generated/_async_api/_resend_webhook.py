@@ -73,13 +73,13 @@ class ResendWebhook(ApiClient):
             error_ = response_.data
             if isinstance(error_, ForbiddenError):
                 raise _errors.ForbiddenError(error_)
-            if isinstance(error_, InvalidRequestError):
+            elif isinstance(error_, InvalidRequestError):
                 raise _errors.InvalidRequestError(error_)
-            if isinstance(error_, PaymentNotFoundError):
+            elif isinstance(error_, PaymentNotFoundError):
                 raise _errors.PaymentNotFoundError(error_)
-            if isinstance(error_, UnauthorizedError):
+            elif isinstance(error_, UnauthorizedError):
                 raise _errors.UnauthorizedError(error_)
-            if isinstance(error_, WebhookNotFoundError):
+            else:
                 raise _errors.WebhookNotFoundError(error_)
-
-        return response_.data
+        else:
+            return response_.data

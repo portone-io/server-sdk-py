@@ -99,15 +99,15 @@ class IssueCashReceipt(ApiClient):
             error_ = response_.data
             if isinstance(error_, CashReceiptAlreadyIssuedError):
                 raise _errors.CashReceiptAlreadyIssuedError(error_)
-            if isinstance(error_, ChannelNotFoundError):
+            elif isinstance(error_, ChannelNotFoundError):
                 raise _errors.ChannelNotFoundError(error_)
-            if isinstance(error_, ForbiddenError):
+            elif isinstance(error_, ForbiddenError):
                 raise _errors.ForbiddenError(error_)
-            if isinstance(error_, InvalidRequestError):
+            elif isinstance(error_, InvalidRequestError):
                 raise _errors.InvalidRequestError(error_)
-            if isinstance(error_, PgProviderError):
+            elif isinstance(error_, PgProviderError):
                 raise _errors.PgProviderError(error_)
-            if isinstance(error_, UnauthorizedError):
+            else:
                 raise _errors.UnauthorizedError(error_)
-
-        return response_.data
+        else:
+            return response_.data

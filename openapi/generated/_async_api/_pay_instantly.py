@@ -144,21 +144,21 @@ class PayInstantly(ApiClient):
             error_ = response_.data
             if isinstance(error_, AlreadyPaidError):
                 raise _errors.AlreadyPaidError(error_)
-            if isinstance(error_, ChannelNotFoundError):
+            elif isinstance(error_, ChannelNotFoundError):
                 raise _errors.ChannelNotFoundError(error_)
-            if isinstance(error_, DiscountAmountExceedsTotalAmountError):
+            elif isinstance(error_, DiscountAmountExceedsTotalAmountError):
                 raise _errors.DiscountAmountExceedsTotalAmountError(error_)
-            if isinstance(error_, ForbiddenError):
+            elif isinstance(error_, ForbiddenError):
                 raise _errors.ForbiddenError(error_)
-            if isinstance(error_, InvalidRequestError):
+            elif isinstance(error_, InvalidRequestError):
                 raise _errors.InvalidRequestError(error_)
-            if isinstance(error_, PgProviderError):
+            elif isinstance(error_, PgProviderError):
                 raise _errors.PgProviderError(error_)
-            if isinstance(error_, PromotionPayMethodDoesNotMatchError):
+            elif isinstance(error_, PromotionPayMethodDoesNotMatchError):
                 raise _errors.PromotionPayMethodDoesNotMatchError(error_)
-            if isinstance(error_, SumOfPartsExceedsTotalAmountError):
+            elif isinstance(error_, SumOfPartsExceedsTotalAmountError):
                 raise _errors.SumOfPartsExceedsTotalAmountError(error_)
-            if isinstance(error_, UnauthorizedError):
+            else:
                 raise _errors.UnauthorizedError(error_)
-
-        return response_.data
+        else:
+            return response_.data

@@ -71,11 +71,11 @@ class GetIdentityVerification(ApiClient):
             error_ = response_.data
             if isinstance(error_, ForbiddenError):
                 raise _errors.ForbiddenError(error_)
-            if isinstance(error_, IdentityVerificationNotFoundError):
+            elif isinstance(error_, IdentityVerificationNotFoundError):
                 raise _errors.IdentityVerificationNotFoundError(error_)
-            if isinstance(error_, InvalidRequestError):
+            elif isinstance(error_, InvalidRequestError):
                 raise _errors.InvalidRequestError(error_)
-            if isinstance(error_, UnauthorizedError):
+            else:
                 raise _errors.UnauthorizedError(error_)
-
-        return response_.data
+        else:
+            return response_.data

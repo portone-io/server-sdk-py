@@ -1,6 +1,6 @@
 [project]
 name = "portone-server-sdk"
-version = "0.1.0-alpha.0"
+version = "0.1.0a1"
 description = "PortOne Python SDK for server-side usage"
 authors = [
     { name = "portone", email = "tech.support@portone.io" },
@@ -8,50 +8,51 @@ authors = [
 ]
 dependencies = ["httpx>=0.27.0", "pyserde>=0.20.0"]
 readme = "README.md"
-requires-python = ">= 3.9"
+requires-python = ">=3.9"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.rye]
-managed = true
-dev-dependencies = [
-    "ruff>=0.5.6",
-    "mypy>=1.11.1",
-    "pre-commit>=3.8.0",
-    "markdownify>=0.13.1",
-    "pdoc3>=0.11.1",
-    "mkdocs>=1.6.0",
-    "mkdocstrings[python]>=0.25.2",
-    "mkdocs-material>=9.5.31",
-    "toml>=0.10.2",
-    "types-toml>=0.10.8.20240310",
-]
-
-[tool.rye.scripts]
-"gen:env" = { call = "scripts.env:gen" }
-"gen:schema" = { call = "scripts.schema:gen" }
-"update:schema" = { call = "scripts.schema:update" }
-"patch:save" = { call = "scripts.patch:save" }
-"patch:apply" = { call = "scripts.patch:apply" }
-"patch:clean" = { call = "scripts.patch:clean" }
-init = { call = "scripts.init:run" }
-gen = { chain = ["gen:env", "patch:apply"] }
-check = "mypy"
-docs = "mkdocs build"
-
 [tool.hatch.metadata]
 allow-direct-references = true
 
-[tool.hatch.build.targets.wheel]
-packages = ["portone_server_sdk"]
+[tool.hatch.build.targets.sdist]
+artifacts = [
+    "/src/portone_server_sdk/_generated",
+    "/src/portone_server_sdk/_openapi",
+]
+exclude = ["/openapi"]
 
-[tool.mypy]
-packages = ["portone_server_sdk", "scripts"]
-strict = true
-explicit_package_bases = false
+[tool.hatch.build.targets.wheel]
+artifacts = [
+    "/src/portone_server_sdk/_generated",
+    "/src/portone_server_sdk/_openapi",
+]
+
+[tool.pyright]
+include = ["src", "scripts"]
+venvPath = "."
+venv = ".venv"
 
 [tool.ruff]
-include = ["pyproject.toml", "portone_server_sdk/**/*.py", "scripts/**/*.py"]
-exclude = ["openapi", "portone_server_sdk/_openapi/**/*.py"]
+include = [
+    "pyproject.toml",
+    "src/portone_server_sdk/**/*.py",
+    "scripts/**/*.py",
+]
+exclude = ["openapi", "src/portone_server_sdk/_openapi/**/*.py"]
+
+[tool.uv]
+dev-dependencies = [
+    "toml>=0.10.2",
+    "fire>=0.6.0",
+    "markdownify>=0.13.1",
+    "types-toml>=0.10.8.20240310",
+    "mkdocs>=1.6.0",
+    "mkdocstrings[python]>=0.25.2",
+    "mkdocs-material>=9.5.33",
+    "pyright>=1.1.377",
+    "ruff>=0.6.2",
+    "pre-commit>=3.8.0",
+]

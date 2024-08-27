@@ -15,36 +15,38 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install Rye
-        uses: eifinger/setup-rye@v4
+      - uses: actions/setup-python@v4
         with:
-          enable-cache: true
+          python-version: "3.9"
+      - uses: yezz123/setup-uv@v4
       - name: Install git-filter-repo
         uses: awalsh128/cache-apt-pkgs-action@latest
         with:
           packages: git-filter-repo
           version: "1.0"
       - name: Sync dependencies
-        run: rye sync
+        run: uv sync
       - name: Set github username
         run: |
           git config --global user.name runner
           git config --global user.email "runner@github.com"
           git config --global init.defaultBranch main
       - name: Run gen
-        run: rye run gen
-      - name: Run check
-        run: rye run check
+        run: |
+          uv run scripts/gen-env.py
+          uv run scripts/patch.py apply
+      - name: Typecheck
+        run: uv run pyright
   lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Rye
-        uses: eifinger/setup-rye@v4
+      - uses: actions/setup-python@v4
         with:
-          enable-cache: true
+          python-version: "3.9"
+      - uses: yezz123/setup-uv@v4
       - name: Sync dependencies
-        run: rye sync
+        run: uv sync
       - name: Run lint
-        run: rye lint
+        run: uv run ruff check

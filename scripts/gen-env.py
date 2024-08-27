@@ -1,10 +1,10 @@
-def gen() -> None:
+def main() -> None:
     import subprocess
     import toml
     from pathlib import Path
 
     project_dir = Path(__file__).resolve().parent.parent
-    generated_dir = project_dir.joinpath("portone_server_sdk/_generated")
+    generated_dir = project_dir.joinpath("src/portone_server_sdk/_generated")
     generated_dir.mkdir(parents=True, exist_ok=True)
 
     with open(project_dir.joinpath("pyproject.toml"), "rt") as file:
@@ -21,3 +21,7 @@ def gen() -> None:
         file.write(
             f'user_agent = "portone-io/server-sdk-py v{version} ({commit_hash})"\n'
         )
+
+
+if __name__ == "__main__":
+    main()

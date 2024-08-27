@@ -91,15 +91,15 @@ class ModifyEscrowLogistics(ApiClient):
             error_ = response_.data
             if isinstance(error_, ForbiddenError):
                 raise _errors.ForbiddenError(error_)
-            if isinstance(error_, InvalidRequestError):
+            elif isinstance(error_, InvalidRequestError):
                 raise _errors.InvalidRequestError(error_)
-            if isinstance(error_, PaymentNotFoundError):
+            elif isinstance(error_, PaymentNotFoundError):
                 raise _errors.PaymentNotFoundError(error_)
-            if isinstance(error_, PaymentNotPaidError):
+            elif isinstance(error_, PaymentNotPaidError):
                 raise _errors.PaymentNotPaidError(error_)
-            if isinstance(error_, PgProviderError):
+            elif isinstance(error_, PgProviderError):
                 raise _errors.PgProviderError(error_)
-            if isinstance(error_, UnauthorizedError):
+            else:
                 raise _errors.UnauthorizedError(error_)
-
-        return response_.data
+        else:
+            return response_.data

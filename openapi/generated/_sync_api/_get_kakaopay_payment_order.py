@@ -62,7 +62,7 @@ class GetKakaopayPaymentOrder(ApiClient):
             error_ = response_.data
             if isinstance(error_, InvalidRequestError):
                 raise _errors.InvalidRequestError(error_)
-            if isinstance(error_, UnauthorizedError):
+            else:
                 raise _errors.UnauthorizedError(error_)
-
-        return response_.data
+        else:
+            return response_.data

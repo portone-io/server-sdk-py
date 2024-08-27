@@ -10,8 +10,8 @@ wheels/
 .venv
 
 # generated files
-/portone_server_sdk/_generated
-/portone_server_sdk/_openapi
+/src/portone_server_sdk/_generated
+/src/portone_server_sdk/_openapi
 site/
 
 # schema file
