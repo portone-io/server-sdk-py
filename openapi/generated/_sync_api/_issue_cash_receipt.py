@@ -66,7 +66,7 @@ class IssueCashReceipt(ApiClient):
             paid_at (Optional[str]): 결제 일자.
         
         Returns:
-            IssueCashReceiptResponse: 성공 응답
+            성공 응답
         
         Raises:
             _errors.CashReceiptAlreadyIssuedError: 현금영수증이 이미 발급된 경우

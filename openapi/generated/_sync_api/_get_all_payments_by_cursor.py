@@ -51,7 +51,7 @@ class GetAllPaymentsByCursor(ApiClient):
                 미입력 시 기본값은 10 이며 최대 1000까지 허용
         
         Returns:
-            GetAllPaymentsByCursorResponse: 성공 응답으로 조회된 결제 건 리스트와 커서 정보가 반환됩니다.
+            성공 응답으로 조회된 결제 건 리스트와 커서 정보가 반환됩니다.
         
         Raises:
             _errors.ForbiddenError: 요청이 거절된 경우

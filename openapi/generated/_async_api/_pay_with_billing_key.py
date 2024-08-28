@@ -101,7 +101,7 @@ class PayWithBillingKey(ApiClient):
             bypass (Optional[Any]): PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고).
         
         Returns:
-            PayWithBillingKeyResponse: 성공 응답
+            성공 응답
         
         Raises:
             _errors.AlreadyPaidError: 결제가 이미 완료된 경우

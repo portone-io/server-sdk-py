@@ -98,7 +98,7 @@ class PayInstantly(ApiClient):
             promotion_id (Optional[str]): 해당 결제에 적용할 프로모션 아이디.
         
         Returns:
-            PayInstantlyResponse: 성공 응답
+            성공 응답
         
         Raises:
             _errors.AlreadyPaidError: 결제가 이미 완료된 경우

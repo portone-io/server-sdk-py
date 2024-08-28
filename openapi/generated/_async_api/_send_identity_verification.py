@@ -62,7 +62,7 @@ class SendIdentityVerification(ApiClient):
             method (IdentityVerificationMethod): 본인인증 방식.
         
         Returns:
-            SendIdentityVerificationResponse: 성공 응답
+            성공 응답
         
         Raises:
             _errors.ChannelNotFoundError: 요청된 채널이 존재하지 않는 경우

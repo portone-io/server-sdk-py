@@ -50,7 +50,7 @@ class PreRegisterPayment(ApiClient):
             currency (Optional[Currency]): 통화 단위.
         
         Returns:
-            PreRegisterPaymentResponse: 성공 응답
+            성공 응답
         
         Raises:
             _errors.AlreadyPaidError: 결제가 이미 완료된 경우

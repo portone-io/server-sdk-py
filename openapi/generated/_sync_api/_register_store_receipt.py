@@ -49,7 +49,7 @@ class RegisterStoreReceipt(ApiClient):
             store_id (Optional[str]): 상점 아이디.
         
         Returns:
-            RegisterStoreReceiptResponse: 성공 응답
+            성공 응답
         
         Raises:
             _errors.ForbiddenError: 요청이 거절된 경우

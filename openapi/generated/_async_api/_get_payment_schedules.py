@@ -48,7 +48,7 @@ class GetPaymentSchedules(ApiClient):
             filter (Optional[PaymentScheduleFilterInput]): 조회할 결제 예약 건의 조건 필터.
         
         Returns:
-            GetPaymentSchedulesResponse: 성공 응답으로 조회된 예약 결제 건 리스트가 반환됩니다.
+            성공 응답으로 조회된 예약 결제 건 리스트가 반환됩니다.
         
         Raises:
             _errors.ForbiddenError: 요청이 거절된 경우

@@ -47,7 +47,7 @@ class ResendWebhook(ApiClient):
                 입력하지 않으면 결제 건의 가장 최근 웹훅 아이디가 기본 적용됩니다
         
         Returns:
-            ResendWebhookResponse: 성공 응답
+            성공 응답
         
         Raises:
             _errors.ForbiddenError: 요청이 거절된 경우

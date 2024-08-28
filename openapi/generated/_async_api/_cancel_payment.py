@@ -74,7 +74,7 @@ class CancelPayment(ApiClient):
                 계좌 환불일 경우 입력합니다. 계좌 환불이 필요한 경우는 가상계좌 환불, 휴대폰 익월 환불 등이 있습니다.
         
         Returns:
-            CancelPaymentResponse: 성공 응답
+            성공 응답
         
         Raises:
             _errors.CancelAmountExceedsCancellableAmountError: 결제 취소 금액이 취소 가능 금액을 초과한 경우

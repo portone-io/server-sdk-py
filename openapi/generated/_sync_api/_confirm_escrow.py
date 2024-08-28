@@ -49,7 +49,7 @@ class ConfirmEscrow(ApiClient):
                 네이버페이 전용 파라미터이며, 구분이 모호한 경우 고객사 관리자(true)로 입력합니다.
         
         Returns:
-            ConfirmEscrowResponse: 성공 응답
+            성공 응답
         
         Raises:
             _errors.ForbiddenError: 요청이 거절된 경우

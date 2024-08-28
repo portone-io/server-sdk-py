@@ -41,7 +41,7 @@ class GetKakaopayPaymentOrder(ApiClient):
             channel_key (str): 채널 키.
         
         Returns:
-            GetKakaopayPaymentOrderResponse: 성공 응답으로 카카오페이 주문 조회 응답 객체를 반환합니다.
+            성공 응답으로 카카오페이 주문 조회 응답 객체를 반환합니다.
         
         Raises:
             _errors.InvalidRequestError: 요청된 입력 정보가 유효하지 않은 경우

@@ -48,7 +48,7 @@ class CreatePaymentSchedule(ApiClient):
             time_to_pay (str): 결제 예정 시점.
         
         Returns:
-            CreatePaymentScheduleResponse: 성공 응답
+            성공 응답
         
         Raises:
             _errors.AlreadyPaidOrWaitingError: 결제가 이미 완료되었거나 대기중인 경우

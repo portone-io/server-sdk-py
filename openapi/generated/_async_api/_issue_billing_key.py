@@ -63,7 +63,7 @@ class IssueBillingKey(ApiClient):
                 입력된 값이 없을 경우에는 빈 배열로 해석됩니다.
         
         Returns:
-            IssueBillingKeyResponse: 성공 응답
+            성공 응답
         
         Raises:
             _errors.ChannelNotFoundError: 요청된 채널이 존재하지 않는 경우

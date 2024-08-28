@@ -48,7 +48,7 @@ class RevokePaymentSchedules(ApiClient):
             schedule_ids (Optional[list[str]]): 결제 예약 건 아이디 목록.
         
         Returns:
-            RevokePaymentSchedulesResponse: 성공 응답
+            성공 응답
         
         Raises:
             _errors.BillingKeyAlreadyDeletedError: 빌링키가 이미 삭제된 경우

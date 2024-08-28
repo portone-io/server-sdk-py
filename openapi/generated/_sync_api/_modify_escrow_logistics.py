@@ -60,7 +60,7 @@ class ModifyEscrowLogistics(ApiClient):
             products (Optional[list[PaymentProduct]]): 상품 정보.
         
         Returns:
-            ModifyEscrowLogisticsResponse: 성공 응답
+            성공 응답
         
         Raises:
             _errors.ForbiddenError: 요청이 거절된 경우

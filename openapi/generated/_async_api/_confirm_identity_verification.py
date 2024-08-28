@@ -49,7 +49,7 @@ class ConfirmIdentityVerification(ApiClient):
                 SMS 방식에서만 사용됩니다.
         
         Returns:
-            ConfirmIdentityVerificationResponse: 성공 응답
+            성공 응답
         
         Raises:
             _errors.ForbiddenError: 요청이 거절된 경우

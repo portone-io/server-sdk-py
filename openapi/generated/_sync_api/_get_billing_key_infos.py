@@ -48,7 +48,7 @@ class GetBillingKeyInfos(ApiClient):
                 V1 빌링키 건의 경우 일부 필드에 대해 필터가 적용되지 않을 수 있습니다.
         
         Returns:
-            GetBillingKeyInfosResponse: 성공 응답으로 조회된 빌링키 리스트와 페이지 정보가 반환됩니다.
+            성공 응답으로 조회된 빌링키 리스트와 페이지 정보가 반환됩니다.
         
         Raises:
             _errors.ForbiddenError: 요청이 거절된 경우

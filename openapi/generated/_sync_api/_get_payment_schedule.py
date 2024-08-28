@@ -47,7 +47,7 @@ class GetPaymentSchedule(ApiClient):
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
         
         Returns:
-            PaymentSchedule: 성공 응답으로 결제 예약 건 객체를 반환합니다.
+            성공 응답으로 결제 예약 건 객체를 반환합니다.
         
         Raises:
             _errors.ForbiddenError: 요청이 거절된 경우

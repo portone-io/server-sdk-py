@@ -5,7 +5,7 @@ Subject: [PATCH] refine return types
 
 
 diff --git a/_async_api/_cancel_payment.py b/_async_api/_cancel_payment.py
-index 824185b..5116448 100644
+index 88e4d83..856b3dd 100644
 --- a/_async_api/_cancel_payment.py
 +++ b/_async_api/_cancel_payment.py
 @@ -22,6 +22,7 @@ from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderEr
@@ -29,8 +29,8 @@ index 824185b..5116448 100644
                  계좌 환불일 경우 입력합니다. 계좌 환불이 필요한 경우는 가상계좌 환불, 휴대폰 익월 환불 등이 있습니다.
          
          Returns:
--            CancelPaymentResponse: 성공 응답
-+            PaymentCancellation: 결제 취소 내역
+-            성공 응답
++            결제 취소 내역
          
          Raises:
              _errors.CancelAmountExceedsCancellableAmountError: 결제 취소 금액이 취소 가능 금액을 초과한 경우
@@ -41,7 +41,7 @@ index 824185b..5116448 100644
 -            return response_.data
 +            return response_.data.cancellation
 diff --git a/_async_api/_create_payment_schedule.py b/_async_api/_create_payment_schedule.py
-index 9e494e4..96e58f7 100644
+index 9948db3..5d660a8 100644
 --- a/_async_api/_create_payment_schedule.py
 +++ b/_async_api/_create_payment_schedule.py
 @@ -15,6 +15,7 @@ from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidR
@@ -65,8 +65,8 @@ index 9e494e4..96e58f7 100644
              time_to_pay (str): 결제 예정 시점.
          
          Returns:
--            CreatePaymentScheduleResponse: 성공 응답
-+            PaymentScheduleSummary: 결제 예약 건
+-            성공 응답
++            결제 예약 건
          
          Raises:
              _errors.AlreadyPaidOrWaitingError: 결제가 이미 완료되었거나 대기중인 경우
@@ -77,7 +77,7 @@ index 9e494e4..96e58f7 100644
 -            return response_.data
 +            return response_.data.schedule
 diff --git a/_async_api/_get_billing_key_info.py b/_async_api/_get_billing_key_info.py
-index a8b6e79..699d04b 100644
+index f9c7d27..48ed5fd 100644
 --- a/_async_api/_get_billing_key_info.py
 +++ b/_async_api/_get_billing_key_info.py
 @@ -36,7 +36,7 @@ class GetBillingKeyInfo(ApiClient):
@@ -93,8 +93,8 @@ index a8b6e79..699d04b 100644
                  접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
          
          Returns:
--            BillingKeyInfo: 성공 응답으로 빌링키 정보를 반환합니다.
-+            Optional[BillingKeyInfo]: 성공 응답으로 빌링키 정보 또는 `None`을 반환합니다.
+-            성공 응답으로 빌링키 정보를 반환합니다.
++            성공 응답으로 빌링키 정보 또는 `None`을 반환합니다.
          
          Raises:
 -            _errors.BillingKeyNotFoundError: 빌링키가 존재하지 않는 경우
@@ -111,7 +111,7 @@ index a8b6e79..699d04b 100644
                  raise _errors.ForbiddenError(error_)
              elif isinstance(error_, InvalidRequestError):
 diff --git a/_async_api/_get_cash_receipt_by_payment_id.py b/_async_api/_get_cash_receipt_by_payment_id.py
-index fd9f2a1..006ec0c 100644
+index 3d353fe..5734140 100644
 --- a/_async_api/_get_cash_receipt_by_payment_id.py
 +++ b/_async_api/_get_cash_receipt_by_payment_id.py
 @@ -36,7 +36,7 @@ class GetCashReceiptByPaymentId(ApiClient):
@@ -127,8 +127,8 @@ index fd9f2a1..006ec0c 100644
                  접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
          
          Returns:
--            CashReceipt: 성공 응답으로 현금 영수증 객체를 반환합니다.
-+            Optional[CashReceipt]: 성공 응답으로 현금 영수증 객체 또는 `None`을 반환합니다.
+-            성공 응답으로 현금 영수증 객체를 반환합니다.
++            성공 응답으로 현금 영수증 객체 또는 `None`을 반환합니다.
          
          Raises:
 -            _errors.CashReceiptNotFoundError: 현금영수증이 존재하지 않는 경우
@@ -145,7 +145,7 @@ index fd9f2a1..006ec0c 100644
                  raise _errors.ForbiddenError(error_)
              elif isinstance(error_, InvalidRequestError):
 diff --git a/_async_api/_get_identity_verification.py b/_async_api/_get_identity_verification.py
-index 2dafe22..c2fc88e 100644
+index 1dffe06..13f345b 100644
 --- a/_async_api/_get_identity_verification.py
 +++ b/_async_api/_get_identity_verification.py
 @@ -36,7 +36,7 @@ class GetIdentityVerification(ApiClient):
@@ -161,8 +161,8 @@ index 2dafe22..c2fc88e 100644
                  접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
          
          Returns:
--            IdentityVerification: 성공 응답으로 본인 인증 객체를 반환합니다.
-+            Optional[IdentityVerification]: 성공 응답으로 본인 인증 객체 또는 `None`을 반환합니다.
+-            성공 응답으로 본인 인증 객체를 반환합니다.
++            성공 응답으로 본인 인증 객체 또는 `None`을 반환합니다.
          
          Raises:
              _errors.ForbiddenError: 요청이 거절된 경우
@@ -180,7 +180,7 @@ index 2dafe22..c2fc88e 100644
                  raise _errors.InvalidRequestError(error_)
              else:
 diff --git a/_async_api/_get_payment.py b/_async_api/_get_payment.py
-index 993f4e0..fcc7f23 100644
+index 456f469..0c9f3c9 100644
 --- a/_async_api/_get_payment.py
 +++ b/_async_api/_get_payment.py
 @@ -32,7 +32,7 @@ class GetPayment(ApiClient):
@@ -196,8 +196,8 @@ index 993f4e0..fcc7f23 100644
              store_id (Optional[str]): 상점 아이디.
          
          Returns:
--            Payment: 성공 응답으로 결제 건 객체를 반환합니다.
-+            Optional[Payment]: 성공 응답으로 결제 건 객체 또는 `None`을 반환합니다.
+-            성공 응답으로 결제 건 객체를 반환합니다.
++            성공 응답으로 결제 건 객체 또는 `None`을 반환합니다.
          
          Raises:
              _errors.ForbiddenError: 요청이 거절된 경우
@@ -216,7 +216,7 @@ index 993f4e0..fcc7f23 100644
                  raise _errors.UnauthorizedError(error_)
          else:
 diff --git a/_async_api/_get_payment_schedule.py b/_async_api/_get_payment_schedule.py
-index 27d500b..0dfb517 100644
+index 65a5ea6..66e1de6 100644
 --- a/_async_api/_get_payment_schedule.py
 +++ b/_async_api/_get_payment_schedule.py
 @@ -36,7 +36,7 @@ class GetPaymentSchedule(ApiClient):
@@ -232,8 +232,8 @@ index 27d500b..0dfb517 100644
                  접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
          
          Returns:
--            PaymentSchedule: 성공 응답으로 결제 예약 건 객체를 반환합니다.
-+            Optional[PaymentSchedule]: 성공 응답으로 결제 예약 건 객체 또는 `None`을 반환합니다.
+-            성공 응답으로 결제 예약 건 객체를 반환합니다.
++            성공 응답으로 결제 예약 건 객체 또는 `None`을 반환합니다.
          
          Raises:
              _errors.ForbiddenError: 요청이 거절된 경우
@@ -252,7 +252,7 @@ index 27d500b..0dfb517 100644
                  raise _errors.UnauthorizedError(error_)
          else:
 diff --git a/_async_api/_issue_cash_receipt.py b/_async_api/_issue_cash_receipt.py
-index 72ad894..885cbf5 100644
+index b28f925..8a88412 100644
 --- a/_async_api/_issue_cash_receipt.py
 +++ b/_async_api/_issue_cash_receipt.py
 @@ -18,6 +18,7 @@ from portone_server_sdk._openapi._schemas._payment_amount_input import PaymentAm
@@ -276,8 +276,8 @@ index 72ad894..885cbf5 100644
              paid_at (Optional[str]): 결제 일자.
          
          Returns:
--            IssueCashReceiptResponse: 성공 응답
-+            CashReceiptSummary: 현금 영수증 정보
+-            성공 응답
++            현금 영수증 정보
          
          Raises:
              _errors.CashReceiptAlreadyIssuedError: 현금영수증이 이미 발급된 경우
@@ -288,7 +288,7 @@ index 72ad894..885cbf5 100644
 -            return response_.data
 +            return response_.data.cash_receipt
 diff --git a/_async_api/_pay_instantly.py b/_async_api/_pay_instantly.py
-index 3626a4e..d206bb8 100644
+index 79d44e6..01a6939 100644
 --- a/_async_api/_pay_instantly.py
 +++ b/_async_api/_pay_instantly.py
 @@ -24,6 +24,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
@@ -312,8 +312,8 @@ index 3626a4e..d206bb8 100644
              promotion_id (Optional[str]): 해당 결제에 적용할 프로모션 아이디.
          
          Returns:
--            PayInstantlyResponse: 성공 응답
-+            InstantPaymentSummary: 결제 건 요약 정보
+-            성공 응답
++            결제 건 요약 정보
          
          Raises:
              _errors.AlreadyPaidError: 결제가 이미 완료된 경우
@@ -324,7 +324,7 @@ index 3626a4e..d206bb8 100644
 -            return response_.data
 +            return response_.data.payment
 diff --git a/_async_api/_pay_with_billing_key.py b/_async_api/_pay_with_billing_key.py
-index 2dcbecc..5ae96a7 100644
+index 8215b88..3394bbb 100644
 --- a/_async_api/_pay_with_billing_key.py
 +++ b/_async_api/_pay_with_billing_key.py
 @@ -26,6 +26,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
@@ -348,8 +348,8 @@ index 2dcbecc..5ae96a7 100644
              bypass (Optional[Any]): PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고).
          
          Returns:
--            PayWithBillingKeyResponse: 성공 응답
-+            BillingKeyPaymentSummary: 결제 건 요약 정보
+-            성공 응답
++            결제 건 요약 정보
          
          Raises:
              _errors.AlreadyPaidError: 결제가 이미 완료된 경우
@@ -360,7 +360,7 @@ index 2dcbecc..5ae96a7 100644
 -            return response_.data
 +            return response_.data.payment
 diff --git a/_async_api/_pre_register_payment.py b/_async_api/_pre_register_payment.py
-index 8a1c70f..e71a3f1 100644
+index 95a532d..e71a3f1 100644
 --- a/_async_api/_pre_register_payment.py
 +++ b/_async_api/_pre_register_payment.py
 @@ -36,7 +36,7 @@ class PreRegisterPayment(ApiClient):
@@ -377,7 +377,7 @@ index 8a1c70f..e71a3f1 100644
              currency (Optional[Currency]): 통화 단위.
          
 -        Returns:
--            PreRegisterPaymentResponse: 성공 응답
+-            성공 응답
 -        
          Raises:
              _errors.AlreadyPaidError: 결제가 이미 완료된 경우
@@ -389,7 +389,7 @@ index 8a1c70f..e71a3f1 100644
 -        else:
 -            return response_.data
 diff --git a/_async_api/_resend_identity_verification.py b/_async_api/_resend_identity_verification.py
-index 340961f..8df85e5 100644
+index a383aea..8df85e5 100644
 --- a/_async_api/_resend_identity_verification.py
 +++ b/_async_api/_resend_identity_verification.py
 @@ -39,7 +39,7 @@ class ResendIdentityVerification(ApiClient):
@@ -406,7 +406,7 @@ index 340961f..8df85e5 100644
                  접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
          
 -        Returns:
--            ResendIdentityVerificationResponse: 성공 응답
+-            성공 응답
 -        
          Raises:
              _errors.ForbiddenError: 요청이 거절된 경우
@@ -418,7 +418,7 @@ index 340961f..8df85e5 100644
 -        else:
 -            return response_.data
 diff --git a/_async_api/_resend_webhook.py b/_async_api/_resend_webhook.py
-index 5bcf4f1..816d173 100644
+index b2053cd..9c1f637 100644
 --- a/_async_api/_resend_webhook.py
 +++ b/_async_api/_resend_webhook.py
 @@ -12,6 +12,7 @@ from portone_server_sdk._openapi._schemas._resend_webhook_error import ResendWeb
@@ -442,8 +442,8 @@ index 5bcf4f1..816d173 100644
                  입력하지 않으면 결제 건의 가장 최근 웹훅 아이디가 기본 적용됩니다
          
          Returns:
--            ResendWebhookResponse: 성공 응답
-+            PaymentWebhook: 재발송 웹훅 정보
+-            성공 응답
++            재발송 웹훅 정보
          
          Raises:
              _errors.ForbiddenError: 요청이 거절된 경우
@@ -454,7 +454,7 @@ index 5bcf4f1..816d173 100644
 -            return response_.data
 +            return response_.data.webhook
 diff --git a/_async_api/_send_identity_verification.py b/_async_api/_send_identity_verification.py
-index 2ac8605..5a43239 100644
+index 54269aa..5a43239 100644
 --- a/_async_api/_send_identity_verification.py
 +++ b/_async_api/_send_identity_verification.py
 @@ -45,7 +45,7 @@ class SendIdentityVerification(ApiClient):
@@ -471,7 +471,7 @@ index 2ac8605..5a43239 100644
              method (IdentityVerificationMethod): 본인인증 방식.
          
 -        Returns:
--            SendIdentityVerificationResponse: 성공 응답
+-            성공 응답
 -        
          Raises:
              _errors.ChannelNotFoundError: 요청된 채널이 존재하지 않는 경우
@@ -483,7 +483,7 @@ index 2ac8605..5a43239 100644
 -        else:
 -            return response_.data
 diff --git a/_sync_api/_cancel_payment.py b/_sync_api/_cancel_payment.py
-index 5887298..a7d2f61 100644
+index e4bd20b..e80a2e8 100644
 --- a/_sync_api/_cancel_payment.py
 +++ b/_sync_api/_cancel_payment.py
 @@ -22,6 +22,7 @@ from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderEr
@@ -507,8 +507,8 @@ index 5887298..a7d2f61 100644
                  계좌 환불일 경우 입력합니다. 계좌 환불이 필요한 경우는 가상계좌 환불, 휴대폰 익월 환불 등이 있습니다.
          
          Returns:
--            CancelPaymentResponse: 성공 응답
-+            PaymentCancellation: 결제 취소 내역
+-            성공 응답
++            결제 취소 내역
          
          Raises:
              _errors.CancelAmountExceedsCancellableAmountError: 결제 취소 금액이 취소 가능 금액을 초과한 경우
@@ -519,7 +519,7 @@ index 5887298..a7d2f61 100644
 -            return response_.data
 +            return response_.data.cancellation
 diff --git a/_sync_api/_create_payment_schedule.py b/_sync_api/_create_payment_schedule.py
-index f8e97b1..b752668 100644
+index cc62f80..d8e2630 100644
 --- a/_sync_api/_create_payment_schedule.py
 +++ b/_sync_api/_create_payment_schedule.py
 @@ -15,6 +15,7 @@ from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidR
@@ -543,8 +543,8 @@ index f8e97b1..b752668 100644
              time_to_pay (str): 결제 예정 시점.
          
          Returns:
--            CreatePaymentScheduleResponse: 성공 응답
-+            PaymentScheduleSummary: 성공 응답
+-            성공 응답
++            결제 예약 건
          
          Raises:
              _errors.AlreadyPaidOrWaitingError: 결제가 이미 완료되었거나 대기중인 경우
@@ -555,7 +555,7 @@ index f8e97b1..b752668 100644
 -            return response_.data
 +            return response_.data.schedule
 diff --git a/_sync_api/_get_billing_key_info.py b/_sync_api/_get_billing_key_info.py
-index b5a7e0c..e29e320 100644
+index 57a7909..2d2fe9a 100644
 --- a/_sync_api/_get_billing_key_info.py
 +++ b/_sync_api/_get_billing_key_info.py
 @@ -36,7 +36,7 @@ class GetBillingKeyInfo(ApiClient):
@@ -571,8 +571,8 @@ index b5a7e0c..e29e320 100644
                  접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
          
          Returns:
--            BillingKeyInfo: 성공 응답으로 빌링키 정보를 반환합니다.
-+            Optional[BillingKeyInfo]: 성공 응답으로 빌링키 정보 또는 `None`을 반환합니다.
+-            성공 응답으로 빌링키 정보를 반환합니다.
++            성공 응답으로 빌링키 정보 또는 `None`을 반환합니다.
          
          Raises:
 -            _errors.BillingKeyNotFoundError: 빌링키가 존재하지 않는 경우
@@ -589,7 +589,7 @@ index b5a7e0c..e29e320 100644
                  raise _errors.ForbiddenError(error_)
              elif isinstance(error_, InvalidRequestError):
 diff --git a/_sync_api/_get_cash_receipt_by_payment_id.py b/_sync_api/_get_cash_receipt_by_payment_id.py
-index eddd427..bbc6762 100644
+index 8aa41d5..647c583 100644
 --- a/_sync_api/_get_cash_receipt_by_payment_id.py
 +++ b/_sync_api/_get_cash_receipt_by_payment_id.py
 @@ -36,7 +36,7 @@ class GetCashReceiptByPaymentId(ApiClient):
@@ -605,8 +605,8 @@ index eddd427..bbc6762 100644
                  접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
          
          Returns:
--            CashReceipt: 성공 응답으로 현금 영수증 객체를 반환합니다.
-+            Optional[CashReceipt]: 성공 응답으로 현금 영수증 객체 또는 `None`을 반환합니다.
+-            성공 응답으로 현금 영수증 객체를 반환합니다.
++            성공 응답으로 현금 영수증 객체 또는 `None`을 반환합니다.
          
          Raises:
 -            _errors.CashReceiptNotFoundError: 현금영수증이 존재하지 않는 경우
@@ -623,7 +623,7 @@ index eddd427..bbc6762 100644
                  raise _errors.ForbiddenError(error_)
              elif isinstance(error_, InvalidRequestError):
 diff --git a/_sync_api/_get_identity_verification.py b/_sync_api/_get_identity_verification.py
-index 8fe1441..2a6006f 100644
+index 9a64c6b..0f3dfe0 100644
 --- a/_sync_api/_get_identity_verification.py
 +++ b/_sync_api/_get_identity_verification.py
 @@ -36,7 +36,7 @@ class GetIdentityVerification(ApiClient):
@@ -639,8 +639,8 @@ index 8fe1441..2a6006f 100644
                  접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
          
          Returns:
--            IdentityVerification: 성공 응답으로 본인 인증 객체를 반환합니다.
-+            Optional[IdentityVerification]: 성공 응답으로 본인 인증 객체 또는 `None`을 반환합니다.
+-            성공 응답으로 본인 인증 객체를 반환합니다.
++            성공 응답으로 본인 인증 객체 또는 `None`을 반환합니다.
          
          Raises:
              _errors.ForbiddenError: 요청이 거절된 경우
@@ -658,7 +658,7 @@ index 8fe1441..2a6006f 100644
                  raise _errors.InvalidRequestError(error_)
              else:
 diff --git a/_sync_api/_get_payment.py b/_sync_api/_get_payment.py
-index 46196eb..0782670 100644
+index fc4b311..567cc70 100644
 --- a/_sync_api/_get_payment.py
 +++ b/_sync_api/_get_payment.py
 @@ -32,7 +32,7 @@ class GetPayment(ApiClient):
@@ -674,8 +674,8 @@ index 46196eb..0782670 100644
              store_id (Optional[str]): 상점 아이디.
          
          Returns:
--            Payment: 성공 응답으로 결제 건 객체를 반환합니다.
-+            Optional[Payment]: 성공 응답으로 결제 건 객체 또는 `None`을 반환합니다.
+-            성공 응답으로 결제 건 객체를 반환합니다.
++            성공 응답으로 결제 건 객체 또는 `None`을 반환합니다.
          
          Raises:
              _errors.ForbiddenError: 요청이 거절된 경우
@@ -694,7 +694,7 @@ index 46196eb..0782670 100644
                  raise _errors.UnauthorizedError(error_)
          else:
 diff --git a/_sync_api/_get_payment_schedule.py b/_sync_api/_get_payment_schedule.py
-index d8f2ca8..a13c9b4 100644
+index 51d84ca..b2fbc54 100644
 --- a/_sync_api/_get_payment_schedule.py
 +++ b/_sync_api/_get_payment_schedule.py
 @@ -36,7 +36,7 @@ class GetPaymentSchedule(ApiClient):
@@ -710,8 +710,8 @@ index d8f2ca8..a13c9b4 100644
                  접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
          
          Returns:
--            PaymentSchedule: 성공 응답으로 결제 예약 건 객체를 반환합니다.
-+            Optional[PaymentSchedule]: 성공 응답으로 결제 예약 건 객체 또는 `None`을 반환합니다.
+-            성공 응답으로 결제 예약 건 객체를 반환합니다.
++            성공 응답으로 결제 예약 건 객체 또는 `None`을 반환합니다.
          
          Raises:
              _errors.ForbiddenError: 요청이 거절된 경우
@@ -730,7 +730,7 @@ index d8f2ca8..a13c9b4 100644
                  raise _errors.UnauthorizedError(error_)
          else:
 diff --git a/_sync_api/_issue_cash_receipt.py b/_sync_api/_issue_cash_receipt.py
-index 7fe48ca..1cf0d79 100644
+index e0a198e..aa7fe75 100644
 --- a/_sync_api/_issue_cash_receipt.py
 +++ b/_sync_api/_issue_cash_receipt.py
 @@ -18,6 +18,7 @@ from portone_server_sdk._openapi._schemas._payment_amount_input import PaymentAm
@@ -754,8 +754,8 @@ index 7fe48ca..1cf0d79 100644
              paid_at (Optional[str]): 결제 일자.
          
          Returns:
--            IssueCashReceiptResponse: 성공 응답
-+            CashReceiptSummary: 현금 영수증 정보
+-            성공 응답
++            현금 영수증 정보
          
          Raises:
              _errors.CashReceiptAlreadyIssuedError: 현금영수증이 이미 발급된 경우
@@ -766,7 +766,7 @@ index 7fe48ca..1cf0d79 100644
 -            return response_.data
 +            return response_.data.cash_receipt
 diff --git a/_sync_api/_pay_instantly.py b/_sync_api/_pay_instantly.py
-index 58cee5e..083b687 100644
+index 085d44c..d9a2853 100644
 --- a/_sync_api/_pay_instantly.py
 +++ b/_sync_api/_pay_instantly.py
 @@ -24,6 +24,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
@@ -790,8 +790,8 @@ index 58cee5e..083b687 100644
              promotion_id (Optional[str]): 해당 결제에 적용할 프로모션 아이디.
          
          Returns:
--            PayInstantlyResponse: 성공 응답
-+            InstantPaymentSummary: 결제 건 요약 정보
+-            성공 응답
++            결제 건 요약 정보
          
          Raises:
              _errors.AlreadyPaidError: 결제가 이미 완료된 경우
@@ -802,7 +802,7 @@ index 58cee5e..083b687 100644
 -            return response_.data
 +            return response_.data.payment
 diff --git a/_sync_api/_pay_with_billing_key.py b/_sync_api/_pay_with_billing_key.py
-index 43a12cf..505177f 100644
+index 641214a..ea4d7ec 100644
 --- a/_sync_api/_pay_with_billing_key.py
 +++ b/_sync_api/_pay_with_billing_key.py
 @@ -26,6 +26,7 @@ from portone_server_sdk._openapi._schemas._promotion_pay_method_does_not_match_e
@@ -826,8 +826,8 @@ index 43a12cf..505177f 100644
              bypass (Optional[Any]): PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고).
          
          Returns:
--            PayWithBillingKeyResponse: 성공 응답
-+            BillingKeyPaymentSummary: 결제 건 요약 정보
+-            성공 응답
++            결제 건 요약 정보
          
          Raises:
              _errors.AlreadyPaidError: 결제가 이미 완료된 경우
@@ -838,7 +838,7 @@ index 43a12cf..505177f 100644
 -            return response_.data
 +            return response_.data.payment
 diff --git a/_sync_api/_pre_register_payment.py b/_sync_api/_pre_register_payment.py
-index 3f20153..92a2a69 100644
+index d2be0cd..92a2a69 100644
 --- a/_sync_api/_pre_register_payment.py
 +++ b/_sync_api/_pre_register_payment.py
 @@ -36,7 +36,7 @@ class PreRegisterPayment(ApiClient):
@@ -855,7 +855,7 @@ index 3f20153..92a2a69 100644
              currency (Optional[Currency]): 통화 단위.
          
 -        Returns:
--            PreRegisterPaymentResponse: 성공 응답
+-            성공 응답
 -        
          Raises:
              _errors.AlreadyPaidError: 결제가 이미 완료된 경우
@@ -867,7 +867,7 @@ index 3f20153..92a2a69 100644
 -        else:
 -            return response_.data
 diff --git a/_sync_api/_resend_identity_verification.py b/_sync_api/_resend_identity_verification.py
-index e0ad7fa..744eec3 100644
+index 2b4565c..744eec3 100644
 --- a/_sync_api/_resend_identity_verification.py
 +++ b/_sync_api/_resend_identity_verification.py
 @@ -39,7 +39,7 @@ class ResendIdentityVerification(ApiClient):
@@ -884,7 +884,7 @@ index e0ad7fa..744eec3 100644
                  접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
          
 -        Returns:
--            ResendIdentityVerificationResponse: 성공 응답
+-            성공 응답
 -        
          Raises:
              _errors.ForbiddenError: 요청이 거절된 경우
@@ -896,7 +896,7 @@ index e0ad7fa..744eec3 100644
 -        else:
 -            return response_.data
 diff --git a/_sync_api/_resend_webhook.py b/_sync_api/_resend_webhook.py
-index 69b6181..3a9f334 100644
+index b9b9350..9d9b9be 100644
 --- a/_sync_api/_resend_webhook.py
 +++ b/_sync_api/_resend_webhook.py
 @@ -12,6 +12,7 @@ from portone_server_sdk._openapi._schemas._resend_webhook_error import ResendWeb
@@ -920,8 +920,8 @@ index 69b6181..3a9f334 100644
                  입력하지 않으면 결제 건의 가장 최근 웹훅 아이디가 기본 적용됩니다
          
          Returns:
--            ResendWebhookResponse: 성공 응답
-+            PaymentWebhook: 재발송 웹훅 정보
+-            성공 응답
++            재발송 웹훅 정보
          
          Raises:
              _errors.ForbiddenError: 요청이 거절된 경우
@@ -932,7 +932,7 @@ index 69b6181..3a9f334 100644
 -            return response_.data
 +            return response_.data.webhook
 diff --git a/_sync_api/_send_identity_verification.py b/_sync_api/_send_identity_verification.py
-index ba76e19..0f757ad 100644
+index 2ff77d7..0f757ad 100644
 --- a/_sync_api/_send_identity_verification.py
 +++ b/_sync_api/_send_identity_verification.py
 @@ -45,7 +45,7 @@ class SendIdentityVerification(ApiClient):
@@ -949,7 +949,7 @@ index ba76e19..0f757ad 100644
              method (IdentityVerificationMethod): 본인인증 방식.
          
 -        Returns:
--            SendIdentityVerificationResponse: 성공 응답
+-            성공 응답
 -        
          Raises:
              _errors.ChannelNotFoundError: 요청된 채널이 존재하지 않는 경우

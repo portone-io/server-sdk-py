@@ -47,7 +47,7 @@ class GetBillingKeyInfo(ApiClient):
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
         
         Returns:
-            BillingKeyInfo: 성공 응답으로 빌링키 정보를 반환합니다.
+            성공 응답으로 빌링키 정보를 반환합니다.
         
         Raises:
             _errors.BillingKeyNotFoundError: 빌링키가 존재하지 않는 경우

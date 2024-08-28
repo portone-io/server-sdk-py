@@ -49,7 +49,7 @@ class CancelCashReceiptByPaymentId(ApiClient):
                 접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
         
         Returns:
-            CancelCashReceiptResponse: 성공 응답
+            성공 응답
         
         Raises:
             _errors.CashReceiptNotFoundError: 현금영수증이 존재하지 않는 경우

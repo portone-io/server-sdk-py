@@ -587,8 +587,7 @@ __all__ = [
                 docs.append("Returns:")
                 desc_lines = rst(operation.returns).strip().splitlines()
                 if desc_lines:
-                    docs.append(f"    {success_class}: {desc_lines[0]}")
-                    docs.extend(f"        {line}" for line in desc_lines[1:])
+                    docs.extend(f"    {line}" for line in desc_lines)
             errors = []
             raises = []
             refs.add(operation.error)

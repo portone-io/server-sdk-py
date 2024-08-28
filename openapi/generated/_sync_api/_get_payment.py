@@ -42,7 +42,7 @@ class GetPayment(ApiClient):
             store_id (Optional[str]): 상점 아이디.
         
         Returns:
-            Payment: 성공 응답으로 결제 건 객체를 반환합니다.
+            성공 응답으로 결제 건 객체를 반환합니다.
         
         Raises:
             _errors.ForbiddenError: 요청이 거절된 경우
