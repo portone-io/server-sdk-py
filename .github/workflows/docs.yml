@@ -18,7 +18,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Deploy docs
-        uses: mhausenblas/mkdocs-deploy-gh-pages@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+      - uses: yezz123/setup-uv@v4
+      - name: Install git-filter-repo
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: git-filter-repo
+          version: "1.0"
+      - name: Sync dependencies
+        run: uv sync
+      - name: Set github username
+        run: |
+          git config --global user.name runner
+          git config --global user.email "runner@github.com"
+          git config --global init.defaultBranch main
+      - name: Run gen
+        run: |
+          uv run scripts/gen-env.py
+          uv run scripts/patch.py apply
+      - name: Deploy on github pages
+        run: uv run mkdocs gh-deploy
