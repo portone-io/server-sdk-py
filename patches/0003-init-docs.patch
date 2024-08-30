@@ -16,7 +16,7 @@ index 0b35ce6..c8d0681 100644
 +    """포트원 REST API에 접근하기 위한 클라이언트입니다.
 +
 +    Args:
-+        secret (str): 포트원 V2 API key.
++        secret (str): 포트원 V2 API Secret.
 +        store_id (Optional[str], optional): 상점 ID.
 +    """
 diff --git a/_sync_api/__init__.py b/_sync_api/__init__.py
@@ -31,7 +31,7 @@ index 0b35ce6..c8d0681 100644
 +    """포트원 REST API에 접근하기 위한 클라이언트입니다.
 +
 +    Args:
-+        secret (str): 포트원 V2 API key.
++        secret (str): 포트원 V2 API Secret.
 +        store_id (Optional[str], optional): 상점 ID.
 +    """
 -- 
