@@ -5,7 +5,7 @@ Subject: [PATCH] init docs
 
 
 diff --git a/_async_api/__init__.py b/_async_api/__init__.py
-index 0b35ce6..c8d0681 100644
+index 0b35ce6..ef85cba 100644
 --- a/_async_api/__init__.py
 +++ b/_async_api/__init__.py
 @@ -61,4 +61,9 @@ class PortOneApi(
@@ -20,7 +20,7 @@ index 0b35ce6..c8d0681 100644
 +        store_id (Optional[str], optional): 상점 ID.
 +    """
 diff --git a/_sync_api/__init__.py b/_sync_api/__init__.py
-index 0b35ce6..c8d0681 100644
+index 0b35ce6..ef85cba 100644
 --- a/_sync_api/__init__.py
 +++ b/_sync_api/__init__.py
 @@ -61,4 +61,9 @@ class PortOneApi(

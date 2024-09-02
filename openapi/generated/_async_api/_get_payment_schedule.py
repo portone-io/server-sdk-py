@@ -34,8 +34,8 @@ class GetPaymentScheduleRequest(ApiRequest[PaymentSchedule, GetPaymentScheduleEr
 class GetPaymentSchedule(ApiClient):
     async def get_payment_schedule(
         self,
+        *,
         payment_schedule_id: str,
-        store_id: Optional[str],
     ) -> PaymentSchedule:
         """결제 예약 단건 조회
         
@@ -43,8 +43,6 @@ class GetPaymentSchedule(ApiClient):
         
         Args:
             payment_schedule_id (str): 조회할 결제 예약 건 아이디.
-            store_id (Optional[str]): 상점 아이디.
-                접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
         
         Returns:
             성공 응답으로 결제 예약 건 객체를 반환합니다.
@@ -59,7 +57,7 @@ class GetPaymentSchedule(ApiClient):
             payment_schedule_id=payment_schedule_id,
         )
         query_ = GetPaymentScheduleQuery(
-            store_id=store_id,
+            store_id=self.store_id,
         )
         body_ = Empty()
         response_ = await self.send(

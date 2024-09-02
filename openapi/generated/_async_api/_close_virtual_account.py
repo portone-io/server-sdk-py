@@ -36,8 +36,8 @@ class CloseVirtualAccountRequest(ApiRequest[CloseVirtualAccountResponse, CloseVi
 class CloseVirtualAccount(ApiClient):
     async def close_virtual_account(
         self,
+        *,
         payment_id: str,
-        store_id: Optional[str],
     ) -> CloseVirtualAccountResponse:
         """가상계좌 말소
         
@@ -45,8 +45,6 @@ class CloseVirtualAccount(ApiClient):
         
         Args:
             payment_id (str): 결제 건 아이디.
-            store_id (Optional[str]): 상점 아이디.
-                접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
         
         Returns:
             성공 응답
@@ -63,7 +61,7 @@ class CloseVirtualAccount(ApiClient):
             payment_id=payment_id,
         )
         query_ = CloseVirtualAccountQuery(
-            store_id=store_id,
+            store_id=self.store_id,
         )
         body_ = Empty()
         response_ = await self.send(

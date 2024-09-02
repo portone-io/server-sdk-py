@@ -36,8 +36,8 @@ class CancelCashReceiptByPaymentIdRequest(ApiRequest[CancelCashReceiptResponse, 
 class CancelCashReceiptByPaymentId(ApiClient):
     async def cancel_cash_receipt_by_payment_id(
         self,
+        *,
         payment_id: str,
-        store_id: Optional[str],
     ) -> CancelCashReceiptResponse:
         """현금 영수증 취소
         
@@ -45,8 +45,6 @@ class CancelCashReceiptByPaymentId(ApiClient):
         
         Args:
             payment_id (str): 결제 건 아이디.
-            store_id (Optional[str]): 상점 아이디.
-                접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
         
         Returns:
             성공 응답
@@ -63,7 +61,7 @@ class CancelCashReceiptByPaymentId(ApiClient):
             payment_id=payment_id,
         )
         query_ = CancelCashReceiptByPaymentIdQuery(
-            store_id=store_id,
+            store_id=self.store_id,
         )
         body_ = Empty()
         response_ = await self.send(

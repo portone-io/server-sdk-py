@@ -524,31 +524,49 @@ __all__ = [
             param_args = []
             if operation.param.properties:
                 for prop in operation.param.properties:
+                    if prop.name == "storeId":
+                        param_args.append("store_id=self.store_id,")
+                        refs.add("Optional")
+                        continue
                     filtered = to_snake_case(
                         f"{prop.name}_" if iskeyword(prop.name) else prop.name
                     )
-                    args.append(f"{filtered}: {prop.as_type},")
+                    is_optional = prop.as_type.startswith("Optional[")
+                    default_value = " = None" if is_optional else ""
+                    args.append(f"{filtered}: {prop.as_type}{default_value},")
                     prop_docs = self.make_doc_lines_raw(prop)
+                    optional_mark = ", optional" if is_optional else ""
                     if prop_docs:
-                        docs.append(f"    {filtered} ({prop.as_type}): {prop_docs[0]}.")
+                        docs.append(
+                            f"    {filtered} ({prop.as_type}{optional_mark}): {prop_docs[0]}."
+                        )
                         docs.extend(f"        {line}" for line in prop_docs[1:] if line)
                     else:
-                        docs.append(f"    {filtered} ({prop.as_type})")
+                        docs.append(f"    {filtered} ({prop.as_type}{optional_mark})")
                     param_args.append(f"{filtered}={filtered},")
                     refs.update(prop.refs)
             query_args = []
             if operation.query.properties:
                 for prop in operation.query.properties:
+                    if prop.name == "storeId":
+                        query_args.append("store_id=self.store_id,")
+                        refs.add("Optional")
+                        continue
                     filtered = to_snake_case(
                         f"{prop.name}_" if iskeyword(prop.name) else prop.name
                     )
-                    args.append(f"{filtered}: {prop.as_type},")
+                    is_optional = prop.as_type.startswith("Optional[")
+                    default_value = " = None" if is_optional else ""
+                    args.append(f"{filtered}: {prop.as_type}{default_value},")
                     prop_docs = self.make_doc_lines_raw(prop)
+                    optional_mark = ", optional" if is_optional else ""
                     if prop_docs:
-                        docs.append(f"    {filtered} ({prop.as_type}): {prop_docs[0]}.")
+                        docs.append(
+                            f"    {filtered} ({prop.as_type}{optional_mark}): {prop_docs[0]}."
+                        )
                         docs.extend(f"        {line}" for line in prop_docs[1:] if line)
                     else:
-                        docs.append(f"    {filtered} ({prop.as_type})")
+                        docs.append(f"    {filtered} ({prop.as_type}{optional_mark})")
                     query_args.append(f"{filtered}={filtered},")
                     refs.update(prop.refs)
             body_args = []
@@ -556,20 +574,29 @@ __all__ = [
                 body_spec = self.schemas[operation.body]
                 if body_spec.properties:
                     for prop in body_spec.properties:
+                        if prop.name == "storeId":
+                            body_args.append("store_id=self.store_id,")
+                            refs.add("Optional")
+                            continue
                         filtered = to_snake_case(
                             f"{prop.name}_" if iskeyword(prop.name) else prop.name
                         )
-                        args.append(f"{filtered}: {prop.as_type},")
+                        is_optional = prop.as_type.startswith("Optional[")
+                        default_value = " = None" if is_optional else ""
+                        args.append(f"{filtered}: {prop.as_type}{default_value},")
                         prop_docs = self.make_doc_lines_raw(prop)
+                        optional_mark = ", optional" if is_optional else ""
                         if prop_docs:
                             docs.append(
-                                f"    {filtered} ({prop.as_type}): {prop_docs[0]}."
+                                f"    {filtered} ({prop.as_type}{optional_mark}): {prop_docs[0]}."
                             )
                             docs.extend(
                                 f"        {line}" for line in prop_docs[1:] if line
                             )
                         else:
-                            docs.append(f"    {filtered} ({prop.as_type})")
+                            docs.append(
+                                f"    {filtered} ({prop.as_type}{optional_mark})"
+                            )
                         body_args.append(f"{filtered}={filtered},")
                 refs.update(body_spec.refs)
                 refs.add(operation.body)
@@ -667,7 +694,8 @@ class {class_name}Request(ApiRequest[{success_class}, {error_class}, {operation.
 @dataclasses.dataclass
 class {class_name}(ApiClient):
     {async_def} {method_name}(
-        self,{args_join}
+        self,
+        *,{args_join}
     ) -> {operation.success}:{docs_join}
         param_ = {operation.param.name}{param_list}
         query_ = {operation.query.name}{query_list}

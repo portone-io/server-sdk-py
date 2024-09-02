@@ -57,7 +57,7 @@ dev-dependencies = [
     "mkdocs>=1.6.0",
     "mkdocstrings[python]>=0.25.2",
     "mkdocs-material>=9.5.33",
-    "pyright>=1.1.377",
+    "pyright>=1.1.378",
     "ruff>=0.6.2",
     "pre-commit>=3.8.0",
 ]

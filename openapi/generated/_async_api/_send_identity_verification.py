@@ -37,12 +37,12 @@ class SendIdentityVerificationRequest(ApiRequest[SendIdentityVerificationRespons
 class SendIdentityVerification(ApiClient):
     async def send_identity_verification(
         self,
+        *,
         identity_verification_id: str,
-        store_id: Optional[str],
         channel_key: str,
         customer: SendIdentityVerificationBodyCustomer,
-        custom_data: Optional[str],
-        bypass: Optional[Any],
+        custom_data: Optional[str] = None,
+        bypass: Optional[Any] = None,
         operator: IdentityVerificationOperator,
         method: IdentityVerificationMethod,
     ) -> SendIdentityVerificationResponse:
@@ -52,12 +52,10 @@ class SendIdentityVerification(ApiClient):
         
         Args:
             identity_verification_id (str): 본인인증 아이디.
-            store_id (Optional[str]): 상점 아이디.
-                접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
             channel_key (str): 채널 키.
             customer (SendIdentityVerificationBodyCustomer): 고객 정보.
-            custom_data (Optional[str]): 사용자 지정 데이터.
-            bypass (Optional[Any]): PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고).
+            custom_data (Optional[str], optional): 사용자 지정 데이터.
+            bypass (Optional[Any], optional): PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고).
             operator (IdentityVerificationOperator): 통신사.
             method (IdentityVerificationMethod): 본인인증 방식.
         
@@ -79,7 +77,7 @@ class SendIdentityVerification(ApiClient):
         )
         query_ = SendIdentityVerificationQuery()
         body_ = SendIdentityVerificationBody(
-            store_id=store_id,
+            store_id=self.store_id,
             channel_key=channel_key,
             customer=customer,
             custom_data=custom_data,

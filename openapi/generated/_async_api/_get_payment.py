@@ -30,8 +30,8 @@ class GetPaymentRequest(ApiRequest[Payment, GetPaymentError, GetPaymentParam, Ge
 class GetPayment(ApiClient):
     async def get_payment(
         self,
+        *,
         payment_id: str,
-        store_id: Optional[str],
     ) -> Payment:
         """결제 단건 조회
         
@@ -39,7 +39,6 @@ class GetPayment(ApiClient):
         
         Args:
             payment_id (str): 조회할 결제 아이디.
-            store_id (Optional[str]): 상점 아이디.
         
         Returns:
             성공 응답으로 결제 건 객체를 반환합니다.
@@ -54,7 +53,7 @@ class GetPayment(ApiClient):
             payment_id=payment_id,
         )
         query_ = GetPaymentQuery(
-            store_id=store_id,
+            store_id=self.store_id,
         )
         body_ = Empty()
         response_ = await self.send(

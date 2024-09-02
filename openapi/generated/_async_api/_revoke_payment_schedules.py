@@ -33,19 +33,17 @@ class RevokePaymentSchedulesRequest(ApiRequest[RevokePaymentSchedulesResponse, R
 class RevokePaymentSchedules(ApiClient):
     async def revoke_payment_schedules(
         self,
-        store_id: Optional[str],
-        billing_key: Optional[str],
-        schedule_ids: Optional[list[str]],
+        *,
+        billing_key: Optional[str] = None,
+        schedule_ids: Optional[list[str]] = None,
     ) -> RevokePaymentSchedulesResponse:
         """결제 예약 취소
         
         결제 예약 건을 취소합니다.
         
         Args:
-            store_id (Optional[str]): 상점 아이디.
-                접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
-            billing_key (Optional[str]): 빌링키.
-            schedule_ids (Optional[list[str]]): 결제 예약 건 아이디 목록.
+            billing_key (Optional[str], optional): 빌링키.
+            schedule_ids (Optional[list[str]], optional): 결제 예약 건 아이디 목록.
         
         Returns:
             성공 응답
@@ -63,7 +61,7 @@ class RevokePaymentSchedules(ApiClient):
         param_ = RevokePaymentSchedulesParam()
         query_ = RevokePaymentSchedulesQuery()
         body_ = RevokePaymentSchedulesBody(
-            store_id=store_id,
+            store_id=self.store_id,
             billing_key=billing_key,
             schedule_ids=schedule_ids,
         )

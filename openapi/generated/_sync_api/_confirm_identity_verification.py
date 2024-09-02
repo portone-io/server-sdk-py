@@ -33,9 +33,9 @@ class ConfirmIdentityVerificationRequest(ApiRequest[ConfirmIdentityVerificationR
 class ConfirmIdentityVerification(ApiClient):
     def confirm_identity_verification(
         self,
+        *,
         identity_verification_id: str,
-        store_id: Optional[str],
-        otp: Optional[str],
+        otp: Optional[str] = None,
     ) -> ConfirmIdentityVerificationResponse:
         """본인인증 확인
         
@@ -43,9 +43,7 @@ class ConfirmIdentityVerification(ApiClient):
         
         Args:
             identity_verification_id (str): 본인인증 아이디.
-            store_id (Optional[str]): 상점 아이디.
-                접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
-            otp (Optional[str]): OTP (One-Time Password).
+            otp (Optional[str], optional): OTP (One-Time Password).
                 SMS 방식에서만 사용됩니다.
         
         Returns:
@@ -65,7 +63,7 @@ class ConfirmIdentityVerification(ApiClient):
         )
         query_ = ConfirmIdentityVerificationQuery()
         body_ = ConfirmIdentityVerificationBody(
-            store_id=store_id,
+            store_id=self.store_id,
             otp=otp,
         )
         response_ = self.send(

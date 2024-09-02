@@ -34,8 +34,8 @@ class GetBillingKeyInfoRequest(ApiRequest[BillingKeyInfo, GetBillingKeyInfoError
 class GetBillingKeyInfo(ApiClient):
     async def get_billing_key_info(
         self,
+        *,
         billing_key: str,
-        store_id: Optional[str],
     ) -> BillingKeyInfo:
         """빌링키 단건 조회
         
@@ -43,8 +43,6 @@ class GetBillingKeyInfo(ApiClient):
         
         Args:
             billing_key (str): 조회할 빌링키.
-            store_id (Optional[str]): 상점 아이디.
-                접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
         
         Returns:
             성공 응답으로 빌링키 정보를 반환합니다.
@@ -59,7 +57,7 @@ class GetBillingKeyInfo(ApiClient):
             billing_key=billing_key,
         )
         query_ = GetBillingKeyInfoQuery(
-            store_id=store_id,
+            store_id=self.store_id,
         )
         body_ = Empty()
         response_ = await self.send(

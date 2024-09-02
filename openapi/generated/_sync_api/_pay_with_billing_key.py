@@ -45,27 +45,27 @@ class PayWithBillingKeyRequest(ApiRequest[PayWithBillingKeyResponse, PayWithBill
 class PayWithBillingKey(ApiClient):
     def pay_with_billing_key(
         self,
+        *,
         payment_id: str,
-        store_id: Optional[str],
         billing_key: str,
-        channel_key: Optional[str],
+        channel_key: Optional[str] = None,
         order_name: str,
-        customer: Optional[CustomerInput],
-        custom_data: Optional[str],
+        customer: Optional[CustomerInput] = None,
+        custom_data: Optional[str] = None,
         amount: PaymentAmountInput,
         currency: Currency,
-        installment_month: Optional[int],
-        use_free_interest_from_merchant: Optional[bool],
-        use_card_point: Optional[bool],
-        cash_receipt: Optional[CashReceiptInput],
-        country: Optional[Country],
-        notice_urls: Optional[list[str]],
-        products: Optional[list[PaymentProduct]],
-        product_count: Optional[int],
-        product_type: Optional[PaymentProductType],
-        shipping_address: Optional[SeparatedAddressInput],
-        promotion_id: Optional[str],
-        bypass: Optional[Any],
+        installment_month: Optional[int] = None,
+        use_free_interest_from_merchant: Optional[bool] = None,
+        use_card_point: Optional[bool] = None,
+        cash_receipt: Optional[CashReceiptInput] = None,
+        country: Optional[Country] = None,
+        notice_urls: Optional[list[str]] = None,
+        products: Optional[list[PaymentProduct]] = None,
+        product_count: Optional[int] = None,
+        product_type: Optional[PaymentProductType] = None,
+        shipping_address: Optional[SeparatedAddressInput] = None,
+        promotion_id: Optional[str] = None,
+        bypass: Optional[Any] = None,
     ) -> PayWithBillingKeyResponse:
         """빌링키 결제
         
@@ -73,32 +73,30 @@ class PayWithBillingKey(ApiClient):
         
         Args:
             payment_id (str): 결제 건 아이디.
-            store_id (Optional[str]): 상점 아이디.
-                접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
             billing_key (str): 빌링키 결제에 사용할 빌링키.
-            channel_key (Optional[str]): 채널 키.
+            channel_key (Optional[str], optional): 채널 키.
                 다수 채널에 대해 발급된 빌링키에 대해, 결제 채널을 특정하고 싶을 때 명시
             order_name (str): 주문명.
-            customer (Optional[CustomerInput]): 고객 정보.
-            custom_data (Optional[str]): 사용자 지정 데이터.
+            customer (Optional[CustomerInput], optional): 고객 정보.
+            custom_data (Optional[str], optional): 사용자 지정 데이터.
             amount (PaymentAmountInput): 결제 금액 세부 입력 정보.
             currency (Currency): 통화.
-            installment_month (Optional[int]): 할부 개월 수.
-            use_free_interest_from_merchant (Optional[bool]): 무이자 할부 이자를 고객사가 부담할지 여부.
-            use_card_point (Optional[bool]): 카드 포인트 사용 여부.
-            cash_receipt (Optional[CashReceiptInput]): 현금영수증 정보.
-            country (Optional[Country]): 결제 국가.
-            notice_urls (Optional[list[str]]): 웹훅 주소.
+            installment_month (Optional[int], optional): 할부 개월 수.
+            use_free_interest_from_merchant (Optional[bool], optional): 무이자 할부 이자를 고객사가 부담할지 여부.
+            use_card_point (Optional[bool], optional): 카드 포인트 사용 여부.
+            cash_receipt (Optional[CashReceiptInput], optional): 현금영수증 정보.
+            country (Optional[Country], optional): 결제 국가.
+            notice_urls (Optional[list[str]], optional): 웹훅 주소.
                 결제 승인/실패 시 요청을 받을 웹훅 주소입니다.
                 상점에 설정되어 있는 값보다 우선적으로 적용됩니다.
                 입력된 값이 없을 경우에는 빈 배열로 해석됩니다.
-            products (Optional[list[PaymentProduct]]): 상품 정보.
+            products (Optional[list[PaymentProduct]], optional): 상품 정보.
                 입력된 값이 없을 경우에는 빈 배열로 해석됩니다.
-            product_count (Optional[int]): 상품 개수.
-            product_type (Optional[PaymentProductType]): 상품 유형.
-            shipping_address (Optional[SeparatedAddressInput]): 배송지 주소.
-            promotion_id (Optional[str]): 해당 결제에 적용할 프로모션 아이디.
-            bypass (Optional[Any]): PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고).
+            product_count (Optional[int], optional): 상품 개수.
+            product_type (Optional[PaymentProductType], optional): 상품 유형.
+            shipping_address (Optional[SeparatedAddressInput], optional): 배송지 주소.
+            promotion_id (Optional[str], optional): 해당 결제에 적용할 프로모션 아이디.
+            bypass (Optional[Any], optional): PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고).
         
         Returns:
             성공 응답
@@ -121,7 +119,7 @@ class PayWithBillingKey(ApiClient):
         )
         query_ = PayWithBillingKeyQuery()
         body_ = BillingKeyPaymentInput(
-            store_id=store_id,
+            store_id=self.store_id,
             billing_key=billing_key,
             channel_key=channel_key,
             order_name=order_name,

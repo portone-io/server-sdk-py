@@ -43,25 +43,25 @@ class PayInstantlyRequest(ApiRequest[PayInstantlyResponse, PayInstantlyError, Pa
 class PayInstantly(ApiClient):
     async def pay_instantly(
         self,
+        *,
         payment_id: str,
-        store_id: Optional[str],
-        channel_key: Optional[str],
-        channel_group_id: Optional[str],
+        channel_key: Optional[str] = None,
+        channel_group_id: Optional[str] = None,
         method: InstantPaymentMethodInput,
         order_name: str,
-        is_cultural_expense: Optional[bool],
-        is_escrow: Optional[bool],
-        customer: Optional[CustomerInput],
-        custom_data: Optional[str],
+        is_cultural_expense: Optional[bool] = None,
+        is_escrow: Optional[bool] = None,
+        customer: Optional[CustomerInput] = None,
+        custom_data: Optional[str] = None,
         amount: PaymentAmountInput,
         currency: Currency,
-        country: Optional[Country],
-        notice_urls: Optional[list[str]],
-        products: Optional[list[PaymentProduct]],
-        product_count: Optional[int],
-        product_type: Optional[PaymentProductType],
-        shipping_address: Optional[SeparatedAddressInput],
-        promotion_id: Optional[str],
+        country: Optional[Country] = None,
+        notice_urls: Optional[list[str]] = None,
+        products: Optional[list[PaymentProduct]] = None,
+        product_count: Optional[int] = None,
+        product_type: Optional[PaymentProductType] = None,
+        shipping_address: Optional[SeparatedAddressInput] = None,
+        promotion_id: Optional[str] = None,
     ) -> PayInstantlyResponse:
         """수기 결제
         
@@ -69,33 +69,31 @@ class PayInstantly(ApiClient):
         
         Args:
             payment_id (str): 결제 건 아이디.
-            store_id (Optional[str]): 상점 아이디.
-                접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
-            channel_key (Optional[str]): 채널 키.
+            channel_key (Optional[str], optional): 채널 키.
                 채널 키 또는 채널 그룹 ID 필수
-            channel_group_id (Optional[str]): 채널 그룹 ID.
+            channel_group_id (Optional[str], optional): 채널 그룹 ID.
                 채널 키 또는 채널 그룹 ID 필수
             method (InstantPaymentMethodInput): 결제수단 정보.
             order_name (str): 주문명.
-            is_cultural_expense (Optional[bool]): 문화비 지출 여부.
+            is_cultural_expense (Optional[bool], optional): 문화비 지출 여부.
                 기본값은 false 입니다.
-            is_escrow (Optional[bool]): 에스크로 결제 여부.
+            is_escrow (Optional[bool], optional): 에스크로 결제 여부.
                 기본값은 false 입니다.
-            customer (Optional[CustomerInput]): 고객 정보.
-            custom_data (Optional[str]): 사용자 지정 데이터.
+            customer (Optional[CustomerInput], optional): 고객 정보.
+            custom_data (Optional[str], optional): 사용자 지정 데이터.
             amount (PaymentAmountInput): 결제 금액 세부 입력 정보.
             currency (Currency): 통화.
-            country (Optional[Country]): 결제 국가.
-            notice_urls (Optional[list[str]]): 웹훅 주소.
+            country (Optional[Country], optional): 결제 국가.
+            notice_urls (Optional[list[str]], optional): 웹훅 주소.
                 결제 승인/실패 시 요청을 받을 웹훅 주소입니다.
                 상점에 설정되어 있는 값보다 우선적으로 적용됩니다.
                 입력된 값이 없을 경우에는 빈 배열로 해석됩니다.
-            products (Optional[list[PaymentProduct]]): 상품 정보.
+            products (Optional[list[PaymentProduct]], optional): 상품 정보.
                 입력된 값이 없을 경우에는 빈 배열로 해석됩니다.
-            product_count (Optional[int]): 상품 개수.
-            product_type (Optional[PaymentProductType]): 상품 유형.
-            shipping_address (Optional[SeparatedAddressInput]): 배송지 주소.
-            promotion_id (Optional[str]): 해당 결제에 적용할 프로모션 아이디.
+            product_count (Optional[int], optional): 상품 개수.
+            product_type (Optional[PaymentProductType], optional): 상품 유형.
+            shipping_address (Optional[SeparatedAddressInput], optional): 배송지 주소.
+            promotion_id (Optional[str], optional): 해당 결제에 적용할 프로모션 아이디.
         
         Returns:
             성공 응답
@@ -116,7 +114,7 @@ class PayInstantly(ApiClient):
         )
         query_ = PayInstantlyQuery()
         body_ = InstantPaymentInput(
-            store_id=store_id,
+            store_id=self.store_id,
             channel_key=channel_key,
             channel_group_id=channel_group_id,
             method=method,

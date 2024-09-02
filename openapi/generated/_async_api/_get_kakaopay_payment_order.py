@@ -28,6 +28,7 @@ class GetKakaopayPaymentOrderRequest(ApiRequest[GetKakaopayPaymentOrderResponse,
 class GetKakaopayPaymentOrder(ApiClient):
     async def get_kakaopay_payment_order(
         self,
+        *,
         pg_tx_id: str,
         channel_key: str,
     ) -> GetKakaopayPaymentOrderResponse:

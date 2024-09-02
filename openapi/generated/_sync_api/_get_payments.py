@@ -30,17 +30,18 @@ class GetPaymentsRequest(ApiRequest[GetPaymentsResponse, GetPaymentsError, GetPa
 class GetPayments(ApiClient):
     def get_payments(
         self,
-        page: Optional[PageInput],
-        filter: Optional[PaymentFilterInput],
+        *,
+        page: Optional[PageInput] = None,
+        filter: Optional[PaymentFilterInput] = None,
     ) -> GetPaymentsResponse:
         """결제 다건 조회(페이지 기반)
         
         주어진 조건에 맞는 결제 건들을 페이지 기반으로 조회합니다.
         
         Args:
-            page (Optional[PageInput]): 요청할 페이지 정보.
+            page (Optional[PageInput], optional): 요청할 페이지 정보.
                 미 입력 시 number: 0, size: 10 으로 기본값이 적용됩니다.
-            filter (Optional[PaymentFilterInput]): 조회할 결제 건 조건 필터.
+            filter (Optional[PaymentFilterInput], optional): 조회할 결제 건 조건 필터.
                 V1 결제 건의 경우 일부 필드에 대해 필터가 적용되지 않을 수 있습니다.
         
         Returns:

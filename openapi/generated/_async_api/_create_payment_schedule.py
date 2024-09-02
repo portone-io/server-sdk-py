@@ -34,6 +34,7 @@ class CreatePaymentScheduleRequest(ApiRequest[CreatePaymentScheduleResponse, Cre
 class CreatePaymentSchedule(ApiClient):
     async def create_payment_schedule(
         self,
+        *,
         payment_id: str,
         payment: BillingKeyPaymentInput,
         time_to_pay: str,

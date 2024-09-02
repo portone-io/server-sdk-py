@@ -36,24 +36,22 @@ class IssueCashReceiptRequest(ApiRequest[IssueCashReceiptResponse, IssueCashRece
 class IssueCashReceipt(ApiClient):
     def issue_cash_receipt(
         self,
-        store_id: Optional[str],
+        *,
         payment_id: str,
         channel_key: str,
         type: CashReceiptType,
         order_name: str,
         currency: Currency,
         amount: PaymentAmountInput,
-        product_type: Optional[PaymentProductType],
+        product_type: Optional[PaymentProductType] = None,
         customer: IssueCashReceiptCustomerInput,
-        paid_at: Optional[str],
+        paid_at: Optional[str] = None,
     ) -> IssueCashReceiptResponse:
         """현금 영수증 수동 발급
         
         현금 영수증 발급을 요청합니다.
         
         Args:
-            store_id (Optional[str]): 상점 아이디.
-                접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
             payment_id (str): 결제 건 아이디.
                 외부 결제 건에 대한 수동 발급의 경우, 아이디를 직접 채번하여 입력합니다.
             channel_key (str): 채널 키.
@@ -61,9 +59,9 @@ class IssueCashReceipt(ApiClient):
             order_name (str): 주문명.
             currency (Currency): 화폐.
             amount (PaymentAmountInput): 금액 세부 입력 정보.
-            product_type (Optional[PaymentProductType]): 상품 유형.
+            product_type (Optional[PaymentProductType], optional): 상품 유형.
             customer (IssueCashReceiptCustomerInput): 고객 정보.
-            paid_at (Optional[str]): 결제 일자.
+            paid_at (Optional[str], optional): 결제 일자.
         
         Returns:
             성공 응답
@@ -79,7 +77,7 @@ class IssueCashReceipt(ApiClient):
         param_ = IssueCashReceiptParam()
         query_ = IssueCashReceiptQuery()
         body_ = IssueCashReceiptBody(
-            store_id=store_id,
+            store_id=self.store_id,
             payment_id=payment_id,
             channel_key=channel_key,
             type=type,

@@ -33,9 +33,9 @@ class RegisterStoreReceiptRequest(ApiRequest[RegisterStoreReceiptResponse, Regis
 class RegisterStoreReceipt(ApiClient):
     async def register_store_receipt(
         self,
+        *,
         payment_id: str,
         items: list[RegisterStoreReceiptBodyItem],
-        store_id: Optional[str],
     ) -> RegisterStoreReceiptResponse:
         """영수증 내 하위 상점 거래 등록
         
@@ -46,7 +46,6 @@ class RegisterStoreReceipt(ApiClient):
         Args:
             payment_id (str): 등록할 하위 상점 결제 건 아이디.
             items (list[RegisterStoreReceiptBodyItem]): 하위 상점 거래 목록.
-            store_id (Optional[str]): 상점 아이디.
         
         Returns:
             성공 응답
@@ -65,7 +64,7 @@ class RegisterStoreReceipt(ApiClient):
         query_ = RegisterStoreReceiptQuery()
         body_ = RegisterStoreReceiptBody(
             items=items,
-            store_id=store_id,
+            store_id=self.store_id,
         )
         response_ = await self.send(
             RegisterStoreReceiptRequest(param_, query_, body_),

@@ -1,6 +1,6 @@
 import json
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any, Optional, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Optional, TypeVar, Union, get_origin
 
 import httpx
 import serde
@@ -60,12 +60,18 @@ class ApiClient:
             json=body,
         )
         if 200 <= response.status_code <= 299:
-            return ApiSuccessResponse(
-                serde.from_dict(serde.Untagged(success_cls), response.json())
+            success_cls = (
+                serde.Untagged(success_cls)
+                if get_origin(success_cls) is Union
+                else success_cls
             )
+            return ApiSuccessResponse(serde.from_dict(success_cls, response.json()))
         try:
-            return ApiErrorResponse(
-                serde.from_dict(serde.Untagged(error_cls), response.json())
+            error_cls = (
+                serde.Untagged(error_cls)
+                if get_origin(error_cls) is Union
+                else error_cls
             )
+            return ApiErrorResponse(serde.from_dict(error_cls, response.json()))
         except Exception:
             raise UnknownError(response.text)

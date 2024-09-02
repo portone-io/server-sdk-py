@@ -36,13 +36,13 @@ class ModifyEscrowLogisticsRequest(ApiRequest[ModifyEscrowLogisticsResponse, Mod
 class ModifyEscrowLogistics(ApiClient):
     def modify_escrow_logistics(
         self,
+        *,
         payment_id: str,
-        store_id: Optional[str],
-        sender: Optional[PaymentEscrowSenderInput],
-        receiver: Optional[PaymentEscrowReceiverInput],
+        sender: Optional[PaymentEscrowSenderInput] = None,
+        receiver: Optional[PaymentEscrowReceiverInput] = None,
         logistics: PaymentLogistics,
-        send_email: Optional[bool],
-        products: Optional[list[PaymentProduct]],
+        send_email: Optional[bool] = None,
+        products: Optional[list[PaymentProduct]] = None,
     ) -> ModifyEscrowLogisticsResponse:
         """에스크로 배송 정보 수정
         
@@ -50,14 +50,12 @@ class ModifyEscrowLogistics(ApiClient):
         
         Args:
             payment_id (str): 결제 건 아이디.
-            store_id (Optional[str]): 상점 아이디.
-                접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
-            sender (Optional[PaymentEscrowSenderInput]): 에스크로 발송자 정보.
-            receiver (Optional[PaymentEscrowReceiverInput]): 에스크로 수취인 정보.
+            sender (Optional[PaymentEscrowSenderInput], optional): 에스크로 발송자 정보.
+            receiver (Optional[PaymentEscrowReceiverInput], optional): 에스크로 수취인 정보.
             logistics (PaymentLogistics): 에스크로 물류 정보.
-            send_email (Optional[bool]): 이메일 알림 전송 여부.
+            send_email (Optional[bool], optional): 이메일 알림 전송 여부.
                 에스크로 구매 확정 시 이메일로 알림을 보낼지 여부입니다.
-            products (Optional[list[PaymentProduct]]): 상품 정보.
+            products (Optional[list[PaymentProduct]], optional): 상품 정보.
         
         Returns:
             성공 응답
@@ -75,7 +73,7 @@ class ModifyEscrowLogistics(ApiClient):
         )
         query_ = ModifyEscrowLogisticsQuery()
         body_ = ModifyEscrowLogisticsBody(
-            store_id=store_id,
+            store_id=self.store_id,
             sender=sender,
             receiver=receiver,
             logistics=logistics,

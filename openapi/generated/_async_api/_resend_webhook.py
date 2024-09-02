@@ -31,9 +31,9 @@ class ResendWebhookRequest(ApiRequest[ResendWebhookResponse, ResendWebhookError,
 class ResendWebhook(ApiClient):
     async def resend_webhook(
         self,
+        *,
         payment_id: str,
-        store_id: Optional[str],
-        webhook_id: Optional[str],
+        webhook_id: Optional[str] = None,
     ) -> ResendWebhookResponse:
         """웹훅 재발송
         
@@ -41,9 +41,7 @@ class ResendWebhook(ApiClient):
         
         Args:
             payment_id (str): 결제 건 아이디.
-            store_id (Optional[str]): 상점 아이디.
-                접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
-            webhook_id (Optional[str]): 웹훅 아이디.
+            webhook_id (Optional[str], optional): 웹훅 아이디.
                 입력하지 않으면 결제 건의 가장 최근 웹훅 아이디가 기본 적용됩니다
         
         Returns:
@@ -61,7 +59,7 @@ class ResendWebhook(ApiClient):
         )
         query_ = ResendWebhookQuery()
         body_ = ResendWebhookBody(
-            store_id=store_id,
+            store_id=self.store_id,
             webhook_id=webhook_id,
         )
         response_ = await self.send(

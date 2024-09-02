@@ -37,8 +37,8 @@ class ResendIdentityVerificationRequest(ApiRequest[ResendIdentityVerificationRes
 class ResendIdentityVerification(ApiClient):
     async def resend_identity_verification(
         self,
+        *,
         identity_verification_id: str,
-        store_id: Optional[str],
     ) -> ResendIdentityVerificationResponse:
         """SMS 본인인증 요청 재전송
         
@@ -46,8 +46,6 @@ class ResendIdentityVerification(ApiClient):
         
         Args:
             identity_verification_id (str): 본인인증 아이디.
-            store_id (Optional[str]): 상점 아이디.
-                접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
         
         Returns:
             성공 응답
@@ -65,7 +63,7 @@ class ResendIdentityVerification(ApiClient):
             identity_verification_id=identity_verification_id,
         )
         query_ = ResendIdentityVerificationQuery(
-            store_id=store_id,
+            store_id=self.store_id,
         )
         body_ = Empty()
         response_ = await self.send(

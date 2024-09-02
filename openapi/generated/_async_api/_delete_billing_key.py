@@ -39,8 +39,8 @@ class DeleteBillingKeyRequest(ApiRequest[DeleteBillingKeyResponse, DeleteBilling
 class DeleteBillingKey(ApiClient):
     async def delete_billing_key(
         self,
+        *,
         billing_key: str,
-        store_id: Optional[str],
     ) -> DeleteBillingKeyResponse:
         """빌링키 삭제
         
@@ -48,8 +48,6 @@ class DeleteBillingKey(ApiClient):
         
         Args:
             billing_key (str): 삭제할 빌링키.
-            store_id (Optional[str]): 상점 아이디.
-                접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
         
         Returns:
             성공 응답
@@ -69,7 +67,7 @@ class DeleteBillingKey(ApiClient):
             billing_key=billing_key,
         )
         query_ = DeleteBillingKeyQuery(
-            store_id=store_id,
+            store_id=self.store_id,
         )
         body_ = Empty()
         response_ = await self.send(

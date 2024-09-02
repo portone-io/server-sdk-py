@@ -33,31 +33,29 @@ class IssueBillingKeyRequest(ApiRequest[IssueBillingKeyResponse, IssueBillingKey
 class IssueBillingKey(ApiClient):
     def issue_billing_key(
         self,
-        store_id: Optional[str],
+        *,
         method: InstantBillingKeyPaymentMethodInput,
-        channel_key: Optional[str],
-        channel_group_id: Optional[str],
-        customer: Optional[CustomerInput],
-        custom_data: Optional[str],
-        bypass: Optional[Any],
-        notice_urls: Optional[list[str]],
+        channel_key: Optional[str] = None,
+        channel_group_id: Optional[str] = None,
+        customer: Optional[CustomerInput] = None,
+        custom_data: Optional[str] = None,
+        bypass: Optional[Any] = None,
+        notice_urls: Optional[list[str]] = None,
     ) -> IssueBillingKeyResponse:
         """빌링키 발급
         
         빌링키 발급을 요청합니다.
         
         Args:
-            store_id (Optional[str]): 상점 아이디.
-                접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
             method (InstantBillingKeyPaymentMethodInput): 빌링키 결제 수단 정보.
-            channel_key (Optional[str]): 채널 키.
+            channel_key (Optional[str], optional): 채널 키.
                 채널 키 또는 채널 그룹 ID 필수
-            channel_group_id (Optional[str]): 채널 그룹 ID.
+            channel_group_id (Optional[str], optional): 채널 그룹 ID.
                 채널 키 또는 채널 그룹 ID 필수
-            customer (Optional[CustomerInput]): 고객 정보.
-            custom_data (Optional[str]): 사용자 지정 데이터.
-            bypass (Optional[Any]): PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고).
-            notice_urls (Optional[list[str]]): 웹훅 주소.
+            customer (Optional[CustomerInput], optional): 고객 정보.
+            custom_data (Optional[str], optional): 사용자 지정 데이터.
+            bypass (Optional[Any], optional): PG사별 추가 파라미터 ("PG사별 연동 가이드" 참고).
+            notice_urls (Optional[list[str]], optional): 웹훅 주소.
                 빌링키 발급 시 요청을 받을 웹훅 주소입니다.
                 상점에 설정되어 있는 값보다 우선적으로 적용됩니다.
                 입력된 값이 없을 경우에는 빈 배열로 해석됩니다.
@@ -76,7 +74,7 @@ class IssueBillingKey(ApiClient):
         param_ = IssueBillingKeyParam()
         query_ = IssueBillingKeyQuery()
         body_ = IssueBillingKeyBody(
-            store_id=store_id,
+            store_id=self.store_id,
             method=method,
             channel_key=channel_key,
             channel_group_id=channel_group_id,

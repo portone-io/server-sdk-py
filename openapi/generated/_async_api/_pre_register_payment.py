@@ -31,11 +31,11 @@ class PreRegisterPaymentRequest(ApiRequest[PreRegisterPaymentResponse, PreRegist
 class PreRegisterPayment(ApiClient):
     async def pre_register_payment(
         self,
+        *,
         payment_id: str,
-        store_id: Optional[str],
-        total_amount: Optional[int],
-        tax_free_amount: Optional[int],
-        currency: Optional[Currency],
+        total_amount: Optional[int] = None,
+        tax_free_amount: Optional[int] = None,
+        currency: Optional[Currency] = None,
     ) -> PreRegisterPaymentResponse:
         """결제 정보 사전 등록
         
@@ -43,11 +43,9 @@ class PreRegisterPayment(ApiClient):
         
         Args:
             payment_id (str): 결제 건 아이디.
-            store_id (Optional[str]): 상점 아이디.
-                접근 권한이 있는 상점 아이디만 입력 가능하며, 미입력시 토큰에 담긴 상점 아이디를 사용합니다.
-            total_amount (Optional[int]): 결제 총 금액.
-            tax_free_amount (Optional[int]): 결제 면세 금액.
-            currency (Optional[Currency]): 통화 단위.
+            total_amount (Optional[int], optional): 결제 총 금액.
+            tax_free_amount (Optional[int], optional): 결제 면세 금액.
+            currency (Optional[Currency], optional): 통화 단위.
         
         Returns:
             성공 응답
@@ -63,7 +61,7 @@ class PreRegisterPayment(ApiClient):
         )
         query_ = PreRegisterPaymentQuery()
         body_ = PreRegisterPaymentBody(
-            store_id=store_id,
+            store_id=self.store_id,
             total_amount=total_amount,
             tax_free_amount=tax_free_amount,
             currency=currency,
