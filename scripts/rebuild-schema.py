@@ -505,10 +505,8 @@ __all__ = [
 """)
 
     def generate_files_api(self, generated_path: Path) -> None:
-        sync_path = generated_path.joinpath("_sync_api")
-        async_path = generated_path.joinpath("_async_api")
-        sync_path.mkdir(parents=True, exist_ok=True)
-        async_path.mkdir(parents=True, exist_ok=True)
+        api_path = generated_path.joinpath("_api")
+        api_path.mkdir(parents=True, exist_ok=True)
         imports = []
         extends = []
         for operation in self.operations:
@@ -670,19 +668,11 @@ __all__ = [
                 if success_class != "None"
                 else ""
             )
-            for is_async in [True, False]:
-                async_def = "async def" if is_async else "def"
-                await_self = "await self" if is_async else "self"
-                api_client = (
-                    "from portone_server_sdk._async import ApiClient"
-                    if is_async
-                    else "from portone_server_sdk._sync import ApiClient"
-                )
-                body = f"""import dataclasses
+            body = f"""import dataclasses
 {import_typing}
 from portone_server_sdk._api import {", ".join(import_api)}
+from portone_server_sdk._client import ApiClient
 from portone_server_sdk import _errors
-{api_client}
 {"".join(import_refs)}
 {self.generate_schema(operation.param)}
 {self.generate_schema(operation.query)}
@@ -693,14 +683,30 @@ class {class_name}Request(ApiRequest[{success_class}, {error_class}, {operation.
 
 @dataclasses.dataclass
 class {class_name}(ApiClient):
-    {async_def} {method_name}(
+    def {method_name}(
         self,
         *,{args_join}
     ) -> {operation.success}:{docs_join}
         param_ = {operation.param.name}{param_list}
         query_ = {operation.query.name}{query_list}
         body_ = {body_class}{body_list}
-        response_ = {await_self}.send(
+        response_ = self.send(
+            {class_name}Request(param_, query_, body_),
+            {operation.success},
+            {operation.error},
+        )
+        if isinstance(response_, ApiErrorResponse):
+            error_ = response_.data
+{raises_join}{return_data_or_none}
+
+    async def {method_name}_async(
+        self,
+        *,{args_join}
+    ) -> {operation.success}:{docs_join}
+        param_ = {operation.param.name}{param_list}
+        query_ = {operation.query.name}{query_list}
+        body_ = {body_class}{body_list}
+        response_ = await self.send_async(
             {class_name}Request(param_, query_, body_),
             {operation.success},
             {operation.error},
@@ -709,9 +715,8 @@ class {class_name}(ApiClient):
             error_ = response_.data
 {raises_join}{return_data_or_none}
 """
-                path = async_path if is_async else sync_path
-                with path.joinpath(f"_{method_name}.py").open("wt") as f:
-                    f.write(body)
+            with api_path.joinpath(f"_{method_name}.py").open("wt") as f:
+                f.write(body)
         init = f"""from dataclasses import dataclass
 {"".join(imports)}
 @dataclass
@@ -719,9 +724,7 @@ class PortOneApi(
 {"".join(extends)}):
     pass
 """
-        with async_path.joinpath("__init__.py").open("wt") as f:
-            f.write(init)
-        with sync_path.joinpath("__init__.py").open("wt") as f:
+        with api_path.joinpath("__init__.py").open("wt") as f:
             f.write(init)
 
 

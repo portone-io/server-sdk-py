@@ -1,3 +1,4 @@
-from . import a_sync, errors, schemas, sync, webhook
+from . import errors, schemas, webhook
+from ._openapi._api import PortOneApi
 
-__all__ = ["a_sync", "errors", "schemas", "sync", "webhook"]
+__all__ = ["errors", "schemas", "webhook", "PortOneApi"]
