@@ -58,6 +58,68 @@ index a263543..c68d261 100644
          else:
 -            return response_.data
 +            return response_.data.cancellation
+diff --git a/_api/_confirm_identity_verification.py b/_api/_confirm_identity_verification.py
+index 9b2eb65..9964356 100644
+--- a/_api/_confirm_identity_verification.py
++++ b/_api/_confirm_identity_verification.py
+@@ -14,6 +14,7 @@ from portone_server_sdk._openapi._schemas._identity_verification_not_sent_error
+ from portone_server_sdk._openapi._schemas._invalid_request_error import InvalidRequestError
+ from portone_server_sdk._openapi._schemas._pg_provider_error import PgProviderError
+ from portone_server_sdk._openapi._schemas._unauthorized_error import UnauthorizedError
++from portone_server_sdk._openapi._schemas._verified_identity_verification import VerifiedIdentityVerification
+ 
+ @dataclasses.dataclass
+ class ConfirmIdentityVerificationParam:
+@@ -36,7 +37,7 @@ class ConfirmIdentityVerification(ApiClient):
+         *,
+         identity_verification_id: str,
+         otp: Optional[str] = None,
+-    ) -> ConfirmIdentityVerificationResponse:
++    ) -> VerifiedIdentityVerification:
+         """본인인증 확인
+         
+         요청된 본인인증에 대한 확인을 진행합니다.
+@@ -47,7 +48,7 @@ class ConfirmIdentityVerification(ApiClient):
+                 SMS 방식에서만 사용됩니다.
+         
+         Returns:
+-            성공 응답
++            완료된 본인인증 내역
+         
+         Raises:
+             _errors.ForbiddenError: 요청이 거절된 경우
+@@ -88,14 +89,14 @@ class ConfirmIdentityVerification(ApiClient):
+             else:
+                 raise _errors.UnauthorizedError(error_)
+         else:
+-            return response_.data
++            return response_.data.identity_verification
+ 
+     async def confirm_identity_verification_async(
+         self,
+         *,
+         identity_verification_id: str,
+         otp: Optional[str] = None,
+-    ) -> ConfirmIdentityVerificationResponse:
++    ) -> VerifiedIdentityVerification:
+         """본인인증 확인
+         
+         요청된 본인인증에 대한 확인을 진행합니다.
+@@ -106,7 +107,7 @@ class ConfirmIdentityVerification(ApiClient):
+                 SMS 방식에서만 사용됩니다.
+         
+         Returns:
+-            성공 응답
++            완료된 본인인증 내역
+         
+         Raises:
+             _errors.ForbiddenError: 요청이 거절된 경우
+@@ -147,4 +148,4 @@ class ConfirmIdentityVerification(ApiClient):
+             else:
+                 raise _errors.UnauthorizedError(error_)
+         else:
+-            return response_.data
++            return response_.data.identity_verification
 diff --git a/_api/_create_payment_schedule.py b/_api/_create_payment_schedule.py
 index 9dd88b1..1925bd4 100644
 --- a/_api/_create_payment_schedule.py
